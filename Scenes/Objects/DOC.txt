@@ -1,0 +1,1 @@
+This folder holds objects that can spawn in the world, such as blocks, walls, etc

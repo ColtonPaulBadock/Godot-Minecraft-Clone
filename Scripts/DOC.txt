@@ -1,0 +1,1 @@
+All scripts should be held here. Scripts directly in this dir with no sub-folder are main scripts for the application.

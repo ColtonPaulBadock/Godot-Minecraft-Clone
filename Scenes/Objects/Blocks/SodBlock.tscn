@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://nshig1xu0r0w"]
+
+[ext_resource type="PackedScene" uid="uid://dsbsf1x2u3fo5" path="res://Assets/SodBlock/SodBlock.glb" id="1_q65fl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q65fl"]
+
+[node name="SodBlock" type="Node3D"]
+
+[node name="SodBlock" parent="." instance=ExtResource("1_q65fl")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="SodBlock"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SodBlock/StaticBody3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_q65fl")

@@ -1,0 +1,6 @@
+
+Block textures:
+	Face:
+		-Each face is 32x32 inside piskel
+	Export:
+		-Exported at 8x scale (256 * 256)

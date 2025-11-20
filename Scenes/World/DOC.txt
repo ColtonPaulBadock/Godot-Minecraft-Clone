@@ -1,0 +1,4 @@
+Directory holds scenes and systems reguarding world generation, etc.
+
+Fragments:
+	-10 x 10 blocks
