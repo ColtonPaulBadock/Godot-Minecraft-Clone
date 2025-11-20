@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxgtyedsuthk"
-path.s3tc="res://.godot/imported/SodBlock_SodTexture.png-b1ec0ece80e973a2987cc43ceaac02fd.s3tc.ctex"
+uid="uid://kxpyqfa83y2i"
+path.s3tc="res://.godot/imported/TopSoilBlock_TopSoilTexture.png-80b15c9687a1503998d373e612b0550f.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "938724c926c26799418a4c9a1ffb15a5"
+"md5": "1c029bac27c4ea16d0eb38306fcee8a9"
 }
 
 [deps]
 
-source_file="res://Assets/SodBlock/SodBlock_SodTexture.png"
-dest_files=["res://.godot/imported/SodBlock_SodTexture.png-b1ec0ece80e973a2987cc43ceaac02fd.s3tc.ctex"]
+source_file="res://Assets/TopSoilBlock/TopSoilBlock_TopSoilTexture.png"
+dest_files=["res://.godot/imported/TopSoilBlock_TopSoilTexture.png-80b15c9687a1503998d373e612b0550f.s3tc.ctex"]
 
 [params]
 

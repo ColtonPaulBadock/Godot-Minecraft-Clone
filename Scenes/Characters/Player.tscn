@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://blgf0p6tujmdx" path="res://Scripts/Player/player.gd" id="1_rpqav"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qbkls"]
-size = Vector3(1, 3, 1)
+size = Vector3(0.5, 3, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qbkls"]
 size = Vector3(1, 3, 1)
@@ -15,9 +15,18 @@ script = ExtResource("1_rpqav")
 mesh = SubResource("BoxMesh_qbkls")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_qbkls")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+
+[node name="DataDisplay" type="RichTextLabel" parent="CameraPivot/Camera3D"]
+offset_left = 1.0
+offset_right = 628.0
+offset_bottom = 89.0
+
+[node name="PlayerReach" type="RayCast3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, -1.74846e-07, -1, 0, 4, -4.37114e-08, 0, 0, 0)

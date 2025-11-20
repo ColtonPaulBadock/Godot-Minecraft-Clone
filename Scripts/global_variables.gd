@@ -9,5 +9,9 @@ var gravity = 9.8;
 #BLOCKS:
 #ID 0: DarkBlock
 #ID 1: SodBlock
+#ID 2: TopSoilBlock
+#ID 3: SubSoilBlock
 var block_table = [preload("res://Scenes/Objects/Blocks/DarkBlock.tscn"), 
-preload("res://Scenes/Objects/Blocks/SodBlock.tscn")];
+preload("res://Scenes/Objects/Blocks/SodBlock.tscn"), 
+preload("res://Scenes/Objects/Blocks/TopSoilBlock.tscn"),
+preload("res://Scenes/Objects/Blocks/SubSoilBlock.tscn")];

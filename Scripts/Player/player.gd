@@ -8,7 +8,9 @@ const JUMP_VELOCITY = 6
 
 func _process(delta):
 	
-	cameraManager();
+	cameraManager(); #Enable camera movement from the players mouse
+	
+	updateDataDisplay(); #Updates the corrdinate/position display label
 	
 	pass;
 
@@ -18,7 +20,8 @@ func _process(delta):
 func _physics_process(delta: float) -> void:
 	
 	movementManager(delta);
-
+	
+	
 
 
 #Manages the players movement
@@ -75,5 +78,16 @@ func cameraManager():
 	
 	#Set mouse back to default position "mouse_spot"
 	Input.warp_mouse(mouse_spot);
+	
+	pass;
+
+
+@onready var corrdinateDisplay = get_node("CameraPivot/Camera3D/DataDisplay");
+
+#Updates the players position display (corrdinates)
+func updateDataDisplay() -> void:
+	
+	corrdinateDisplay.clear(); #Clear the corrdinate box for the updated corrdinates from this frame
+	corrdinateDisplay.add_text(str(position.x) + ", " + str(position.y) + ", " + str(position.z)); #Add the current corrdinates in this frame to display
 	
 	pass;

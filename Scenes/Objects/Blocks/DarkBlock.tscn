@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://cxprjf8gfpa01"]
+[gd_scene load_steps=5 format=3 uid="uid://cxprjf8gfpa01"]
+
+[ext_resource type="Script" uid="uid://uifnppdvdyes" path="res://Scripts/World/block.gd" id="1_aclv8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1gduy"]
 albedo_color = Color(0.117647, 0, 0.101961, 1)
@@ -9,6 +11,7 @@ material = SubResource("StandardMaterial3D_1gduy")
 [sub_resource type="BoxShape3D" id="BoxShape3D_1gduy"]
 
 [node name="DarkBlock" type="Node3D"]
+script = ExtResource("1_aclv8")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
