@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cxprjf8gfpa01"]
 
-[ext_resource type="Script" uid="uid://uifnppdvdyes" path="res://Scripts/World/block.gd" id="1_aclv8"]
+[ext_resource type="Script" uid="uid://dqoswk04mn8y2" path="res://Scripts/Objects/Blocks/DarkBlock.gd" id="1_aclv8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1gduy"]
 albedo_color = Color(0.117647, 0, 0.101961, 1)

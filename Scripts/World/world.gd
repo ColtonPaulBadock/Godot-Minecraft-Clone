@@ -16,6 +16,9 @@ var testFragment2 = fragmentScene.instantiate();
 var testFragment3 = fragmentScene.instantiate();
 var testFragment4 = fragmentScene.instantiate();
 
+#fragments array
+var fragments = []; #Array contains all fragments currently loaded into the world
+
 func _ready() -> void:
 	
 	#Give the 4 test fragments positions in the world
@@ -30,9 +33,13 @@ func _ready() -> void:
 	
 	#Add fragments to the world
 	add_child(testFragment1);
+	fragments.append(testFragment1);
 	add_child(testFragment2);
+	fragments.append(testFragment2);
 	add_child(testFragment3);
+	fragments.append(testFragment3);
 	add_child(testFragment4);
+	fragments.append(testFragment4);
 	
 	player.position.y = 58;
 	

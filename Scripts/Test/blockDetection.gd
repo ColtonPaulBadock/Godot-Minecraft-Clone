@@ -6,10 +6,10 @@ extends Node
 func _process(delta):
 	
 	#Vector holds the players position in the world
-	var playerPos : Vector3 = Vector3(get_tree().get_root().get_node("World/Player").position.x,
-	get_tree().get_root().get_node("World/Player").position.y,
-	get_tree().get_root().get_node("World/Player").position.z);
+	#var playerPos : Vector3 = Vector3(get_tree().get_root().get_node("World/Player").position.x,
+	#get_tree().get_root().get_node("World/Player").position.y,
+	#get_tree().get_root().get_node("World/Player").position.z);
 	
-	get_tree().get_root().get_node("World/Fragment").blocks[5].tffyytfyfyf
+	print(get_tree().get_root().get_node("World/Player/BelowPlayer").is_colliding());
 	
 	pass;
