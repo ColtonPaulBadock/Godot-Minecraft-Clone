@@ -33,6 +33,6 @@ transform = Transform3D(1, 0, 0, 0, -1.74846e-07, -1, 0, 4, -4.37114e-08, 0, 0, 
 
 [node name="BelowPlayer" type="RayCast3D" parent="."]
 editor_description = "This ray cas 3D is used to detect the block or object below the player."
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
-target_position = Vector3(1.8, 0.1, 0)
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(1.8, 0, 0)
 collide_with_areas = true
