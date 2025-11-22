@@ -10,12 +10,6 @@ var playerScene = preload("res://Scenes/Characters/Player.tscn"); #Instance of t
 #Player
 var player = playerScene.instantiate();
 
-#4 test fragments
-var testFragment1 = fragmentScene.instantiate();
-var testFragment2 = fragmentScene.instantiate();
-var testFragment3 = fragmentScene.instantiate();
-var testFragment4 = fragmentScene.instantiate();
-
 #fragments array
 var fragments = []; #Array contains all fragments currently loaded into the world
 
@@ -129,8 +123,8 @@ func renderWorld() -> void:
 			
 			#Remove the fragment from the scene and take it out of the fragments array (array of loaded/rendered fragments)
 			remove_child(FRAGMENT);
-			FRAGMENT.queue_free();
 			fragments.erase(FRAGMENT);
+			FRAGMENT.free();
 			
 			pass;
 		pass;
@@ -141,7 +135,12 @@ func renderWorld() -> void:
 
 
 #Locate a block from a fragment based on world corrdinates
-func locateBlockAt(worldX, worldY, worldZ) -> void:
+func locateBlockAt(worldPos):
+	
+	#Corrdinates for the block to locate
+	var worldX = worldPos.x;
+	var worldY = worldPos.y;
+	var worldZ = worldPos.z;
 	
 	var identifiedFragment = null; #Variable to store the fragment we idenified as containing the block we are looking for.
 	var identifiedBlock = null; #Variable will hold the instance of the block if its located
@@ -156,31 +155,56 @@ func locateBlockAt(worldX, worldY, worldZ) -> void:
 		
 		#Found the fragment? Exit this loop.
 		if (identifiedFragment != null):
-			print("Fragment not found!");
 			break;
 		
 		pass;
 	
 	#If no fragment could be found that does contain this block, end this function;
 	#Continuing would cause error
+	#Since no fragment was located, no block can be either, so return null
 	if (identifiedFragment == null):
-		return;
+		return identifiedBlock;
+	
 	
 	
 	#Convert the world corrdinates to corrdinates of the fragment
 	#Subtract the total number of fragment side lengths from each corrdinate (x, y, z) to convert to corrdinates of the local fragment
 	var blocksFragmentCorrdinates : Vector3 = Vector3(worldX - (global_variables.fragmentSideLength * (int(worldX / global_variables.fragmentSideLength))), worldY, worldZ - (global_variables.fragmentSideLength * (int(worldZ / global_variables.fragmentSideLength))));
 	
-	#DEBUG/Test
-	#print(blocksFragmentCorrdinates.x, "  ", blocksFragmentCorrdinates.y, "  ", blocksFragmentCorrdinates.z);
+	#If any of the corrdinates (x, z) are negative, convert them to the positive corresponding corrdinate for the local fragment.
+	#This conversion is simply done by adding the fragments width to the negatve corrdinate.
+	#Since all fragments start at there own (0, 0, 0) in there own scene and run positive in the world and there own scene, this converstion works
+	#Convert X corrdinate if needed; ID: aestwgdf45
+	if (blocksFragmentCorrdinates.x < 0):
+		blocksFragmentCorrdinates.x += global_variables.fragmentSideLength;
+		pass;
 	
+	#Based on the same logic described and impleneted at ID: aestwgdf45,
+	#convert the corrdinate z to its positive corresponding corrdinate for the local fragment corrdinates.
+	if (blocksFragmentCorrdinates.z < 0):
+		blocksFragmentCorrdinates.z += global_variables.fragmentSideLength;
+		pass;
+	
+	#ID: hhwidyg37
 	#Based on the corrdinates and the known fragment, locate the block
 	#Loop through the block array if the fragment until the block is found.
 	for BLOCK in identifiedFragment.blocks:
 		
+		#Search through each block in the "blocks" array of the fragment we determined to contain the block.
+		#If the X position of the blocks cordinates are between the start of the block and the end of the block, check the same logic for the z. Then check the same logic again for the y.
+		if (BLOCK.position.x <= blocksFragmentCorrdinates.x && BLOCK.position.x + global_variables.blockSideLength >= blocksFragmentCorrdinates.x && BLOCK.position.z <= blocksFragmentCorrdinates.z && BLOCK.position.z + global_variables.blockSideLength >= blocksFragmentCorrdinates.z && BLOCK.position.y <= blocksFragmentCorrdinates.y && BLOCK.position.y + global_variables.blockSideLength >= blocksFragmentCorrdinates.y):
+			
+			identifiedBlock = BLOCK; #Variable "identifiedBlock" now points to the block we identified by corrdinates.
+			
+			pass;
 		
 		
 		pass;
 	
-	
+	#If a block was found, return the instance of said block.
+	#If no instance was found, return null.
+	if (identifiedBlock != null):
+		return identifiedBlock;
+	else:
+		return null;
 	pass;

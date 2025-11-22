@@ -2,6 +2,10 @@
 
 extends Node
 
+#User information
+#The username of the player.
+const username : String = "player16";
+
 #Default world gravity
 var gravity = 9.8;
 
@@ -10,6 +14,18 @@ var renderDistance = 2; #How many fragments in each direction about the fragpoin
 
 #Length of each side of the fragment.
 var fragmentSideLength = 10; 
+#Length of the sides of each block/unit
+var blockSideLength = 1.0;
+
+#Enables/Disables input in the game
+#If true, the player can use in-game input (WASD, mouse, etc)
+#if false, the player cannot use any inputs.
+var inputAllowed = true;
+
+#Debug window boolean
+#If true: debug window is open
+#If false: debug window is closed
+var debugWindowOpen : bool = false;
 
 #Block table of all blocks that exist in the game, holding there locations. The index of the array is the block id
 #BLOCKS:

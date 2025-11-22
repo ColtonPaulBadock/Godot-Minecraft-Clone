@@ -6,6 +6,9 @@ var fragmentSize : Vector3 = Vector3(9.5, 29.5, 9.5);
 #All blocks currently in the fragment.
 var blocks = [];
 
+#Random number generator for world generation
+var rng = RandomNumberGenerator.new(); #Generates random numbers
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
@@ -32,7 +35,8 @@ func generateFragment():
 				#Choose block based on layer
 				#Early block spawning system, will be changed later to use more random numbers, etc.
 				if (y == 39): #Top layer will be sod
-					block = global_variables.block_table[1].instantiate();
+					var randomBlockId = rng.randi_range(1, 3);
+					block = global_variables.block_table[randomBlockId].instantiate();
 				elif (y < 39 && y > 34): #The next five blocks below sod are top soil
 					block = global_variables.block_table[2].instantiate();
 				elif (y <= 34): #The rest of the world is sub soil below 34

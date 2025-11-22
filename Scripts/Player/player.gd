@@ -5,12 +5,26 @@ extends CharacterBody3D
 const SPEED = 3
 const JUMP_VELOCITY = 6
 
+#Instance of the players reach (line of sight/aim)
+@onready var playerReach = get_node("CameraPivot/PlayerReach");
+var objectPlayerIsLookingAt; #The object the player is looking at within there reach.
+
+#Instance of the world.
+@onready var world = get_tree().get_root().get_node("World");
+
+func _ready() -> void:
+	
+	
+	pass;
+
 
 func _process(delta):
 	
 	cameraManager(); #Enable camera movement from the players mouse
 	
-	updateDataDisplay(); #Updates the corrdinate/position display label
+	#Control the breaking and placing/interaction of objects throughout the world
+	#from the player
+	interactionManager(); 
 	
 	pass;
 
@@ -24,6 +38,26 @@ func _physics_process(delta: float) -> void:
 	
 
 
+
+#Controls the destruction and placing of objects, blocks, etc throughout the world from the player
+func interactionManager():
+	
+	#Store a instance of the object the player is looking at within there reach
+	#in "objectPlayerIsLookingAt", if they are not looking at a object
+	#within reach, set "objectPlayerIsLookingAt" to null and exit this function.
+	if (playerReach.is_colliding()):
+		objectPlayerIsLookingAt = world.locateBlockAt(playerReach.get_collision_point());
+	else:
+		objectPlayerIsLookingAt = null;
+		return;
+	
+	
+	
+	
+	pass;
+
+
+
 #Manages the players movement
 func movementManager(delta: float) -> void:
 	
@@ -32,12 +66,16 @@ func movementManager(delta: float) -> void:
 		velocity += get_gravity() * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if (Input.is_action_just_pressed("jump") && is_on_floor() && global_variables.inputAllowed == true):
 		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir := Input.get_vector("wasd_a", "wasd_d", "wasd_w", "wasd_s")
+	var input_dir := Input.get_vector("wasd_a", "wasd_d", "wasd_w", "wasd_s");
+	#If player input is disabled, return a vector2 with no movement, effectively disabling player movement
+	#"input_dir" is set as a zero Vector2
+	if (global_variables.inputAllowed == false):
+		input_dir = Vector2(0.0, 0.0);
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction: 
 		velocity.x = direction.x * SPEED
@@ -55,6 +93,10 @@ func movementManager(delta: float) -> void:
 
 #Manages the players camera and its inputs.
 func cameraManager():
+	
+	#If Input is disabled, skip this function
+	if (global_variables.inputAllowed == false):
+		return;
 	
 	#Default mouse spot; We use this spot to figure out 
 	#how much the mouse moved, to move the camera.
@@ -78,16 +120,5 @@ func cameraManager():
 	
 	#Set mouse back to default position "mouse_spot"
 	Input.warp_mouse(mouse_spot);
-	
-	pass;
-
-
-@onready var corrdinateDisplay = get_node("CameraPivot/Camera3D/DataDisplay");
-
-#Updates the players position display (corrdinates)
-func updateDataDisplay() -> void:
-	
-	corrdinateDisplay.clear(); #Clear the corrdinate box for the updated corrdinates from this frame
-	corrdinateDisplay.add_text(str(position.x) + ", " + str(position.y) + ", " + str(position.z)); #Add the current corrdinates in this frame to display
 	
 	pass;
