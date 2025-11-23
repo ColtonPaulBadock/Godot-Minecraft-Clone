@@ -31,9 +31,8 @@ func _process(delta: float) -> void:
 
 func _ready() -> void:
 	
-	
 	#Set the players spawn position for the Y corrdinate after the world has spawned in.
-	player.position.y = 58;
+	player.position.y = 95;
 	
 	add_child(player); #Add the player into the world
 	
@@ -45,6 +44,7 @@ func _ready() -> void:
 	#Setup the instance of the debug window so we can log
 	#the output box if needed
 	debugWindow = $Player/CameraPivot/Camera3D/DebugWindow/DebugWindowPanel/OutputBoxPanel/OutputBox;
+
 
 
 #Updates the frag point based on the players position.
@@ -299,8 +299,7 @@ func addBlock(pos : Vector3, id) -> bool:
 	#Convert the corrdinates from the world
 	#position to the locale corrdinates of
 	#the fragment, to easily place the block
-	pos.x = worldCordsToFragment(pos.x);
-	pos.z = worldCordsToFragment(pos.z);
+	pos = worldCordsToFragment(pos);
 	
 	#Add the block of type "id" to the position in the fragment
 	#If the block was successfully placed, this function "addBlock()"
@@ -312,6 +311,8 @@ func addBlock(pos : Vector3, id) -> bool:
 
 
 
+
+
 #Takes the first argument (float) and converts
 #it to corrdinate for a fragment.
 #returns float.
@@ -320,25 +321,119 @@ func addBlock(pos : Vector3, id) -> bool:
 #
 #value = value to convert to a local corrdinate for the fragment.
 #
-func worldCordsToFragment(value) -> float:
+func worldCordsToFragment(value):
 	
-	#If the world corrdinate is negative or positive, convert it using
-	#a specific method depending on if its negative or positive.
+	#Here we have a switch like system.
+	#If the value "value", passed into the function is
+	#a Vector3, then we want to convert the corrdinates within
+	#it to the equivalent fragment corrdinates.
+	#Can be thought of as: (fragment.pos + fragmentCorrdinates = worldPos)
+	#If "value" is a float, we are converting one single corrdinate
+	#in this same way, as to be eqivalent within the fragment
+	#as it is in the world.
+	if value is Vector3:
+		value = worldCordsToFragment_Vector3(value);
+	elif value is float:
+		value = worldCordsToFragment_float(value);
+	
+	#Once we converted the world corrdinates to the fragments
+	#equivalent corrdinates, we can return "value" with the
+	#above modifications.
+	return value;
+
+
+#Used by "worldCordsToFragment()"
+#This function is not intended to be called anywhere else in the code.
+#Takes a float as the first argument, and converts it to
+#local corrdinates for a fragment. This will be called
+#when a float is based to "worldCordsToFragment()".
+#The resaulting value will be eqivalent to the world corrdinate via:
+#fragment.pos + value = whatever corrdinate
+#-ARGUMENTS-
+#
+#value = float to assess and convert to a local fragments eqivalent corrdinate.
+#
+func worldCordsToFragment_float(value : float) -> float:
+	
+	#If the value of the corrdinate is above 0, then we can use the above
+	#system to convert it to the equivalent corrdinate for a fragment.
+	#If the value is negative, us the below (inside elif) system to
+	#convert the corrdinate to a equivalent for a fragment.
 	if (value > 0):
 		#If the value is positive:
+		#Convert to the eqivalent corrdinate for a fragment:
 		value = value - (int((value / global_variables.fragmentSideLength)) * global_variables.fragmentSideLength);
 	elif (value < 0):
 		#If the value is negative:
+		#Convert to the eqivalent corrdinate for a fragment:
 		value = value + (10 * (1 + (-1 * int(value / 10))));
 		pass;
 	
+	#Return the value once we are done converting it to
+	#a local corrdinate of a fragment, that is equivalent to
+	#the world corrdinate, inside the fragment.
+	return value;
+
+
+
+
+#Used by "worldCordsToFragment()"
+#This function is not intended to be called anywhere else in the code.
+#Takes a Vector3 as the first argument, and sets all corrdinates
+#in the Vector3 to the local corrdinates of a fragment they would be in,
+#if applicable.
+#This will be called when a Vector3 is passed to
+#"worldCordsToFragment()".
+#The resaulting value will be eqivalent to the world corrdinate via:
+#fragment.pos + value = whatever corrdinate
+#-ARGUMENTS-
+#
+#value = Vector3 to assess and convert its corrdinates to local corrdinates of a fragment.
+#
+func worldCordsToFragment_Vector3(value : Vector3) -> Vector3:
+	
+	#Convert the X variable of the Vector3 to local fragment corrdinates
+	#if applicable. If the value already matches that of the local corrdinates,
+	#say we are in a fragment close to spawn at x -> 3, then we can just leave it
+	#Take appropriate action if x is negative, us the special converstion method
+	if (value.x > 0):
+		#If the value is positive:
+		value.x = value.x - (int((value.x / global_variables.fragmentSideLength)) * global_variables.fragmentSideLength);
+	elif (value.x < 0):
+		#If the value is negative:
+		value.x = value.x + (10 * (1 + (-1 * int(value.x / 10))));
+		pass;
+	
+	#Convert the Z variable of the Vector3 to local fragment corrdinates
+	#if applicable. If the value already matches that of the local corrdinates,
+	#say we are in a fragment close to spawn at z -> 3, then we can just leave it
+	#Take appropriate action if z is negative, us the special converstion method
+	if (value.z > 0):
+		#If the value is positive:
+		value.z = value.z - (int((value.z / global_variables.fragmentSideLength)) * global_variables.fragmentSideLength);
+	elif (value.z < 0):
+		#If the value is negative:
+		value.z = value.z + (10 * (1 + (-1 * int(value.z / 10))));
+		pass;
+	
+	
+	#For corrdinate Y, we have implemented fragments for this corrdinate
+	#Y is infinently tall and deep. (y > infinity && y < -infinity)
+	
+	
+	#Return the Vector3 value once we are done converting
+	#its corrdinates to the local fragments eqivalent.
 	return value;
 
 
 #Removes a block from the scene/world at the provided corrdinates.
 #Returns a boolean of true or false, false being no block was destroyed/
 #removed and true being a block was removed.
-func removeBlock() -> bool:
+#
+#-Arguments-
+#
+#pos = The position of the block/object to remove. If the object is within these corrdinates, remove it.
+func removeBlock(pos : Vector3) -> bool:
 	
 	#If this variable is true, we successfully removed a block
 	#from the fragment/scene/world.
@@ -347,6 +442,41 @@ func removeBlock() -> bool:
 	var blockRemoved : bool = false;
 	
 	
+	#This variable will contain the fragment the block
+	#is located in. This variable is null by default,
+	#so if a fragment is not identified, we can
+	#regonize that and exit this function without
+	#calling methods on the null instance and causing
+	#issues.
+	var fragmentContainingBlock = null;
+	
+	
+	#First, we need to identify the fragment the block we need
+	#to remove is in. Once we know the fragment its in, we can use
+	#the fragments utilities to remove that specific block
+	#Pass "pos" into the function "locateFragmentAt()" to
+	#locate the fragment via world corrdinates.
+	#Pos is the position of the block we want to remove.
+	fragmentContainingBlock = locateFragmanetAt(pos);
+	
+	#If no fragment is identified at the world corrdinates
+	#at position "pos", then exit this function returning
+	#"false", the default value of "blockRemoved" which is
+	#the boolean status of if we removed a block or not.
+	if (fragmentContainingBlock == null):
+		return blockRemoved;
+	
+	#The fragment we want to remove the block from is found
+	#so now we need to use the fragments utility "removeBlock()"
+	#to remove the block (assuming on exists). We convert
+	#"pos" (world corrdinates) to the locale fragment corrdinates
+	#before attempting to remove the block via fragments utility.
+	#Set "blockRemoved" (bool) to the status of if a block was removed.
+	#If true, a block was removed. false, a block/object wasn't removed.
+	#Convert both X and Z corrdinates to fit the local fragments corrdinates.
+	#We will use "worldCordsToFragment()" to accomplish this.
+	pos = worldCordsToFragment(pos);
+	blockRemoved = fragmentContainingBlock.removeBlock(pos);
 	
 	
 	#Return the status if a block was removed or not

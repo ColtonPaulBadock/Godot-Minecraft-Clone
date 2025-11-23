@@ -2,8 +2,8 @@ extends CharacterBody3D
 
 
 #Players speed and jump velocities
-const SPEED = 3
-const JUMP_VELOCITY = 6
+const SPEED = 4;
+const JUMP_VELOCITY = 8;
 
 #Instance of the players reach (line of sight/aim)
 @onready var playerReach = get_node("CameraPivot/PlayerReach");
@@ -60,7 +60,8 @@ func _process(delta):
 
 
 
-
+#Manage the physics with the player
+#Allows for player movement logic
 func _physics_process(delta: float) -> void:
 	
 	movementManager(delta);
@@ -114,6 +115,11 @@ func interactionManager():
 		#If the block was successfully placed by the player,
 		#I.E. no obstruction, then play the block placing tone/sound,
 		if (blockPlacedSuccessfully == true):
+			
+			#Get the instance of the audio manager from global
+			#variables, the play the "placeObject" sound.
+			#We are assuming at this point that the block/object
+			#was successfully placed.
 			global_variables.AudioManager.placeObject.play();
 			pass;
 		
@@ -128,6 +134,14 @@ func interactionManager():
 	#method) to carry out the action.
 	if (Input.is_action_just_pressed("strike")):
 		
+		#THis variable holds a value indicating
+		#if we successfully destroyed a block/object.
+		#If we did, its true, else its false.
+		#We use this to play the audio sound for breaking a block/object
+		#This variable is false by default, and is not true
+		#till we have removed the block/object successfully.
+		var blockSuccessfullyRemoved : bool = false;
+		
 		#Write a devlog logging that a block was either destroyed
 		#or the player attempted to strike something.
 		print("Player attempted to strike a block/object/being |player.gd, interactionManager()");
@@ -135,8 +149,25 @@ func interactionManager():
 		#Call the removeBlock() function from "world.gd" in the world
 		#scene. This will try to remove a block from the world.
 		#This applys the rayCastBehaviour() function to apply behaviour
-		#of penetrate
-		world.removeBlock(applyRaycastBehviour(playerReach.get_collision_point(), "penetrate"));
+		#of penetrate.
+		#Sends the position within the block we want to remove.
+		#"blockSuccessfullyRemoved" will be true if a block/object is removed
+		#else, it will be false.
+		blockSuccessfullyRemoved = world.removeBlock(applyRaycastBehviour(playerReach.get_collision_point(), "penetrate"));
+		
+		
+		
+		#Here we want to play the audio of a block/object breaking.
+		#If a object/block was successfully removed (blockSuccessfullyRemoved
+		#is true), then play the sound, else do not.
+		if (blockSuccessfullyRemoved == true):
+			
+			#Get the instance of the audio manager from global
+			#variables, the play the "breakObject" sound.
+			#We are assuming at this point that the block/object
+			#was successfully destroyed.
+			global_variables.AudioManager.breakObject.play();
+			pass;
 		
 		pass;
 	

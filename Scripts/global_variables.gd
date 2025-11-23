@@ -12,7 +12,7 @@ const playerCameraMaxLookUp = 1.57; #The maximum rotation allowed by the players
 const playerCameraMinLookDown = -1.57; #The maximum rotation allowed by the players camera looking down from its starting positon.
 
 #The version of the game
-const version : String = "PCR 0.1";
+const version : String = "PCR 0.1.2";
 
 #User information
 #The username of the player.
@@ -22,7 +22,23 @@ const username : String = "player16";
 var gravity = 9.8;
 
 #Render distance (fragments)
-var renderDistance = 2; #How many fragments in each direction about the fragpoint the world will render
+var renderDistance = 10; #How many fragments in each direction about the fragpoint the world will render
+
+#This variable is the world height/depth
+#(how far/deep the world terrain is)
+var worldDepth : int = 2;
+
+#World median layer height
+#This value acts like a 'median' height for the world.
+#When a layer is being spawned in using "generateTerrain()"
+#in fragment.gd, we add this value to it. to take negative noise
+#values into account. This median will be subtracted from then, and can allow
+#for valleys and drops to generate.
+#Positive noise values will add onto this value.
+#Assuming we have now spawning the top world layer with this,
+#we can use noise to spawn blocks/objects below
+#it and spawn nothing below Y=0.
+var medianWorldLayer : int = 50;
 
 #Length of each side of the fragment.
 var fragmentSideLength = 10; 
@@ -51,11 +67,16 @@ var debugWindowOpen : bool = false;
 #ID 1: SodBlock
 #ID 2: TopSoilBlock
 #ID 3: SubSoilBlock
+#ID 4: BrickBlock
+#ID 5: SandBlock
+#ID 6: LimestoneBlock
 var block_table = [preload("res://Scenes/Objects/Blocks/DarkBlock.tscn"), 
 preload("res://Scenes/Objects/Blocks/SodBlock.tscn"), 
 preload("res://Scenes/Objects/Blocks/TopSoilBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/SubSoilBlock.tscn"),
-preload("res://Scenes/Objects/Blocks/BrickBlock.tscn")];
+preload("res://Scenes/Objects/Blocks/BrickBlock.tscn"),
+preload("res://Scenes/Objects/Blocks/SandBlock.tscn"),
+preload("res://Scenes/Objects/Blocks/LimestoneBlock.tscn")];
 
 #The maximum block ID that exists.
 #Take the size of the block_table[] array,

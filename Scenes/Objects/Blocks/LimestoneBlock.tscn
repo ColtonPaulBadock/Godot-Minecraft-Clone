@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://br7j5ibbf17wu"]
+
+[ext_resource type="Script" uid="uid://cubgbvw4tglhf" path="res://Scripts/Objects/Blocks/LimestoneBlock.gd" id="1_52o0r"]
+[ext_resource type="PackedScene" uid="uid://dyfcvnk6uu7s7" path="res://Assets/LimestoneBlock/LimestoneBlock.glb" id="2_p3i42"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f04bt"]
+
+[node name="LimestoneBlock" type="Node3D"]
+script = ExtResource("1_52o0r")
+
+[node name="LimestoneBlock" parent="." instance=ExtResource("2_p3i42")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="LimestoneBlock"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LimestoneBlock/StaticBody3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_f04bt")
