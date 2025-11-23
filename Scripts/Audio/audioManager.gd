@@ -5,8 +5,8 @@ extends Node
 @onready var placeObject = $SFX/placeObject #Default sound for placing a object
 
 #Instance of different songs
-@onready var cloudyDay = $OST/CloudyDay
-@onready var fallenHero = $OST/FallenHero
+#@onready var cloudyDay = $OST/CloudyDay
+#@onready var fallenHero = $OST/FallenHero
 
 #random number generator utility for the AudioManager
 var rng = RandomNumberGenerator.new()
@@ -25,7 +25,7 @@ var musicPlaying = false;
 func _process(delta : float) -> void:
 	
 	#Manage the flow of the games music.
-	musicManager(delta);
+	#musicManager(delta);
 	
 	
 	
@@ -58,9 +58,11 @@ func startSong() -> void:
 	
 	#Use the random number to select a song.
 	if (nextSong == 0):
-		cloudyDay.play();
+		#cloudyDay.play();
+		pass;
 	if (nextSong == 1):
-		fallenHero.play();
+		#fallenHero.play();
+		pass;
 	
 	#Set the music status to playing.
 	#This will prevent the song from being overridden.
@@ -74,6 +76,6 @@ func startSong() -> void:
 func checkIfSongIsPlaying():
 	
 	#If no song is playing, "musicPlaying" is false,
-	if (cloudyDay.playing != true || fallenHero.playing != true):
-		musicPlaying = false;
+	#if (cloudyDay.playing != true || fallenHero.playing != true):
+	#	musicPlaying = false;
 	pass;

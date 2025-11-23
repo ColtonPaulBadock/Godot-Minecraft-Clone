@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cy7fnwmlyjhe4"]
+
+[ext_resource type="Script" uid="uid://ba4x63yd7e8lr" path="res://Scripts/Objects/Blocks/BrickBlock.gd" id="1_1kvhs"]
+[ext_resource type="PackedScene" uid="uid://oquc4wh86x3m" path="res://Assets/BrickBlock/BrickBlock.glb" id="1_5q61c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1kvhs"]
+
+[node name="BrickBlock" type="Node3D"]
+script = ExtResource("1_1kvhs")
+
+[node name="BrickBlock" parent="." instance=ExtResource("1_5q61c")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BrickBlock"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BrickBlock/StaticBody3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_1kvhs")

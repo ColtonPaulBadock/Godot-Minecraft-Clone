@@ -57,10 +57,11 @@ func generateFragment():
 
 #Adds a block of type "id" to the fragment.
 #Whatever block space the "pos" falls into is the grid space the block will occupy
+#Returns true if the block was placed successfully
 #ARGUMENTS:
 #pos = Position/Corrdinates to add the block
 #id = id of the object/block (its type).
-func addBlock(pos : Vector3, id):
+func addBlock(pos : Vector3, id) -> bool:
 	
 	#Remove the decimal on the block to adds position, so that it is
 	#aligned with the grid space.
@@ -68,6 +69,14 @@ func addBlock(pos : Vector3, id):
 	pos.y = int(pos.y);
 	pos.z = int(pos.z);
 	
+	#Loop through "blocks[]" in the fragment, to insure no
+	#blocks are already in these corrdinates, if so, abort
+	for BLOCK in blocks:
+		#If the request placement corrdinates already match an existing block,
+		#then don't place a block and exit this function.
+		if (BLOCK.position.x == pos.x && BLOCK.position.y == pos.y && BLOCK.position.z == pos.z):
+			return false; #If a block already occupies the spot in the fragment, return false, placing no block
+		pass;
 	#Create a temporary instance of the block "block", use
 	#global block table to select the right type of block
 	#passed on argument of this function "id"
@@ -81,4 +90,6 @@ func addBlock(pos : Vector3, id):
 	blocks.append(block);
 	add_child(block);
 	
-	pass;
+	#Assuming at this point that no block was in the way, no obstructions
+	#occured and that the block was placed, return true.
+	return true;

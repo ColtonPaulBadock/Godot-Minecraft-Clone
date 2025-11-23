@@ -1,23 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://de3tf3ggb5132"]
+[gd_scene load_steps=4 format=3 uid="uid://de3tf3ggb5132"]
 
 [ext_resource type="Script" uid="uid://c3b7s0jvesij0" path="res://Scripts/Audio/audioManager.gd" id="1_anrdn"]
 [ext_resource type="AudioStream" uid="uid://bbibqh6s5igsa" path="res://Audio/break.wav" id="1_whaik"]
 [ext_resource type="AudioStream" uid="uid://br0nokt8kvxvg" path="res://Audio/place.wav" id="2_anrdn"]
-[ext_resource type="AudioStream" uid="uid://bj2e0j6u5ix5a" path="res://Audio/ost/CloudyDay.mp3" id="2_kcgc6"]
-[ext_resource type="AudioStream" uid="uid://lnx2ohmkdm6q" path="res://Audio/ost/FallenHero.mp3" id="3_paayw"]
 
 [node name="AudioManager" type="Node"]
 script = ExtResource("1_anrdn")
 
 [node name="OST" type="Node" parent="."]
-
-[node name="CloudyDay" type="AudioStreamPlayer" parent="OST"]
-stream = ExtResource("2_kcgc6")
-volume_db = -18.739
-
-[node name="FallenHero" type="AudioStreamPlayer" parent="OST"]
-stream = ExtResource("3_paayw")
-volume_db = -17.802
 
 [node name="SFX" type="Node" parent="."]
 

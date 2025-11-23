@@ -2,6 +2,15 @@
 
 extends Node
 
+#How far the RayCast3D.collision_point will enter into the block,
+#this cuts back on the fragment and block boarders issue.
+var playerReachPenetration = 0.02;
+
+#These variables dictate the maximum rotation the camera (player view) can legally perform
+#(In radians)
+const playerCameraMaxLookUp = 1.57; #The maximum rotation allowed by the players camera looking up from its starting positon.
+const playerCameraMinLookDown = -1.57; #The maximum rotation allowed by the players camera looking down from its starting positon.
+
 #The version of the game
 const version : String = "PCR 0.1";
 
@@ -45,4 +54,11 @@ var debugWindowOpen : bool = false;
 var block_table = [preload("res://Scenes/Objects/Blocks/DarkBlock.tscn"), 
 preload("res://Scenes/Objects/Blocks/SodBlock.tscn"), 
 preload("res://Scenes/Objects/Blocks/TopSoilBlock.tscn"),
-preload("res://Scenes/Objects/Blocks/SubSoilBlock.tscn")];
+preload("res://Scenes/Objects/Blocks/SubSoilBlock.tscn"),
+preload("res://Scenes/Objects/Blocks/BrickBlock.tscn")];
+
+#The maximum block ID that exists.
+#Take the size of the block_table[] array,
+#subtract 1 from this value to account for
+#ID: 0 existing as a valid value.
+var maxBlockId = block_table.size() - 1;

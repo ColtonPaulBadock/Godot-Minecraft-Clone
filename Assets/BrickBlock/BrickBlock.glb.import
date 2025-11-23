@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dsbsf1x2u3fo5"
-path="res://.godot/imported/SodBlock.glb-4471b96b89a8d07827bc10470764d2d3.scn"
+uid="uid://oquc4wh86x3m"
+path="res://.godot/imported/BrickBlock.glb-9f94bd715b041c1777d0c5368e019bdd.scn"
 
 [deps]
 
-source_file="res://Assets/SodBlock/SodBlock.glb"
-dest_files=["res://.godot/imported/SodBlock.glb-4471b96b89a8d07827bc10470764d2d3.scn"]
+source_file="res://Assets/BrickBlock/BrickBlock.glb"
+dest_files=["res://.godot/imported/BrickBlock.glb-9f94bd715b041c1777d0c5368e019bdd.scn"]
 
 [params]
 

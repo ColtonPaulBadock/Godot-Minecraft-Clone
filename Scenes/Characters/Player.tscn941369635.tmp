@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://c8w6tgn67x8kc"]
+
+[ext_resource type="Script" uid="uid://blgf0p6tujmdx" path="res://Scripts/Player/player.gd" id="1_rpqav"]
+[ext_resource type="PackedScene" uid="uid://b8gjp0uf8kg3h" path="res://Scenes/UserInterfaces/DebugWindow.tscn" id="2_0el0d"]
+[ext_resource type="Texture2D" uid="uid://dh82y0g7kx33r" path="res://Assets/ingameUI/crosshair.png" id="3_o5en2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qbkls"]
+size = Vector3(0.5, 2.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qbkls"]
+size = Vector3(1, 2.5, 1)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_rpqav")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_qbkls")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_qbkls")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+
+[node name="DebugWindow" parent="CameraPivot/Camera3D" instance=ExtResource("2_0el0d")]
+
+[node name="Crosshair" type="Sprite2D" parent="CameraPivot/Camera3D"]
+texture = ExtResource("3_o5en2")
+
+[node name="PlayerReach" type="RayCast3D" parent="CameraPivot"]
+transform = Transform3D(1.375, 0, 0, 0, -2.40413e-07, -1.375, 0, 5.5, -6.01032e-08, 0, 0, 0)
+
+[node name="BelowPlayer" type="RayCast3D" parent="."]
+editor_description = "This ray cas 3D is used to detect the block or object below the player."
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(1.8, 0, 0)
+collide_with_areas = true
+
+[node name="Feet" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.55, 0)

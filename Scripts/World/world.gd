@@ -3,6 +3,9 @@
 
 extends Node
 
+#Instance of the debugWindow to print logs
+var debugWindow;
+
 #Scenes
 var fragmentScene = preload("res://Scenes/World/Fragment.tscn"); #Use fragments to makeup the world
 var playerScene = preload("res://Scenes/Characters/Player.tscn"); #Instance of the player
@@ -28,6 +31,7 @@ func _process(delta: float) -> void:
 
 func _ready() -> void:
 	
+	
 	#Set the players spawn position for the Y corrdinate after the world has spawned in.
 	player.position.y = 58;
 	
@@ -37,6 +41,10 @@ func _ready() -> void:
 	#updateFragPoint(); #Updates the fragment point based on the player position.
 	
 	renderWorld(); #Render the world around the fragpoint
+	
+	#Setup the instance of the debug window so we can log
+	#the output box if needed
+	debugWindow = $Player/CameraPivot/Camera3D/DebugWindow/DebugWindowPanel/OutputBoxPanel/OutputBox;
 
 
 #Updates the frag point based on the players position.
@@ -138,11 +146,11 @@ func renderWorld() -> void:
 #Return a instance of the block located, but if a action is required, perform the
 #action on that block instead
 #
-#-Actions list-
-#-"DESTROY" -> Removes the block from the scene, world, fragment and block array of the fragment
-#-"CREATE" -> Creats a block based on "id"
+#-Arguments-
 #
-func locateBlockAt(worldPos, action : String, id):
+#worldPos = world position to locate the block at
+#
+func locateBlockAt(worldPos):
 	
 	#Corrdinates for the block to locate
 	var worldX = worldPos.x;
@@ -155,8 +163,11 @@ func locateBlockAt(worldPos, action : String, id):
 	#Using the corrdinates, identify which fragment the block is in.
 	for FRAGMENT in fragments:
 		
+		if (FRAGMENT.position.x + global_variables.fragmentSideLength >= worldX + global_variables.fragmentSideLength):
+			continue;
+		
 		#Check each fragment in "fragments" array. Make sure the x and z corrdinates are both between the min and max corrdinates on each axis
-		if (worldX >= FRAGMENT.position.x && worldX < FRAGMENT.position.x + global_variables.fragmentSideLength && worldZ >= FRAGMENT.position.z && worldZ < FRAGMENT.position.z + global_variables.fragmentSideLength):
+		if (worldX >= FRAGMENT.position.x && worldX <= FRAGMENT.position.x + global_variables.fragmentSideLength && worldZ >= FRAGMENT.position.z && worldZ < FRAGMENT.position.z + global_variables.fragmentSideLength):
 			identifiedFragment = FRAGMENT; #If we found the fragment that contains corrdinates that posses the block, set "identifiedFragment" as a instance of this fragment
 			pass;
 		
@@ -209,22 +220,6 @@ func locateBlockAt(worldPos, action : String, id):
 		pass;
 	
 	
-	#If the "DESTROY" action is requested, and block exists, remove the block.
-	#Once the block is removed, return null.
-	if (identifiedBlock != null && action == "DESTROY"):
-		#Take the fragment determined to contain the block.
-		#Take these instances and remove the block from the fragments block array,
-		#scene and the world.
-		destroyBlock(identifiedFragment, identifiedBlock);
-		return null;
-	
-	
-	#If the "CREATE" action is requested, then place the block at the position requested
-	if (identifiedBlock != null && action == "CREATE"):
-		placeBlockFromPlayer(worldPos, id, identifiedFragment, identifiedBlock);
-		pass;
-	
-	
 	#If no action is request, return the blocks instance.
 	#If a block was found, return the instance of said block.
 	#If no instance was found, return null, exiting the function.
@@ -235,99 +230,126 @@ func locateBlockAt(worldPos, action : String, id):
 	pass;
 
 
-#This function places a block assuming the player did it.
-#This function will not work if a block is being placed by code.
-#Arguments:
-#positionOfBlockPlacement = The corrdinates of the "playerReach" or (raycast),
-#this will be used to calulate if the block should be placed on the side or above the block
-#being placed on.
+#Locates the fragment and returns a instance of it
+#locates the fragment based on the first arguent : Vector3
+#"pos"
 #
-#blockId: The id of the block/object to place
+#-Arguments-
 #
-#fragment: The fragment where we identified where the block is being placed
-#
-#block: The block we are placing the new block on top of, below or on the sides.
-func placeBlockFromPlayer(positionOfBlockPlacement, blockId, fragment, block):
+#pos = world position to try to locate the fragment at.
+func locateFragmanetAt(pos : Vector3):
 	
-	#Boolean, if the block was placed, this will become true
-	#If true, play the block placing sound.
-	var blockSuccessfullyPlaced = false;
+	var identifiedFragment = null; #Variable to store the fragment we idenified as containing the block we are looking for.
 	
-	#This variable holds true of false value as to wether
-	#we found where the block will be placed.
-	#If we already determined the blocks placement location
-	#we can skip through this function and just place the block.
-	var placementLocationFound : bool = false;
-	
-	#Block check variable
-	#This variable will go out 1/8 the the length of a block off the blocks
-	#surface that we deterected we placed on and in which side/direction.
-	#If we move this distance off the face and a blocks there, then don't allow the
-	#placement
-	var rangeToCheckForBlock = global_variables.blockSideLength / 0.125;
-	
-	#The position to place the new block if applicable.
-	#var positionToPlaceBlock = Vector3();
-	
-	#Location of the block placement in the fragments local
-	#corrdinates
-	#Convert the corrdinates of the block placement location
-	#"playerReach" (raycast3D) corrdinates to the fragments
-	#local corrdinates
-	#Take the worldX of the block placement, and subtract fragmentSideLength (universally 10.0) * the % of worldX and the fragmentSideLength (universally 10.0)
-	#Using int() because you can't perform modulous on floats
-	var positionOfBlockPlacement_local = Vector3(positionOfBlockPlacement.x - (global_variables.fragmentSideLength * (int(positionOfBlockPlacement.x / global_variables.fragmentSideLength))), positionOfBlockPlacement.y, positionOfBlockPlacement.z - (global_variables.fragmentSideLength * (int(positionOfBlockPlacement.z / global_variables.fragmentSideLength))));
-	#Convert negative corrdinates to positive corrdinates for the block placement
-	#If WorldX was negative, get the positive equivalent for this fragment for Vector3 "positionOfBlockPlacement_local"
-	if (positionOfBlockPlacement_local.x < 0):
-		positionOfBlockPlacement_local.x += 10;
-		pass;
-	#If WorldY was negative, get the positive equivalent for this fragment for Vector3 "positionOfBlockPlacement_local"
-	if (positionOfBlockPlacement_local.y < 0):
-		positionOfBlockPlacement_local.y += 10;
-		pass;
-	#If WorldZ was negative, get the positive equivalent for this fragment for Vector3 "positionOfBlockPlacement_local"
-	if (positionOfBlockPlacement_local.z < 0):
-		positionOfBlockPlacement_local.z += 10;
-		pass;
-	
-	
-	#Check to see if the block was placed on top
-	#Using the instance of the block we know the player interacted with to place the block,
-	#Get this block Y corrdinate (bottom corner of it, as per the scene).
-	#Add one universal width of a block to it, and if it equals the position
-	#where the "playerReach.y" was detected, the block must have been placed on top.
-	if (block.position.y + global_variables.blockSideLength == positionOfBlockPlacement.y):
+	#Using the corrdinates, identify which fragment the pos is in.
+	for FRAGMENT in fragments:
 		
-		#We know the block was placed on top of "block" the identified block the players
-		#raycast3d "playerReach" hit, so place the block using "addBlock()" system in fragment
-		#Add the block to the position the player requeste to place it.
-		fragment.addBlock(positionOfBlockPlacement_local, 1);
-		blockSuccessfullyPlaced = true; #set to true, so the block placing sound plays
+		if (FRAGMENT.position.x + global_variables.fragmentSideLength >= pos.x + global_variables.fragmentSideLength):
+			continue;
+		
+		#Check each fragment in "fragments" array. Make sure the x and z corrdinates are both between the min and max corrdinates on each axis
+		if (pos.x >= FRAGMENT.position.x && pos.x <= FRAGMENT.position.x + global_variables.fragmentSideLength && pos.z >= FRAGMENT.position.z && pos.z < FRAGMENT.position.z + global_variables.fragmentSideLength):
+			identifiedFragment = FRAGMENT; #If we found the fragment that contains corrdinates that posses the block, set "identifiedFragment" as a instance of this fragment
+			pass;
+		
+		#Found the fragment? Exit this loop.
+		if (identifiedFragment != null):
+			break;
 		
 		pass;
 	
-	
-	
-	
-	
-	
-	
-	#If the block was placed, play the "placeObject" sound.
-	if blockSuccessfullyPlaced == true:
-		global_variables.AudioManager.placeObject.play();
-	
-	pass;
+	#If the fragment is found, this will be a instance of it
+	#If its not found, this will be null.
+	return identifiedFragment;
 
 
-#Takes a instance of a "fragment" and a instance of a "block" inside the fragment
-#It the removes the block from the fragment scene, blocks array and scene tree, etc.
-func destroyBlock(fragment, block) -> void:
+#Adds the block of type "id" to the position in the world
+#of Vector3 "pos". If a block is already there, it will not
+#be added
+#-ARGUMENTS_
+#
+#pos = Position in the world to add the block to (will nap to 
+#nearest grid space)
+#
+#id = ID of the block to place.
+func addBlock(pos : Vector3, id) -> bool:
 	
-	#Remove the block from the fragments block array.
-	#Then remove the block from the fragments scene.
-	fragment.blocks.erase(block);
-	fragment.remove_child(block);
-	global_variables.AudioManager.breakObject.play(); #Play the audio for breaking a block/object when said block/object is removed
+	#If this value is true, the block was successfully placed
+	#If its false, the block was not placed
+	#This value is set using "addBlock()" from fragment.gd
+	#This variable is false by default until the block is
+	#placed.
+	var blockPlaced = false;
 	
-	pass;
+	#This variable will hold the fragment we need
+	#to place the block in.
+	#If its not found, this should remain as null.
+	var fragment = null;
+	
+	#Locate the fragment we are wanting to add the block to.
+	#If the fragment isn't found, this will be null and we
+	#should exit this function or take approiate measures.
+	fragment = locateFragmanetAt(pos);
+	
+	#If the fragment was not located, exit this function
+	#We have no fragment to place the block in!
+	if (fragment == null):
+		return false;
+	
+	#Convert the corrdinates from the world
+	#position to the locale corrdinates of
+	#the fragment, to easily place the block
+	pos.x = worldCordsToFragment(pos.x);
+	pos.z = worldCordsToFragment(pos.z);
+	
+	#Add the block of type "id" to the position in the fragment
+	#If the block was successfully placed, this function "addBlock()"
+	#in fragment.gd will return false. We will then return this value
+	#upon exiting the current function "addBlock()" in "world.gd".
+	blockPlaced = fragment.addBlock(pos, id);
+	
+	return blockPlaced;
+
+
+
+#Takes the first argument (float) and converts
+#it to corrdinate for a fragment.
+#returns float.
+#
+#-Arguments-
+#
+#value = value to convert to a local corrdinate for the fragment.
+#
+func worldCordsToFragment(value) -> float:
+	
+	#If the world corrdinate is negative or positive, convert it using
+	#a specific method depending on if its negative or positive.
+	if (value > 0):
+		#If the value is positive:
+		value = value - (int((value / global_variables.fragmentSideLength)) * global_variables.fragmentSideLength);
+	elif (value < 0):
+		#If the value is negative:
+		value = value + (10 * (1 + (-1 * int(value / 10))));
+		pass;
+	
+	return value;
+
+
+#Removes a block from the scene/world at the provided corrdinates.
+#Returns a boolean of true or false, false being no block was destroyed/
+#removed and true being a block was removed.
+func removeBlock() -> bool:
+	
+	#If this variable is true, we successfully removed a block
+	#from the fragment/scene/world.
+	#If false, we did not.
+	#This variable is false by default, until its changed.
+	var blockRemoved : bool = false;
+	
+	
+	
+	
+	#Return the status if a block was removed or not
+	#as type bool.
+	#If block removed, true, else: false.
+	return blockRemoved;
