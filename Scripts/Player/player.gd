@@ -12,8 +12,19 @@ var objectPlayerIsLookingAt; #The object the player is looking at within there r
 #Instance of the world.
 @onready var world = get_tree().get_root().get_node("World");
 
+#Instance of the outputBox to print logs
+@onready var outputBox = get_node("CameraPivot/Camera3D/DebugWindow/DebugWindowPanel/OutputBoxPanel/OutputBox");
+
+#Instance of the players crosshair
+#Helps the player aim
+@onready var crosshair = $CameraPivot/Camera3D/Crosshair;
+
 func _ready() -> void:
 	
+	#Setup the users crosshair, which assists with aiming
+	#Set the crosshair to appear in the middle of the screen
+	#Intialize other properties here if needed
+	initCrossHair();
 	
 	pass;
 
@@ -37,6 +48,23 @@ func _physics_process(delta: float) -> void:
 	
 	
 
+#Sets up the players crosshair in the center of the screen
+#This helps assist with aiming, etc
+#Takes the screen size and divides both X and Y axis's by 2 to find a
+#center point of the screen.
+func initCrossHair() -> void:
+	
+	#DEVLOG
+	print("Loaded player crosshair|player.gd, initCrossHair()");
+	
+	#Set the x and y position of the crosshair in the center of the players screen.
+	#Take the Displays X and Y size, divide these axis's by 2 to find the center
+	#point of each axis.
+	crosshair.position.x = (DisplayServer.screen_get_size().x) / 2;
+	crosshair.position.y = (DisplayServer.screen_get_size().y) / 2;
+	
+	pass;
+
 
 
 #Controls the destruction and placing of objects, blocks, etc throughout the world from the player
@@ -46,13 +74,30 @@ func interactionManager():
 	#in "objectPlayerIsLookingAt", if they are not looking at a object
 	#within reach, set "objectPlayerIsLookingAt" to null and exit this function.
 	if (playerReach.is_colliding()):
-		objectPlayerIsLookingAt = world.locateBlockAt(playerReach.get_collision_point());
+		objectPlayerIsLookingAt = world.locateBlockAt(playerReach.get_collision_point(), "", 0);
 	else:
 		objectPlayerIsLookingAt = null;
 		return;
 	
+	#If the player uses the "strike" action, destroy a block there looking at.
+	if (Input.is_action_just_pressed("strike") && global_variables.inputAllowed == true):
+		
+		#DEVLOG
+		print("Player Struck|player.gd, interactionManager()");
+		
+		world.locateBlockAt(playerReach.get_collision_point(), "DESTROY", 0);
+		
+		pass;
 	
-	
+	#If the players uses the "place" action, place a block through "locateBlockAt()" using the "CREATE" action.
+	if (Input.is_action_just_pressed("place") && global_variables.inputAllowed == true):
+		
+		#DEVLOG
+		print("Player attempted to place|player.gd, interactionManager()");
+		
+		world.locateBlockAt(playerReach.get_collision_point(), "CREATE", 1);
+		
+		pass;
 	
 	pass;
 

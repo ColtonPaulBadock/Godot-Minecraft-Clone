@@ -10,6 +10,12 @@ extends Control
 #Instance of "OutputBox" which the terminal/debug window will output to.
 @onready var outputBox = get_node("DebugWindowPanel/OutputBoxPanel/OutputBox");
 
+#Instance of the world
+@onready var world = get_tree().get_root().get_node("World");
+
+#Challenges in the world
+var degradeWorldChallenge = preload("res://Scenes/Challenges/DegradeWorldChallenge.tscn"); #This challenge degrades the world away
+
 #Random number generator utility
 var rng = RandomNumberGenerator.new();
 
@@ -29,6 +35,9 @@ func _process(delta):
 #Intialises componenets and systems in the debug window.
 func initDebugWindow() -> void:
 	
+	#DEVLOG
+	print("Opened debug window|debugWindow.gd, initDebugWindow()");
+	
 	#Disables scrolling of the corrdinate display, so the scroll bar does not show up.
 	corrdinateDisplay.scroll_active = false;
 	
@@ -45,6 +54,9 @@ func initDebugWindow() -> void:
 
 #Closes/terminates not needed systems in the debug window and closes the debug window.
 func killDebugWindow() -> void:
+	
+	#DEVLOG
+	print("Killed debug window|debugWindow.gd, killDebugWindow()");
 	
 	#Hide the debug window
 	visible = false;
@@ -109,7 +121,11 @@ func manageInputBox() -> void:
 #-marco -> Prints the world "Polo!" back to the user.
 #-clear -> Clears the "OutputBox" of any logs
 #-Phoebe -> ?!?!?!?! This isn't a command
+#-challenge DEGRADE_WORLD -> Starts the degrade world challenge, where blocks slowly disapear
 func evaluateCommands(message : String) -> void:
+	
+	#DEVLOG
+	print("Evaluateing commands|debugWindow.gd, evaluateCommands()");
 	
 	#"-marco" command, prints "Polo!" in "OutputBox"
 	if (message.begins_with("-marco")):
@@ -132,6 +148,16 @@ func evaluateCommands(message : String) -> void:
 		return;
 	
 	
+	#"-challenge DEGRADE_WORLD"; Starts the worlds degrades challenge, which slowly destroys the world.
+	if (message.begins_with("-challenge DEGRADE_WORLD")):
+		
+		#Temporary load the degradeWorldChallenge scene into "tempScene"
+		#and instanitate it, then add it to the world node, so the
+		#degrading challenge can start!
+		var tempScene = degradeWorldChallenge.instantiate();
+		world.add_child(tempScene);
+		
+		return;
 	
 	
 	#If no commands were found, send the text as a message;

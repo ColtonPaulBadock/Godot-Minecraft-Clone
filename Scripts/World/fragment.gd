@@ -53,3 +53,32 @@ func generateFragment():
 				add_child(block); #Add the block to the scene.
 	
 	pass;
+
+
+#Adds a block of type "id" to the fragment.
+#Whatever block space the "pos" falls into is the grid space the block will occupy
+#ARGUMENTS:
+#pos = Position/Corrdinates to add the block
+#id = id of the object/block (its type).
+func addBlock(pos : Vector3, id):
+	
+	#Remove the decimal on the block to adds position, so that it is
+	#aligned with the grid space.
+	pos.x = int(pos.x);
+	pos.y = int(pos.y);
+	pos.z = int(pos.z);
+	
+	#Create a temporary instance of the block "block", use
+	#global block table to select the right type of block
+	#passed on argument of this function "id"
+	var block = global_variables.block_table[id].instantiate();
+	
+	#The "pos" (position) we formated at ID: 37hstag to match the corrdinate grid
+	#can now be set as the blocks position
+	block.position = pos;
+	
+	#Add the block to the "blocks[]" array and the fragment scene
+	blocks.append(block);
+	add_child(block);
+	
+	pass;

@@ -21,7 +21,7 @@ func _process(delta: float) -> void:
 	
 	updateFragPoint(); #Updates the fragment point based on the player position.
 	
-	renderWorld(); #Render the world around the fragpoint
+	#renderWorld(); #Render the world around the fragpoint
 	
 	pass;
 
@@ -135,7 +135,14 @@ func renderWorld() -> void:
 
 
 #Locate a block from a fragment based on world corrdinates
-func locateBlockAt(worldPos):
+#Return a instance of the block located, but if a action is required, perform the
+#action on that block instead
+#
+#-Actions list-
+#-"DESTROY" -> Removes the block from the scene, world, fragment and block array of the fragment
+#-"CREATE" -> Creats a block based on "id"
+#
+func locateBlockAt(worldPos, action : String, id):
 	
 	#Corrdinates for the block to locate
 	var worldX = worldPos.x;
@@ -201,10 +208,126 @@ func locateBlockAt(worldPos):
 		
 		pass;
 	
+	
+	#If the "DESTROY" action is requested, and block exists, remove the block.
+	#Once the block is removed, return null.
+	if (identifiedBlock != null && action == "DESTROY"):
+		#Take the fragment determined to contain the block.
+		#Take these instances and remove the block from the fragments block array,
+		#scene and the world.
+		destroyBlock(identifiedFragment, identifiedBlock);
+		return null;
+	
+	
+	#If the "CREATE" action is requested, then place the block at the position requested
+	if (identifiedBlock != null && action == "CREATE"):
+		placeBlockFromPlayer(worldPos, id, identifiedFragment, identifiedBlock);
+		pass;
+	
+	
+	#If no action is request, return the blocks instance.
 	#If a block was found, return the instance of said block.
-	#If no instance was found, return null.
+	#If no instance was found, return null, exiting the function.
 	if (identifiedBlock != null):
 		return identifiedBlock;
-	else:
+	else: #If no block was found, no action was requested, return null and exit this function.
 		return null;
+	pass;
+
+
+#This function places a block assuming the player did it.
+#This function will not work if a block is being placed by code.
+#Arguments:
+#positionOfBlockPlacement = The corrdinates of the "playerReach" or (raycast),
+#this will be used to calulate if the block should be placed on the side or above the block
+#being placed on.
+#
+#blockId: The id of the block/object to place
+#
+#fragment: The fragment where we identified where the block is being placed
+#
+#block: The block we are placing the new block on top of, below or on the sides.
+func placeBlockFromPlayer(positionOfBlockPlacement, blockId, fragment, block):
+	
+	#Boolean, if the block was placed, this will become true
+	#If true, play the block placing sound.
+	var blockSuccessfullyPlaced = false;
+	
+	#This variable holds true of false value as to wether
+	#we found where the block will be placed.
+	#If we already determined the blocks placement location
+	#we can skip through this function and just place the block.
+	var placementLocationFound : bool = false;
+	
+	#Block check variable
+	#This variable will go out 1/8 the the length of a block off the blocks
+	#surface that we deterected we placed on and in which side/direction.
+	#If we move this distance off the face and a blocks there, then don't allow the
+	#placement
+	var rangeToCheckForBlock = global_variables.blockSideLength / 0.125;
+	
+	#The position to place the new block if applicable.
+	#var positionToPlaceBlock = Vector3();
+	
+	#Location of the block placement in the fragments local
+	#corrdinates
+	#Convert the corrdinates of the block placement location
+	#"playerReach" (raycast3D) corrdinates to the fragments
+	#local corrdinates
+	#Take the worldX of the block placement, and subtract fragmentSideLength (universally 10.0) * the % of worldX and the fragmentSideLength (universally 10.0)
+	#Using int() because you can't perform modulous on floats
+	var positionOfBlockPlacement_local = Vector3(positionOfBlockPlacement.x - (global_variables.fragmentSideLength * (int(positionOfBlockPlacement.x / global_variables.fragmentSideLength))), positionOfBlockPlacement.y, positionOfBlockPlacement.z - (global_variables.fragmentSideLength * (int(positionOfBlockPlacement.z / global_variables.fragmentSideLength))));
+	#Convert negative corrdinates to positive corrdinates for the block placement
+	#If WorldX was negative, get the positive equivalent for this fragment for Vector3 "positionOfBlockPlacement_local"
+	if (positionOfBlockPlacement_local.x < 0):
+		positionOfBlockPlacement_local.x += 10;
+		pass;
+	#If WorldY was negative, get the positive equivalent for this fragment for Vector3 "positionOfBlockPlacement_local"
+	if (positionOfBlockPlacement_local.y < 0):
+		positionOfBlockPlacement_local.y += 10;
+		pass;
+	#If WorldZ was negative, get the positive equivalent for this fragment for Vector3 "positionOfBlockPlacement_local"
+	if (positionOfBlockPlacement_local.z < 0):
+		positionOfBlockPlacement_local.z += 10;
+		pass;
+	
+	
+	#Check to see if the block was placed on top
+	#Using the instance of the block we know the player interacted with to place the block,
+	#Get this block Y corrdinate (bottom corner of it, as per the scene).
+	#Add one universal width of a block to it, and if it equals the position
+	#where the "playerReach.y" was detected, the block must have been placed on top.
+	if (block.position.y + global_variables.blockSideLength == positionOfBlockPlacement.y):
+		
+		#We know the block was placed on top of "block" the identified block the players
+		#raycast3d "playerReach" hit, so place the block using "addBlock()" system in fragment
+		#Add the block to the position the player requeste to place it.
+		fragment.addBlock(positionOfBlockPlacement_local, 1);
+		blockSuccessfullyPlaced = true; #set to true, so the block placing sound plays
+		
+		pass;
+	
+	
+	
+	
+	
+	
+	
+	#If the block was placed, play the "placeObject" sound.
+	if blockSuccessfullyPlaced == true:
+		global_variables.AudioManager.placeObject.play();
+	
+	pass;
+
+
+#Takes a instance of a "fragment" and a instance of a "block" inside the fragment
+#It the removes the block from the fragment scene, blocks array and scene tree, etc.
+func destroyBlock(fragment, block) -> void:
+	
+	#Remove the block from the fragments block array.
+	#Then remove the block from the fragments scene.
+	fragment.blocks.erase(block);
+	fragment.remove_child(block);
+	global_variables.AudioManager.breakObject.play(); #Play the audio for breaking a block/object when said block/object is removed
+	
 	pass;

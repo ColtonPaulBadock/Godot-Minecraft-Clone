@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyfeerclwassj"]
+
+[ext_resource type="Script" uid="uid://bmltbwo5a6lmb" path="res://Scripts/Challenges/WorldDegrades_Challenge.gd" id="1_1behg"]
+
+[node name="DegradeWorldChallenge" type="Node3D"]
+script = ExtResource("1_1behg")

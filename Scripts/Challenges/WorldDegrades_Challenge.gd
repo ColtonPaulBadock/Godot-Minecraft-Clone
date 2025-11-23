@@ -15,6 +15,9 @@ var rng = RandomNumberGenerator.new(); #Script wide random number generator
 #When the script first executes on the scene
 func _ready() -> void:
 	
+	#DEVLOG
+	print("World Degrades challenge started|WorldDegrades_Challenge.gd, _ready()");
+	
 	loadedFragments = get_tree().get_root().get_node("World").fragments; #Get all the fragments loaded by the aplication from the scene tree of the world and make a instance to there array.
 	
 	#Figure out how long it will be between each block deleation and set this time in variable "timeBetweenBlockDeletion_milliseconds"

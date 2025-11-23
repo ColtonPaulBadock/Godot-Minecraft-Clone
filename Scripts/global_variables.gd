@@ -2,6 +2,9 @@
 
 extends Node
 
+#The version of the game
+const version : String = "PCR 0.1";
+
 #User information
 #The username of the player.
 const username : String = "player16";
@@ -26,6 +29,12 @@ var inputAllowed = true;
 #If true: debug window is open
 #If false: debug window is closed
 var debugWindowOpen : bool = false;
+
+#Instance of the AudioManager.
+#This system is used to control all audio throughout the game.
+#The "AudioManager.tscn" scene is a child of "World" node in the "World.tscn" scene.
+#This variables is a instance and provides global access
+@onready var AudioManager = get_tree().get_root().get_node("World/AudioManager");;
 
 #Block table of all blocks that exist in the game, holding there locations. The index of the array is the block id
 #BLOCKS:
