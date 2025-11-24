@@ -26,6 +26,11 @@ var debugWindow;
 #of the object/block they are holding
 var playerObjectHeld_id = 0;
 
+#This is the debug variable to disable the mouse
+#locking in the window, and to not track the mouses inputs.
+#If this variable is true, this will take effect.
+var debug_remove_mouse_locked_in_window : bool = false;
+
 
 func _ready() -> void:
 	
@@ -364,20 +369,28 @@ func cameraManager():
 	var mouse_sensitivty : float = 0.005; #DEFAULT: 0.01
 	
 	
-	
-	#Figure out how much the mouse has moved for camera rotation
-	delta_mouse_y = mouse_spot.y - get_window().get_mouse_position().y;
-	delta_mouse_x = mouse_spot.x - get_window().get_mouse_position().x;
-	
-	#Rotate the player and piviot the camera up and down.
-	rotate_y(delta_mouse_x * mouse_sensitivty);
-	$CameraPivot.rotate_x(delta_mouse_y * mouse_sensitivty);
-	
-	#Prevent illegal camera positions
-	preventIllegalCameraPosition();
-	
-	#Set mouse back to default position "mouse_spot"
-	Input.warp_mouse(mouse_spot);
+	#Here is the manager for the players camera via mouse movements.
+	#Compared to the last frame, figure out how much the mouse moved from its
+	#"mouse_spot" corrdinates, and move the mouse based on this factor, times
+	#sensitivity.
+	#Then set the mouse back to its "mouse_spot" for the next frame.
+	#However, if "debug_remove_mouse_locked_in_window" is true, then
+	#don't lock the mouse on "mouse_spot" in the window, don't track the mouses
+	#movement from "mouse_spot". This is used for debugging purposes.
+	if (debug_remove_mouse_locked_in_window == false):
+		#Figure out how much the mouse has moved for camera rotation
+		delta_mouse_y = mouse_spot.y - get_window().get_mouse_position().y;
+		delta_mouse_x = mouse_spot.x - get_window().get_mouse_position().x;
+		
+		#Rotate the player and piviot the camera up and down.
+		rotate_y(delta_mouse_x * mouse_sensitivty);
+		$CameraPivot.rotate_x(delta_mouse_y * mouse_sensitivty);
+		
+		#Prevent illegal camera positions
+		preventIllegalCameraPosition();
+		
+		#Set mouse back to default position "mouse_spot"
+		Input.warp_mouse(mouse_spot);
 	
 	pass;
 

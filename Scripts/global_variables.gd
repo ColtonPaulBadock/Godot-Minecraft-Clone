@@ -12,7 +12,7 @@ const playerCameraMaxLookUp = 1.57; #The maximum rotation allowed by the players
 const playerCameraMinLookDown = -1.57; #The maximum rotation allowed by the players camera looking down from its starting positon.
 
 #The version of the game
-const version : String = "PCR 0.1.2";
+const version : String = "PCR 0.2.1";
 
 #User information
 #The username of the player.

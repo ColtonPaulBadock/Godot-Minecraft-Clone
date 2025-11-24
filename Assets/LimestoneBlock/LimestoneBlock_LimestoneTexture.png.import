@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bycg3ge1f5qat"
+uid="uid://bo1wpa616mf3v"
 path.s3tc="res://.godot/imported/LimestoneBlock_LimestoneTexture.png-da5dbb9af876bc95e6dcdc9237f7ac84.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "c82ba6a92032d55ed591a6329c1d8e1d"
 }
 
 [deps]

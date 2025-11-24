@@ -121,6 +121,13 @@ func generateTerrain() -> void:
 				
 				addBlock(block.position, block.block_id);
 				
+				#-ORPHAN NODE PROBLEM SOLVED AFTER 1 WEEK!!!!-
+				#9/18/2025. I was instantiating a instance of "block", then passing it to
+				#"addBlock()" just to pull data from it and create a whole new block via instancating,
+				#effectively creating two instances of the block, with one not being added.
+				#Free the extra instance of the block from RAM.
+				block.queue_free();
+				
 				pass;
 			
 	

@@ -19,11 +19,6 @@ var fragments = []; #Array contains all fragments currently loaded into the worl
 #Frag point
 var fragPoint : Vector3 = Vector3(0.0, 0.0, 0.0);
 
-#This is the thread used in the world generation. It distances the "renderWorld()"
-#and other world generation functions away from the player and entities, to prevent
-#lag.
-var terrainGenerationThread : Thread;
-
 
 func _process(delta: float) -> void:
 	
@@ -32,34 +27,19 @@ func _process(delta: float) -> void:
 	#of the world and is what the world renders around. It moves position between
 	#fragments with the player so we can keep the world rendered around them.
 	#This function updates the point every frame.
-	#updateFragPoint();
+	updateFragPoint();
 	
 	#Render the world around the fragpoint, which is updated by "updateFragPoint()"
 	#each frame.
-	#renderWorld();
-	
-	terrainGenerationThread.start(test.bind());
-	
-	pass;
-
-func _exit_tree() -> void:
-	
-	terrainGenerationThread.wait_to_finish();
-	
-	pass;
-
-func test() -> void:
-	
-	updateFragPoint();
 	renderWorld();
 	
+	
+	
 	pass;
 
+
+
 func _ready() -> void:
-	
-	#Intialize the world thread that runs world generation.
-	#this thread keeps the world generation seperate from the player, to improve performance
-	terrainGenerationThread = Thread.new();
 	
 	#Set the players spawn position for the Y corrdinate after the world has spawned in.
 	player.position.y = 95;
@@ -165,7 +145,7 @@ func renderWorld() -> void:
 			#Remove the fragment from the scene and take it out of the fragments array (array of loaded/rendered fragments)
 			remove_child(FRAGMENT);
 			fragments.erase(FRAGMENT);
-			FRAGMENT.free();
+			FRAGMENT.queue_free();
 			
 			pass;
 		pass;
