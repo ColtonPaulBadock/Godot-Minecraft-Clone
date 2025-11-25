@@ -14,10 +14,26 @@ var playerScene = preload("res://Scenes/Characters/Player.tscn"); #Instance of t
 var player = playerScene.instantiate();
 
 #fragments array
+#Array contains instances of every loaded fragment that
+#has been fully rendered in the world
 var fragments = []; #Array contains all fragments currently loaded into the world
+
+#fragments to render array.
+#Array holds corrdinates of every fragment that needs to be
+#rendered into the world.
+#Acts as a queue of fragments to render
+var fragmentsRenderQueue = [];
 
 #Frag point
 var fragPoint : Vector3 = Vector3(0.0, 0.0, 0.0);
+
+
+
+#These variables represent the x and z lengths of the world (think above perspective).
+var worldWidth = global_variables.renderDistance * 2;
+var worldHeight = global_variables.renderDistance * 2;
+
+
 
 
 func _process(delta: float) -> void:
@@ -34,6 +50,12 @@ func _process(delta: float) -> void:
 	renderWorld();
 	
 	
+	#Update the total amount of frames/cycles that have happened
+	#since the app booted.
+	#Increments the cycles by 1.
+	#"global_variables.application_cycles" is the total
+	#cycles that have passed.
+	updateApplicationCycles();
 	
 	pass;
 
@@ -57,6 +79,23 @@ func _ready() -> void:
 
 
 
+#Updates "global_variables.application_cycles" a 64 bit integer containing
+#the total cycles/frames that have passed since the application booted.
+#This method is called in "_process()" in the main scene "world.gd".
+#Runs once each frame.
+func updateApplicationCycles() -> void:
+	
+	#Increment the application cycles by 1,
+	#since 1 frame will pass after this cycle/frame.
+	global_variables.application_cycles += 1;
+	
+	pass;
+
+
+
+
+
+
 #Updates the frag point based on the players position.
 func updateFragPoint():
 	
@@ -74,60 +113,178 @@ func updateFragPoint():
 	pass;
 
 
+
+
+
+
 #Renders the world around the fragpoint (the players location)
+#Derenders and removes old fragments that are no longer within render distance
+#of the frag point.
+#Renders in fragments from the render queue.
 func renderWorld() -> void:
 	
-	#Devlog the rendering world, so we know each time this system runs.
-	print("Rendering the world around the player|world.gd, renderWorld()");
+	#Check around the fragpoint within render distance.
+	#Find any fragments that aren't render in or in the render queue,
+	#and add them to the render queue.
+	#We do this periodically (every few frames)
+	#to add fragments to render to the render queue
+	#as the fragpoint moves as we move around the world.
+	#NOTE: Runs every 50 frames
+	if (global_variables.application_cycles % 50 == 0):
+		renderQueueWorldAroundFragPoint();
 	
-	#The width of the world is double the render distance, as render distance can be thought of as a radius around the player, we are getting "diameter" for the world.
-	#width = "-" parallel to x-axis
-	var worldWidth = global_variables.renderDistance * 2;
-	#The height of the world is double the render distance, as render distance can be thought of as a radius around the player, we are getting "diameter" for the world.
-	#height = "|" parallel to z-axis
-	var worldHeight = global_variables.renderDistance * 2;
 	
-	#RENDER THE WORLD AROUND THE FRAGPOINT
-	#Check around the fragpoints render distance. If a fragment is missing (I.E. it moved and needs to load more fragments) load in the missing fragment
-	#Go along each HEIGHT, but do each ROW for every HEIGHT fragment
+	#Renders the next fragment position at the top of the queue to be
+	#render/loaded into the world.
+	#By using a queue to remove fragments, we greatly reduce
+	#hickups in FPS by loading everything at once between 2 frames
+	#NOTE: Runs every 5 frames
+	if (global_variables.application_cycles % 5 == 0):
+		renderWorldFromQueue();
+	
+	#Derender and remove old fragments
+	#that are no longer within render distance
+	#of the fragpoint. These fragments
+	#are removed from the scene and cleared
+	#from RAM.
+	#NOTE: Runs every 100 frames
+	#if (global_variables.application_cycles % 100 == 0):
+	derenderOldFragments();
+	
+	
+	pass;
+
+
+
+#This function searchs around the fragpoint for any
+#fragments that haven't yet been rendered within render distance,
+#and adds them to the render queue.
+#These fragments will then be rendered in by the render queue,
+#preventing FPS drop from rendering all fragments in one frame/go.
+func renderQueueWorldAroundFragPoint() -> void:
+	
+	#We go along the height and the width of the world (from top down perspective)
+	#and are checking each valid fragment position within render distance of the fragpoint.
+	#If the fragment doesn't exist, and is not within the render queue, we will add the fragment
+	#to the render queue to be render in later to prevent FPS drops.
+	#In this loop are conditions checking if the fragment exists, is in render queue, and
+	#an operation to add it to the render queue if its not detected in each condition
+	#(I.E. it doesn't exist, and is't queued for render.
+	#Data reguarding the fragment position we are checking and booleans regaurding
+	#its existance or existance in the render queue are also present.
 	for HEIGHT in worldHeight:
-		for ROW in worldWidth:
-			var fragmentPosition : Vector3 = Vector3(0.0, 0.0, 0.0); #Vector3 to hold the position of the fragment; Ingore Y corrdinate
-			var fragmentRendered = false;
+		for WIDTH in worldWidth:
 			
-			#Go all the way to the front (<) of the row, from here count forward until we have reached the next untouched fragment
-			#in the row. Stay at the same height throughout the entire row.
-			#See "docs" folder for diagram on this system "renderWorld/renderWorldAroundFragPoint."
-			fragmentPosition.x = fragPoint.x - (global_variables.renderDistance * 10) + (ROW * 10);
-			fragmentPosition.z = fragPoint.z - ((global_variables.renderDistance) * 10) + (HEIGHT * 10)
+			#Booleans reguarding as to weather the current fragment position we are checking
+			#has a fragment already rendered in, or if the position is queued to render a fragment.
+			#Both booleans are false by default.
+			#If even one is true, this iteration will end.
+			var fragmentExists : bool = false;
+			var fragmentIsQueuedForRender : bool = false;
 			
-			#Search through each exisitng fragment and see if the fragment we are checking for is rendered in. If it hasn't been renedered yet, keep "fragmentRendered" false.
-			#This will allow us to render it in later at ID: 72827s
+			#Fragment position we are checking for a fragments existance in the world
+			#or in the render queue. Set to all zeros here by default, 
+			#we use the current HEIGHT and WIDTH we are checking in the world,
+			#along with render distance, to determine which position we check.
+			#Y-axis is redundent and doesn't matter.
+			var fragmentPosition : Vector3 = Vector3(0.0, 0.0, 0.0);
+			
+			#Here we set the fragment position we are going to check for a fragment.
+			#Notice how Y-axis isn't included, as this is redundent.
+			#EXAMPLE:
+			#-We start with the x axis
+			#We take the fragpoint.x, then take the render distance (in fragments) and convert
+			#it to blocks/units by multiplying by 10. From here, we go that distance back,
+			#then add the WIDTH (fragment in the rows number) * 10 to convert to units/blocks to it,
+			#and we have the x position of the fragment space to check.
+			fragmentPosition.x = fragPoint.x - (global_variables.renderDistance * 10) + (WIDTH * 10);
+			fragmentPosition.z = fragPoint.z - ((global_variables.renderDistance) * 10) + (HEIGHT * 10);
+			
+			#We are checking to see if the fragment physically exists, as the positions
+			#we are checking are fragment positions within render distance of the fragpoint.
+			#If the fragment exists, and is render in. We set "fragmentExists" to true,
+			#so that at #ID: 736ddhe, we can skip the rest of this iteration and check the next
+			#fragment position within render distance of the fragpoint.
 			for FRAGMENT in fragments:
 				if (FRAGMENT.position.x == fragmentPosition.x && FRAGMENT.position.z == fragmentPosition.z):
-					fragmentRendered = true;
-					pass;
+					fragmentExists = true;
 			
-			#ID: 72827s
-			#If we have determined that the fragment we are checking for has not been rendered in yet,
-			#render it in here.
-			if (fragmentRendered != true):
-				var newFragment = fragmentScene.instantiate(); #Temp fragment instance so we can set its attributes before adding it to the scene
-				
-				#Set the fragments position to the current fragment position from the fragpoint we are checking, at which it was determined no fragment was rendered yet.
-				newFragment.position.x = fragmentPosition.x;
-				newFragment.position.z = fragmentPosition.z;
-				
-				#Add the temporary fragment to the scene, adding it "permently". 
-				#"newFragment" is irrelevant from this point on.
-				add_child(newFragment);
-				fragments.append(newFragment);
+			#ID: 736ddhe
+			#We detected the fragment physically exists in the world.
+			#Since it already exists, we don't need to do anything and
+			#can exit the iteration, checking for the next fragment
+			#position.
+			if (fragmentExists == true):
+				continue;
+			
+			
+			#We determined the fragment doesn't physically exist in the world,
+			#now we need to check if its in the render queue. If the fragment
+			#position we are checking is in the render queue, then we set "fragmentIsQueuedForRender"
+			#as true, allowing us to exit this iteration later and check for the next
+			#fragment position.
+			#We use the data from "fragmentIsQueuedForRender" @ ID: qwerty728nfh
+			for FRAGMENT in fragmentsRenderQueue:
+				if (FRAGMENT.x == fragmentPosition.x && FRAGMENT.z == fragmentPosition.z):
+					fragmentIsQueuedForRender = true;
+			
+			#ID: qwerty728nfh
+			#We detected that the fragment we are searching for doesn't exist,
+			#but is in the render queue, so we will do nothing and check the next
+			#fragment position by skipping the rest of this iteration.
+			if (fragmentIsQueuedForRender == true):
+				continue;
+			
+			#The fragment position we are checking, which is within render distance of the fragpoint
+			#has been detected at this point to not exist and is not currently queued for render.
+			#We will add the corrdinates a fragment should exist at to the render queue now.
+			#We append the position the fragment should exist at to the render queue, so it will render
+			#in.
+			fragmentsRenderQueue.append(fragmentPosition);
 			
 			pass;
+	pass;
+
+
+
+
+func renderWorldFromQueue() -> void:
 	
+	#If the render queue is completely empty,
+	#then exit this function, there is nothing else to
+	#render! Once it has an index in it again, we can
+	#keep rendering.
+	if (fragmentsRenderQueue.is_empty()):
+		return;
+	
+	var newFragment = fragmentScene.instantiate();
+	
+	newFragment.position.x = fragmentsRenderQueue[0].x;
+	newFragment.position.z = fragmentsRenderQueue[0].z;
+	#Add the temporary fragment to the scene, adding it "permently". 
+	#"newFragment" is irrelevant from this point on.
+	add_child(newFragment);
+	fragments.append(newFragment);
+	if (fragmentsRenderQueue.is_empty() == false):
+		fragmentsRenderQueue.remove_at(0); #Remove the top of the arrayaa
+	
+	pass;
+
+
+
+
+
+
+#Used in "renderWorld()"
+#Loops through the array "fragments[]" checking all rendered fragments
+#in the world. Any fragment that is "global_variables.renderDistance" away
+#from the fragpoint is derendered and removed from the scene/world.
+func derenderOldFragments() -> void:
 	
 	#Max and min possible corrdinates of fragments that are rendered in. Anything below
 	#or above should be derendered.
+	#minX = the lowest x corrdinate of the x-axis
+	#maxZ = the max z corrdinate of the z-axis, etc
 	var row_minX = fragPoint.x + (global_variables.renderDistance * -global_variables.fragmentSideLength); #The minimum X-axis value from the fragpoint. Anything less than this needs to be derendered
 	var row_maxX = fragPoint.x + ((global_variables.renderDistance - 1) * global_variables.fragmentSideLength);
 	var height_minZ = fragPoint.z + (global_variables.renderDistance * -global_variables.fragmentSideLength);
@@ -149,8 +306,9 @@ func renderWorld() -> void:
 			
 			pass;
 		pass;
-	
 	pass;
+
+
 
 
 

@@ -11,8 +11,14 @@ var playerReachPenetration = 0.02;
 const playerCameraMaxLookUp = 1.57; #The maximum rotation allowed by the players camera looking up from its starting positon.
 const playerCameraMinLookDown = -1.57; #The maximum rotation allowed by the players camera looking down from its starting positon.
 
+#The total application cycles that have passed since
+#the application started.
+#Updated every frame by "updateApplicationCycles()"
+#in "world.gd"
+var application_cycles : int = 0;
+
 #The version of the game
-const version : String = "PCR 0.2.1";
+const version : String = "PCR 0.2.2";
 
 #User information
 #The username of the player.
