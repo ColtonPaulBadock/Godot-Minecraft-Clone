@@ -11,6 +11,12 @@ var playerReachPenetration = 0.02;
 const playerCameraMaxLookUp = 1.57; #The maximum rotation allowed by the players camera looking up from its starting positon.
 const playerCameraMinLookDown = -1.57; #The maximum rotation allowed by the players camera looking down from its starting positon.
 
+#If true, the player is in the main menu.
+#If so, the main scene "World.tscn" should be
+#'terminated' and we will be in the main menu
+#scene like its the main scene
+var in_main_menu : bool = true;
+
 #The total application cycles that have passed since
 #the application started.
 #Updated every frame by "updateApplicationCycles()"

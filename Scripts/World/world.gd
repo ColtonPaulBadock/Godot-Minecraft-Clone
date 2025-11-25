@@ -9,6 +9,7 @@ var debugWindow;
 #Scenes
 var fragmentScene = preload("res://Scenes/World/Fragment.tscn"); #Use fragments to makeup the world
 var playerScene = preload("res://Scenes/Characters/Player.tscn"); #Instance of the player
+var mainMenuScene : String = "res://Scenes/UserInterfaces/MainMenu.tscn"; #Path to the main menu
 
 #Player
 var player = playerScene.instantiate();
@@ -33,7 +34,10 @@ var fragPoint : Vector3 = Vector3(0.0, 0.0, 0.0);
 var worldWidth = global_variables.renderDistance * 2;
 var worldHeight = global_variables.renderDistance * 2;
 
-
+#Instance of the main menu scene.
+#Holds all UI for the main menu when
+#starting the game, creating worlds, etc.
+var mainMenu;
 
 
 func _process(delta: float) -> void:
@@ -49,7 +53,6 @@ func _process(delta: float) -> void:
 	#each frame.
 	renderWorld();
 	
-	
 	#Update the total amount of frames/cycles that have happened
 	#since the app booted.
 	#Increments the cycles by 1.
@@ -63,19 +66,42 @@ func _process(delta: float) -> void:
 
 func _ready() -> void:
 	
+	#Starts the main menu if "global_variables.in_main_menu" is true.
+	#The entire "World" scene will be thrown out and we will load into
+	#the main menu scene as the main scene.
+	#If "in_main_menu" is false, we ignore going into the main menu
+	#and load straight into the world scene, starting the game.
+	#"global_variables.in_main_menu" is true by default.
+	if (global_variables.in_main_menu == true):
+		startMainMenu();
+	
 	#Set the players spawn position for the Y corrdinate after the world has spawned in.
 	player.position.y = 95;
 	
 	add_child(player); #Add the player into the world
 	
-	#TEST CODE
-	#updateFragPoint(); #Updates the fragment point based on the player position.
-	
-	renderWorld(); #Render the world around the fragpoint
-	
 	#Setup the instance of the debug window so we can log
 	#the output box if needed
 	debugWindow = $Player/CameraPivot/Camera3D/DebugWindow/DebugWindowPanel/OutputBoxPanel/OutputBox;
+
+
+
+
+#Exits the world scene and restarts the main
+#scene as the main menu.
+#When this is called, the entire World Scnene
+#is reset, and the only nodes running are the main menu,
+#as if (and is) it was the main scene.
+func startMainMenu() -> void:
+	
+	#Restart the main scene as the main menu scene.
+	#Loads the path in string "mainMenuScene" as the
+	#current scene.
+	get_tree().change_scene_to_file(mainMenuScene);
+	
+	pass;
+
+
 
 
 
