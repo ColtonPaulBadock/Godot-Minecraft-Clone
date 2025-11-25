@@ -1,8 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://uoyncxv41qou"]
+[gd_scene load_steps=8 format=3 uid="uid://uoyncxv41qou"]
 
 [ext_resource type="Script" uid="uid://dparlc1cnrij3" path="res://Scripts/UserInterfaces/MainMenu/MainMenu.gd" id="1_vuhwo"]
 [ext_resource type="Texture2D" uid="uid://c8ojonw7xeovy" path="res://Assets/MainMenu/TitleIcon/GratisExemptusLogo.png" id="2_nynul"]
 [ext_resource type="Script" uid="uid://cgynt61s0b8kt" path="res://Scripts/UserInterfaces/MainMenu/SplashText.gd" id="3_a6jr0"]
+[ext_resource type="Texture2D" uid="uid://c6l7oe5xxvq5s" path="res://Assets/MainMenu/BackgroundMap/terrainColors.png" id="4_c4chm"]
+[ext_resource type="Script" uid="uid://d36vb0yrxmp1a" path="res://Scripts/UserInterfaces/MainMenu/BackgroundController.gd" id="5_esixu"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_esixu"]
+texture = ExtResource("4_c4chm")
+0:0/0 = 0
+0:2/0 = 0
+0:4/0 = 0
+0:6/0 = 0
+2:4/0 = 0
+2:2/0 = 0
+2:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_hfc3f"]
+sources/0 = SubResource("TileSetAtlasSource_esixu")
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -88,7 +103,15 @@ offset_right = 1774.0
 offset_bottom = 305.99997
 rotation = -0.30543262
 theme_override_colors/default_color = Color(1, 1, 0.34117648, 1)
-theme_override_font_sizes/normal_font_size = 45
+theme_override_font_sizes/normal_font_size = 25
 text = "<LOREM IPSUM, DOLLER SIT AMIT. TEST>"
 horizontal_alignment = 1
 script = ExtResource("3_a6jr0")
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="BackgroundTileMap" type="TileMap" parent="Background"]
+tile_set = SubResource("TileSet_hfc3f")
+format = 2
+layer_0/z_index = -1
+script = ExtResource("5_esixu")

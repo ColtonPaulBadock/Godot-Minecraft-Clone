@@ -24,7 +24,7 @@ var in_main_menu : bool = true;
 var application_cycles : int = 0;
 
 #The version of the game
-const version : String = "PCR 0.2.2";
+const version : String = "PCR 0.3.0";
 
 #User information
 #The username of the player.

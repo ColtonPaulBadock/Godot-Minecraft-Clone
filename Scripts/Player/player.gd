@@ -125,7 +125,7 @@ func interactionManager():
 			#variables, the play the "placeObject" sound.
 			#We are assuming at this point that the block/object
 			#was successfully placed.
-			global_variables.AudioManager.placeObject.play();
+			#global_variables.AudioManager.placeObject.play();
 			pass;
 		
 		pass;
@@ -171,7 +171,7 @@ func interactionManager():
 			#variables, the play the "breakObject" sound.
 			#We are assuming at this point that the block/object
 			#was successfully destroyed.
-			global_variables.AudioManager.breakObject.play();
+			#global_variables.AudioManager.breakObject.play();
 			pass;
 		
 		pass;

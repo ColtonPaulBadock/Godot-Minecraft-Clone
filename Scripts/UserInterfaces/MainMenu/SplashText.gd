@@ -10,14 +10,46 @@ extends RichTextLabel
 var splashText : String;
 
 #All current splash texts in the game
-var splashTexts = ["<LOREM IPSUM, DOLLER SIT AMIT. TEST>"];
+var splashTexts = ["George still hasn't been found!",
+"FACT: Longest splash text in game!",
+"Sic Semper Tyranus!",
+"The Kingdoms Coming!",
+"Steiners attack was an order!",
+"All Hail King Terry!",
+"Console.WriteLine(\"2021!\");",
+"Check and Sum…",
+"This ain't Joever yet...",
+"Don’t be a salty muffin!",
+"Oh, so how the muffin crumbles…",
+"Shes the yellow rose of texas!",
+"Made in Cascadia!",
+"Made in Washington!",
+"Made in Arlington!",
+"Godot 4.5!",
+"NEED... MORE... RAM...!",
+"Also Try Minecraft",
+"Also Try Terraria",
+"Number Stations Included!",
+"27.025 MHz!",
+"Have fun, Good Buddy!",
+"Woah!",
+"Déjà vu!",
+"Hello, World!",
+"Ride I-5!",
+"Mind... BLOWN!",
+"Bugs included, no charge!",
+"ColtonPaulBadock.com",
+"GratisExemptus.com",
+"Notch wasn't here...",
+"As seen on TV!",
+"Leave reviews on channel 19!"];
 
 
 
 #Info used to make the splash text flash/pulsate
-var splashText_fontSize = 45;
-var splashText_maxFontSize : int = 50; #The max size the font can be while flashing
-var splashText_minFontSize : int = 20; #The min size the font can be while flashing
+var splashText_fontSize = 27;
+var splashText_maxFontSize : int = 30; #The max size the font can be while flashing
+var splashText_minFontSize : int = 25; #The min size the font can be while flashing
 var splashText_timeSinceFontSizeChange = 0; #Time elapsed in milliseconds since the font size changed.
 var splashText_growingInSize : bool = false; #If true, the splash text is growing in size, if false, its shrinking
 
@@ -58,7 +90,7 @@ func flashSplashText(timeElapsed) -> void:
 	#in size, then we can move on and shrink or grow the size of the
 	#splash text to give it the effect the splash text is flashing
 	#according to if "splashText_growingInSize" is true or false.
-	if (splashText_timeSinceFontSizeChange > 50):
+	if (splashText_timeSinceFontSizeChange > 0.06):
 		
 		#If the splash text is growing in size, then make
 		#it bigger to appear as though it is flashing.
@@ -82,11 +114,15 @@ func flashSplashText(timeElapsed) -> void:
 			#the splash text begin growing.
 			if (splashText_fontSize == splashText_minFontSize):
 				splashText_growingInSize = true;
+		
+		#Reset the time since the font changed,
+		#as we just changed it.
+		splashText_timeSinceFontSizeChange = 0.0;
 	
 	#Set the font size to the current size "splashText_fontSize",
 	#so that the animation of the splash text flashing/pulsating can
 	#be seen
-	normal_font_size = splashText_fontSize;
+	add_theme_font_size_override("normal_font_size", splashText_fontSize)
 	
 	pass;
 

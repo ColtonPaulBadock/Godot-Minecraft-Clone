@@ -80,6 +80,15 @@ func _ready() -> void:
 	
 	add_child(player); #Add the player into the world
 	
+	#Render in the entire world by adding
+	#all fragments within render distance of the fragpoint
+	#to the render queue and loading the entire queue
+	#before leaving this function.
+	#If we are entering the start menu,
+	#then don't load this.
+	if (global_variables.in_main_menu == false):
+		renderWorld_instant();
+	
 	#Setup the instance of the debug window so we can log
 	#the output box if needed
 	debugWindow = $Player/CameraPivot/Camera3D/DebugWindow/DebugWindowPanel/OutputBoxPanel/OutputBox;
@@ -139,6 +148,27 @@ func updateFragPoint():
 	pass;
 
 
+
+#Very similar to "renderWorld()" in "world.gd".
+#Renders the entire world within 1 frame, instead of
+#rendering from a queue over a period of time.
+#Checks the entire render distance, adds everything not rendered to
+#the render queue "fragmentsRenderQueue[]", then renders the entire
+#queue before exiting the function.
+func renderWorld_instant() -> void:
+	
+	#Check around the entire render distance of the
+	#frag point, and add any missing fragments to the render queue.
+	renderQueueWorldAroundFragPoint();
+	
+	#Keep rendering the next fragment in the queue from
+	#the top until there is no fragments in the render queue anymore.
+	while (fragmentsRenderQueue.is_empty() != true):
+		renderWorldFromQueue();
+	
+	#We are returning from this function, so every fragment that
+	#was in the fragment queue has now been rendered.
+	pass;
 
 
 

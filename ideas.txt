@@ -1,31 +1,31 @@
 Splash Text:
--George still hasn't been found!
--<LOREM IPSUM, DOLLER SIT AMIT. TEST>
--Sic Semper Tyranus!
--The Kingdoms Coming!
--Steiners attack was an order!
--All Hail King Terry!
--Console.WriteLine("2021!");
--Check and Sum…
--This ain't Joever yet...
--Don’t be a salty muffin!
--Oh, so how the muffin crumbles…
--Shes the yellow rose of texas!
--Made in Cascadia!
--Made in Washington!
--Made in Arlington!
--Godot 4.5!
--NEED... MORE... RAM...!
--Also Try Minecraft
--Also Try Terraria
--Number Stations Included!
--27.025 MHz!
--Have fun, Good Buddy!
--Woah!
--Déjà vu!
--Hello, World!
--Ride I-5!
--Mind... BLOWN!
+-George still hasn't been found!/
+-FACT: Longest splash text in game!/
+-Sic Semper Tyranus!/
+-The Kingdoms Coming!/
+-Steiners attack was an order!/
+-All Hail King Terry!/
+-Console.WriteLine("2021!");/
+-Check and Sum…/
+-This ain't Joever yet.../
+-Don’t be a salty muffin!/
+-Oh, so how the muffin crumbles…/
+-Shes the yellow rose of texas!/
+-Made in Cascadia!/
+-Made in Washington!/
+-Made in Arlington!/
+-Godot 4.5!/
+-NEED... MORE... RAM...!/
+-Also Try Minecraft/
+-Also Try Terraria/
+-Number Stations Included!/
+-27.025 MHz!/
+-Have fun, Good Buddy!/
+-Woah!/
+-Déjà vu!/
+-Hello, World!/
+-Ride I-5!/
+-Mind... BLOWN!/
 -Bugs included, no charge!
 -ColtonPaulBadock.com
 -GratisExemptus.com

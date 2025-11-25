@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8w6tgn67x8kc"]
+[gd_scene load_steps=7 format=3 uid="uid://c8w6tgn67x8kc"]
 
 [ext_resource type="Script" uid="uid://blgf0p6tujmdx" path="res://Scripts/Player/player.gd" id="1_rpqav"]
 [ext_resource type="PackedScene" uid="uid://b8gjp0uf8kg3h" path="res://Scenes/UserInterfaces/DebugWindow.tscn" id="2_0el0d"]
-[ext_resource type="Texture2D" uid="uid://dh82y0g7kx33r" path="res://Assets/ingameUI/crosshair.png" id="3_o5en2"]
+[ext_resource type="Texture2D" uid="uid://dh82y0g7kx33r" path="res://Assets/ingameUI/crosshair/crosshair.png" id="3_o5en2"]
+[ext_resource type="Texture2D" uid="uid://d3jq8wm8j82k6" path="res://Assets/ingameUI/hotbar/HotBar.png" id="4_7pt4t"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qbkls"]
 size = Vector3(0.5, 2.5, 0.5)
@@ -29,6 +30,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Crosshair" type="Sprite2D" parent="CameraPivot/Camera3D"]
 texture = ExtResource("3_o5en2")
+
+[node name="HotBar" type="Sprite2D" parent="CameraPivot/Camera3D"]
+position = Vector2(169, 911)
+texture = ExtResource("4_7pt4t")
 
 [node name="PlayerReach" type="RayCast3D" parent="CameraPivot"]
 transform = Transform3D(1.375, 0, 0, 0, -2.40413e-07, -1.375, 0, 5.5, -6.01032e-08, 0, 0, 0)
