@@ -42,7 +42,8 @@ var splashTexts = ["George still hasn't been found!",
 "GratisExemptus.com",
 "Notch wasn't here...",
 "As seen on TV!",
-"Leave reviews on channel 19!"];
+"Leave reviews on channel 19!",
+"smackthecreepr2@proton.me"];
 
 
 

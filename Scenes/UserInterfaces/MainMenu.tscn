@@ -30,11 +30,11 @@ script = ExtResource("1_vuhwo")
 
 [node name="CopyrightNotice" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_left = 1698.0
+offset_left = 1680.0
 offset_top = 1018.0
-offset_right = 2062.0
+offset_right = 2044.0
 offset_bottom = 1137.0
-text = "Copyright © 2025 C.P.B.
+text = "Copyright © 2025 Exemptusoft
 Pirates will be prosecuted"
 
 [node name="Buttons" type="Control" parent="."]
@@ -115,3 +115,38 @@ tile_set = SubResource("TileSet_hfc3f")
 format = 2
 layer_0/z_index = -1
 script = ExtResource("5_esixu")
+
+[node name="WorldSelectionMenu" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WorldSelectionBackground" type="ColorRect" parent="WorldSelectionMenu"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.18039216, 0.1882353, 0.1882353, 0.7490196)
+
+[node name="WorldList" type="ScrollContainer" parent="WorldSelectionMenu"]
+editor_description = "The world list, here is a list of all the worlds you have created and the option to start a new world"
+layout_mode = 0
+offset_right = 670.0
+offset_bottom = 1080.0
+
+[node name="WorldListContainer" type="VBoxContainer" parent="WorldSelectionMenu/WorldList"]
+editor_description = "Scroll box, holds all the worlds and the create world button"
+layout_mode = 2
+
+[node name="CreateWorldButton" type="Button" parent="WorldSelectionMenu/WorldList/WorldListContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4291777, 0.7664002, 0.22226924, 1)
+theme_override_font_sizes/font_size = 70
+text = "-Create New World-"
+
+[node name="WorldOptions" type="Container" parent="WorldSelectionMenu"]
+editor_description = "World options for \"CreateWorldButton\" to show the world options for starting a new world or to show the world options for worlds that already exist and can be opened as save files from the \"WorldList\""
+layout_mode = 0
+offset_left = 675.0
+offset_right = 1925.0
+offset_bottom = 1080.0
