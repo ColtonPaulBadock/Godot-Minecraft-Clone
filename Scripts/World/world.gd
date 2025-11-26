@@ -732,7 +732,7 @@ func removeBlock(pos : Vector3) -> bool:
 #Writes all loaded fragments to a save file before exiting the world
 func exitAndSave():
 	
-	
+	WorldSaveSystem.saveFragment(fragments[1]);
 	
 	
 	

@@ -259,13 +259,26 @@ func checkIfFragmentInSaveFile(path, fragment):
 #fragment -> instance of the fragment to be saved
 func saveFragment(fragment):
 	
+	#Instance of the save file we will
+	#be saving the fragment to
+	var save_file : FileAccess;
+	
+	#The save data as a string from
+	#"save_file".
+	var save_data : String;
+	
 	#The path for the save file
 	#we are writing the fragment into.
 	var path : String;
 	
+	#The fragment tag we will find to store
+	#data in the file for the fragment
+	var fragTag : String;
+	
 	#Flow chart for functions operation:
 	#if (fileExists):
 	#	if (fragmentExistsInFile):
+	#		FIND TAG IN FILE
 	#		WRITE SAVE
 	#	else:
 	#		CREATE FRAGMENT IN FILE
@@ -273,6 +286,7 @@ func saveFragment(fragment):
 	#else:
 	#	CREATE FILE
 	#	CREATE FRAGMENT IN FILE
+	#	FIND TAG IN FILE
 	#	WRITESAVE
 	
 	#Check to see if a save file exists for the
@@ -307,12 +321,31 @@ func saveFragment(fragment):
 		#file and a fragment tag in the save file.
 		createSaveFile(fragment);
 		createFragmentTag(path, fragment);
+		path = getFragmentSaveFilePath(fragment);
 		
 		pass;
 	
 	
+	#We know the file exists, and we know it has
+	#a fragment tag at this point.
+	#We now want to locate the tag, and
+	#override everything in {} with the new save data
+	#for the fragment
+	fragTag = getFragmentTag(fragment);
+	
+	#Open the save file, this will be so we
+	#can extract all data from it, and
+	#write all data back to it once we are
+	#done manipulating it.
+	save_file = FileAccess.open(path, FileAccess.READ_WRITE);
+	
+	#Read all data from "save_file" and store
+	#it into "save_data" (String) so that we
+	#can index through it
+	save_data = save_file.get_as_text();
 	
 	
+	print(save_data);
 	
 	
 	pass;
@@ -345,9 +378,9 @@ func createSaveFile(fragment):
 	
 	
 	#Determine the corrdinates of the save area
-	#using int(floor(fragment.global_position.x / (global_variables.fragmentSideLength * global_variables.fragmentSaveSideLength)))
-	area_x = int(floor(fragment.global_position.x / (global_variables.fragmentSideLength * global_variables.fragmentSaveSideLength)));
-	area_z = int(floor(fragment.global_position.z / (global_variables.fragmentSideLength * global_variables.fragmentSaveSideLength)))
+	#using int(floor(fragment.global_position.x / (global_variables.fragmentSideLength * global_variables.fragmentAreaSideLength)))
+	area_x = int(floor(fragment.global_position.x / (global_variables.fragmentSideLength * global_variables.fragmentAreaSideLength)));
+	area_z = int(floor(fragment.global_position.z / (global_variables.fragmentSideLength * global_variables.fragmentAreaSideLength)))
 	
 	#Get the save file name using the determined
 	#area_x and area_z values plus the file extension
@@ -375,12 +408,16 @@ func createFragmentTag(path, fragment):
 	
 	#Open the file at "path", so we can insert a fragment
 	#tag for this fragment "fragment".
-	file = FileAccess.open(path, FileAccess.WRITE_READ)
+	file = FileAccess.open(path, FileAccess.WRITE_READ);
+	
+	while (file == null):
+		pass;
+	
 	
 	#Runs to the end of the file
 	#So we can insert a new line and add a fragment
 	#tag for fragment "fragment"
-	file.seek_end();
+	file.seek_end(0);
 	
 	#Place a newline,
 	#so we can insert a new fragment tag
