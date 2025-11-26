@@ -2,6 +2,13 @@
 
 extends Node
 
+
+
+#The world seeds being used
+var worldTerrainSeed = 0;
+var worldBiomeSeed = 0;
+
+
 #How far the RayCast3D.collision_point will enter into the block,
 #this cuts back on the fragment and block boarders issue.
 var playerReachPenetration = 0.02;
@@ -56,6 +63,9 @@ var medianWorldLayer : int = 50;
 var fragmentSideLength = 10; 
 #Length of the sides of each block/unit
 var blockSideLength = 1.0;
+#Length of the side (in fragments) of a fragment
+#area for world saving
+var fragmentAreaSideLength = 8;
 
 #Enables/Disables input in the game
 #If true, the player can use in-game input (WASD, mouse, etc)
@@ -89,6 +99,11 @@ preload("res://Scenes/Objects/Blocks/SubSoilBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/BrickBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/SandBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/LimestoneBlock.tscn")];
+
+
+#Instances of scenes
+var titleScreen : String = "res://Scenes/UserInterfaces/MainMenu.tscn";
+
 
 #The maximum block ID that exists.
 #Take the size of the block_table[] array,

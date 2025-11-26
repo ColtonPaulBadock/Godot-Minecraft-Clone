@@ -63,6 +63,22 @@ func _process(delta: float) -> void:
 	pass;
 
 
+#Monitor input and keybinds.
+#If a specific keybind is pressed while the world is
+#running, we assign actions to functions to run here
+func _input(event) -> void:
+	
+	#If the keybind to save and exit the world is pressed,
+	#then we will run the "exitAndSave()" method to exit
+	#the world and write all loaded fragments to world save.
+	#Then we will return to the main menu
+	if (Input.is_action_just_pressed("save_world_exit")):
+		exitAndSave();
+	
+	pass;
+
+
+
 
 func _ready() -> void:
 	
@@ -710,3 +726,18 @@ func removeBlock(pos : Vector3) -> bool:
 	#as type bool.
 	#If block removed, true, else: false.
 	return blockRemoved;
+
+
+
+#Writes all loaded fragments to a save file before exiting the world
+func exitAndSave():
+	
+	
+	
+	
+	
+	#Once everything in the world has been saved
+	#exit to the main menu.
+	get_tree().change_scene_to_file(global_variables.titleScreen);
+	
+	pass;

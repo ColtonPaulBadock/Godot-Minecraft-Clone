@@ -1,7 +1,8 @@
 extends Node3D
 
 #Size of the fragment in the positive corrdinate directions
-var fragmentSize : Vector3 = Vector3(9.5, 29.5, 9.5);
+#9.5, 29.5, 9.5
+var fragmentSize : Vector3 = Vector3(10.0, 30.0, 10.0);
 
 #All blocks currently in the fragment.
 var blocks = [];
@@ -28,13 +29,42 @@ func _process(delta: float) -> void:
 #the given position in the world
 func generateFragment():
 	
+	#We use this variable throughout this fragment
+	#generator to know if a fragment was already generated or not.
+	#If we already loaded in a fragment via a save file,
+	#then we can set this variable to true, and not
+	#generate it fresh from the seed since it already exists.
+	var fragmentAlreadyGenerated = false;
+	
+	if (WorldSaveSystem.checkIfFragmentIsSaved(self) == true):
+		
+		
+		#generateFragmentFromWorldSave();
+		
+		
+		#We just generated the fragment from the world save files
+		#associated with this world, so we don't need to randomly
+		#generate it from world generation any more.
+		#Set "fragmentAlreadyGenerated" to true, so we can
+		#skip generating this fragment.
+		fragmentAlreadyGenerated = true;
+		
+		pass;
+	
+	
+	
 	#Generate in the worlds terrain before spawning trees, plants
 	#strutures, etc.
 	#Here we just layout world height, biomes and the actual land
 	#before spawning anything on top of it.
-	generateTerrain();
+	if (fragmentAlreadyGenerated != true):
+		generateTerrain();
 	
 	pass;
+
+
+
+
 
 
 #This function is a sub/child-function of "generateFragment()".

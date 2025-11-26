@@ -24,15 +24,12 @@ var musicPlaying = false;
 #Manange audio during application runtime.
 func _process(delta : float) -> void:
 	
-	#Manage the flow of the games music.
-	#musicManager(delta);
-	
-	
-	
 	pass;
 
 
+
 #Manages the games music each frame.
+#Will keep music playing in the background.
 func musicManager(delta : float):
 	
 	#If no music is currently playing, update "timeWithoutMusic"

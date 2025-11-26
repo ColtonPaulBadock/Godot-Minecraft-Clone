@@ -79,9 +79,6 @@ func _physics_process(delta: float) -> void:
 #center point of the screen.
 func initCrossHair() -> void:
 	
-	#DEVLOG
-	print("Loaded player crosshair|player.gd, initCrossHair()");
-	
 	#Set the x and y position of the crosshair in the center of the players screen.
 	#Take the Displays X and Y size, divide these axis's by 2 to find the center
 	#point of each axis.
@@ -106,10 +103,6 @@ func interactionManager():
 		#this value will be set as true, we then use this
 		#value to play the block placing tone/sound.
 		var blockPlacedSuccessfully = false;
-		
-		#Write a devlog logging that a block was either placed
-		#or the player attempted to interact with something?
-		print("Player attempted to place a block/object |player.gd, interactionManager()");
 		
 		#Add the block id of the 2nd argument to the world
 		#at the position of the raycast end point "PlayerReach"
@@ -146,10 +139,6 @@ func interactionManager():
 		#This variable is false by default, and is not true
 		#till we have removed the block/object successfully.
 		var blockSuccessfullyRemoved : bool = false;
-		
-		#Write a devlog logging that a block was either destroyed
-		#or the player attempted to strike something.
-		print("Player attempted to strike a block/object/being |player.gd, interactionManager()");
 		
 		#Call the removeBlock() function from "world.gd" in the world
 		#scene. This will try to remove a block from the world.
@@ -405,10 +394,8 @@ func preventIllegalCameraPosition() -> void:
 	#same logic for if the minimum is overshot, but for the minimum value
 	if (cameraPivot.rotation.x > global_variables.playerCameraMaxLookUp):
 		cameraPivot.rotation.x = global_variables.playerCameraMaxLookUp;
-		print("Player attempted look up past max allowed position|player.gd, preventIllegalCameraPosition()");
 	elif (cameraPivot.rotation.x < global_variables.playerCameraMinLookDown):
 		cameraPivot.rotation.x = global_variables.playerCameraMinLookDown;
-		print("Player attempted look down past min allowed position|player.gd, preventIllegalCameraPosition()");
 		pass;
 	
 	pass;

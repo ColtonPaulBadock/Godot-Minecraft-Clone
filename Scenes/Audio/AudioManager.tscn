@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://de3tf3ggb5132"]
+[gd_scene load_steps=5 format=3 uid="uid://de3tf3ggb5132"]
 
 [ext_resource type="Script" uid="uid://c3b7s0jvesij0" path="res://Scripts/Audio/audioManager.gd" id="1_anrdn"]
 [ext_resource type="AudioStream" uid="uid://bbibqh6s5igsa" path="res://Audio/break.wav" id="1_whaik"]
 [ext_resource type="AudioStream" uid="uid://br0nokt8kvxvg" path="res://Audio/place.wav" id="2_anrdn"]
+[ext_resource type="AudioStream" uid="uid://d0oemhlfq8buy" path="res://Audio/ost/ClockWork.wav" id="2_r1463"]
 
 [node name="AudioManager" type="Node"]
 script = ExtResource("1_anrdn")
 
 [node name="OST" type="Node" parent="."]
+
+[node name="ClockWork" type="AudioStreamPlayer" parent="OST"]
+stream = ExtResource("2_r1463")
 
 [node name="SFX" type="Node" parent="."]
 

@@ -12,9 +12,7 @@ var splashText : String;
 #All current splash texts in the game
 var splashTexts = ["George still hasn't been found!",
 "FACT: Longest splash text in game!",
-"Sic Semper Tyranus!",
 "The Kingdoms Coming!",
-"Steiners attack was an order!",
 "All Hail King Terry!",
 "Console.WriteLine(\"2021!\");",
 "Check and Sum…",
@@ -43,7 +41,10 @@ var splashTexts = ["George still hasn't been found!",
 "Notch wasn't here...",
 "As seen on TV!",
 "Leave reviews on channel 19!",
-"smackthecreepr2@proton.me"];
+"smackthecreepr2@proton.me",
+"is a Pastafarianist",
+"Unix > Military",
+"Skills USA 2025 contender!"];
 
 
 
@@ -128,6 +129,7 @@ func flashSplashText(timeElapsed) -> void:
 	pass;
 
 
+#Set splash text as random splash text.
 func setSplashText() -> void:
 	
 	#Set a random splash text from

@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://uoyncxv41qou"]
+[gd_scene load_steps=12 format=3 uid="uid://uoyncxv41qou"]
 
 [ext_resource type="Script" uid="uid://dparlc1cnrij3" path="res://Scripts/UserInterfaces/MainMenu/MainMenu.gd" id="1_vuhwo"]
 [ext_resource type="Texture2D" uid="uid://c8ojonw7xeovy" path="res://Assets/MainMenu/TitleIcon/GratisExemptusLogo.png" id="2_nynul"]
 [ext_resource type="Script" uid="uid://cgynt61s0b8kt" path="res://Scripts/UserInterfaces/MainMenu/SplashText.gd" id="3_a6jr0"]
 [ext_resource type="Texture2D" uid="uid://c6l7oe5xxvq5s" path="res://Assets/MainMenu/BackgroundMap/terrainColors.png" id="4_c4chm"]
 [ext_resource type="Script" uid="uid://d36vb0yrxmp1a" path="res://Scripts/UserInterfaces/MainMenu/BackgroundController.gd" id="5_esixu"]
+[ext_resource type="AudioStream" uid="uid://d0oemhlfq8buy" path="res://Audio/ost/ClockWork.wav" id="6_hfc3f"]
+[ext_resource type="Script" uid="uid://clrsjkfcb81v4" path="res://Scripts/UserInterfaces/MainMenu/WorldListMenu.gd" id="6_nmjrk"]
+[ext_resource type="Script" uid="uid://cm834jt60ubqp" path="res://Scripts/UserInterfaces/MainMenu/WorldOptionsMenu.gd" id="7_lvm0m"]
+[ext_resource type="Texture2D" uid="uid://buxcgsb0mrqec" path="res://Assets/MainMenu/WorldSelectionMenu/DefaultWorldImage.jpg" id="8_5x10y"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_esixu"]
 texture = ExtResource("4_c4chm")
@@ -49,7 +53,7 @@ offset_top = 420.0
 offset_right = 1185.0
 offset_bottom = 520.0
 theme_override_font_sizes/font_size = 50
-text = "Play!"
+text = "Play Game"
 
 [node name="SettingsButton" type="Button" parent="Buttons"]
 layout_mode = 0
@@ -133,6 +137,7 @@ editor_description = "The world list, here is a list of all the worlds you have 
 layout_mode = 0
 offset_right = 670.0
 offset_bottom = 1080.0
+script = ExtResource("6_nmjrk")
 
 [node name="WorldListContainer" type="VBoxContainer" parent="WorldSelectionMenu/WorldList"]
 editor_description = "Scroll box, holds all the worlds and the create world button"
@@ -144,9 +149,92 @@ theme_override_colors/font_color = Color(0.4291777, 0.7664002, 0.22226924, 1)
 theme_override_font_sizes/font_size = 70
 text = "-Create New World-"
 
-[node name="WorldOptions" type="Container" parent="WorldSelectionMenu"]
+[node name="WorldOptions" type="Control" parent="WorldSelectionMenu"]
 editor_description = "World options for \"CreateWorldButton\" to show the world options for starting a new world or to show the world options for worlds that already exist and can be opened as save files from the \"WorldList\""
-layout_mode = 0
+anchors_preset = 0
 offset_left = 675.0
 offset_right = 1925.0
 offset_bottom = 1080.0
+script = ExtResource("7_lvm0m")
+
+[node name="Play-CreateButton" type="Button" parent="WorldSelectionMenu/WorldOptions"]
+editor_description = "The button will show \"play\" or \"create\" depending on if we are creatinf or loading a world in \"WorldOptions\""
+layout_mode = 0
+offset_top = 1027.0
+offset_right = 110.0
+offset_bottom = 1080.0
+theme_override_font_sizes/font_size = 32
+text = "Create World"
+
+[node name="WorldNameLabel" type="RichTextLabel" parent="WorldSelectionMenu/WorldOptions"]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 50.0
+offset_right = 1003.0
+offset_bottom = 95.0
+theme_override_font_sizes/normal_font_size = 32
+text = "Name:"
+
+[node name="TerrainGeneratorSeedLabel" type="RichTextLabel" parent="WorldSelectionMenu/WorldOptions"]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 155.0
+offset_right = 1020.0
+offset_bottom = 200.0
+theme_override_font_sizes/normal_font_size = 32
+text = "Terrain Seed:"
+
+[node name="WorldNameTextBox" type="TextEdit" parent="WorldSelectionMenu/WorldOptions"]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 95.0
+offset_right = 1100.0
+offset_bottom = 150.0
+theme_override_font_sizes/font_size = 32
+placeholder_text = "World 1..."
+
+[node name="TerrainSeedTextBox" type="TextEdit" parent="WorldSelectionMenu/WorldOptions"]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 205.0
+offset_right = 1100.0
+offset_bottom = 260.0
+theme_override_font_sizes/font_size = 32
+placeholder_text = "31459..."
+
+[node name="WorldImage" type="TextureRect" parent="WorldSelectionMenu/WorldOptions"]
+layout_mode = 0
+offset_right = 790.0
+offset_bottom = 400.0
+texture = ExtResource("8_5x10y")
+
+[node name="TitleScreenButton" type="Button" parent="WorldSelectionMenu/WorldOptions"]
+layout_mode = 0
+offset_left = 1057.0
+offset_top = 1027.0
+offset_right = 1245.0
+offset_bottom = 1080.0
+theme_override_font_sizes/font_size = 32
+text = "Title Screen"
+
+[node name="BiomeGeneratorSeedLabel" type="RichTextLabel" parent="WorldSelectionMenu/WorldOptions"]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 260.0
+offset_right = 1020.0
+offset_bottom = 305.0
+theme_override_font_sizes/normal_font_size = 32
+text = "Biomes Seed:"
+
+[node name="BiomeSeedTextBox" type="TextEdit" parent="WorldSelectionMenu/WorldOptions"]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 305.0
+offset_right = 1100.0
+offset_bottom = 360.0
+theme_override_font_sizes/font_size = 32
+placeholder_text = "27182..."
+
+[node name="ClockWork" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_hfc3f")
+autoplay = true

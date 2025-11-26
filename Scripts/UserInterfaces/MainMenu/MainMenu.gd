@@ -81,9 +81,18 @@ func intiMainMenuProperties() -> void:
 func _process(delta: float) -> void:
 	
 	#If the current state of the menu is the
-	#TITLE_SCREEN, then make sure we are on the title screen
-	#if all buttons visible, etc.
+	#TITLE_SCREEN, then make sure we are on the title screen,
+	#make sure all buttons visible, etc.
 	if (state == menuState.TITLE_SCREEN):
+		
+		#If a component of the title screen,
+		#such as "GameTitleName" used here is not
+		#visible, then render the entire main
+		#title screen in, making sure all components
+		#are visible.
+		if ($GameTitleName.visible == false):
+			initTitleScreen();
+			pass;
 		
 		pass;
 	
@@ -183,6 +192,22 @@ func initButtonPressActions() -> void:
 	#terminating the game.
 	#Exits application entirely.
 	$Buttons/QuitGameButton.pressed.connect(quitGame);
+	
+	pass;
+
+
+#Makes all UI on the title screen visible, so that we can
+#see the game name, splash text, buttons, etc
+func initTitleScreen():
+	
+	#Set all title screen UI to
+	#be visible.
+	$Buttons.visible = true;
+	$GameTitleName.visible = true;
+	$CopyrightNotice.visible = true;
+	
+	#Reset the splash text to a random text.
+	$GameTitleName/SplashText.setSplashText();
 	
 	pass;
 

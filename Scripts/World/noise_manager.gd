@@ -20,14 +20,14 @@ var worldBiomeNoise = FastNoiseLite.new();
 #"worldTerrainNoise" generator, reguarding cliffs, hills
 #slopes and the worlds terrain
 #Starts as "314159" as a pi reference, will be updated before world generates
-var worldTerrainNoise_seed : int = 314159;
+var worldTerrainNoise_seed : int = global_variables.worldTerrainSeed;
 
 #This is the seed used for the
 #"worldBiomeNoise" generator, which is used to generate
 #biome boarders, and the top world layer, along with other
 #biome specific behaviour
 #Starts as "314159" as a pi reference, will be updated before world generates
-var worldBiomeNoise_seed : int = 314159;
+var worldBiomeNoise_seed : int = global_variables.worldBiomeSeed;
 
 #This variable holds the height amplifier for "worldTerrainNoise"
 #engine for the world terrain height, slopes and surface.
@@ -92,11 +92,6 @@ var worldBiomeNoise_type : int = 3;
 #the worlds terrain.
 #This function runs once when the application starts
 func _ready() -> void:
-	
-	#Select all world seeds for biome, terrain and other
-	#generators
-	worldTerrainNoise_seed = randi_range(0, 10000); #This seed is used for hills, world terrain, etc
-	worldBiomeNoise_seed = randi_range(0, 10000); #This seed is used for biome boarders and other biome specific behaviour
 	
 	
 	#Setup the "worldTerrainNoise" generator for hills, peaks,
