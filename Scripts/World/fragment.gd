@@ -36,20 +36,13 @@ func generateFragment():
 	#generate it fresh from the seed since it already exists.
 	var fragmentAlreadyGenerated = false;
 	
-	if (WorldSaveSystem.checkIfFragmentIsSaved(self) == true):
-		
-		
-		#generateFragmentFromWorldSave();
-		
-		
-		#We just generated the fragment from the world save files
-		#associated with this world, so we don't need to randomly
-		#generate it from world generation any more.
-		#Set "fragmentAlreadyGenerated" to true, so we can
-		#skip generating this fragment.
-		fragmentAlreadyGenerated = true;
-		
-		pass;
+	#Once we create a new fragment, we need to check if a
+	#save file that can later accompany it exists.
+	#If it doesn't, then we are creating a new save area
+	#for the fragment and others nearby
+	if (WorldSaveSystem.checkIfSaveFileExists(self) == false):
+		WorldSaveSystem.createSaveFile(self);
+	
 	
 	
 	

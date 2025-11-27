@@ -275,6 +275,15 @@ func saveFragment(fragment):
 	#data in the file for the fragment
 	var fragTag : String;
 	
+	#The position (int) in the file to where
+	#we can start writing data and where said data
+	#begins inside the fragment tag.
+	#The fragmentDataEndIndex is also here,
+	#which marks the index in which data ends for the
+	#"fragment" in the save file.
+	var fragmentDataStartIndex : int;
+	
+	
 	#Flow chart for functions operation:
 	#if (fileExists):
 	#	if (fragmentExistsInFile):
@@ -344,8 +353,34 @@ func saveFragment(fragment):
 	#can index through it
 	save_data = save_file.get_as_text();
 	
+	#Find the begging of the fragment tag
+	#From this data we will then find the begining of
+	#the {, this will mark where we can begin removing data
+	#from to wipe the fragment and can then rewrite the data
+	#to the save file.
+	fragmentDataStartIndex = save_data.find(fragTag);
 	
-	print(save_data);
+	#Find the position of the { bracket of the fragtag,
+	#we can then run until we get to the } bracket, and will delete
+	#everything between these two points for a fresh save of the
+	#fragment
+	#"fragmentDataStartIndex" will mark the beggining of "fragTag"
+	#from this point we increase this index (file position) by
+	#1 until we find the "{", we will then increment 1 more
+	#time at ID: 89283923 to be right before the beggining of the
+	#data set inside "{", this will be the start index where we can
+	#safely write data without overriding anything important (like
+	#fragtag, brackets marking where fragment save data is)
+	while (save_data.substr(fragmentDataStartIndex, 1) != "{"):
+		fragmentDataStartIndex += 1;
+		pass;
+	
+	#ID: 89283923
+	
+	print(save_data.substr(fragmentDataStartIndex, 1));
+	
+	
+	#print(save_data.substr(fragmentDataStartIndex, 8));
 	
 	
 	pass;
@@ -409,9 +444,6 @@ func createFragmentTag(path, fragment):
 	#Open the file at "path", so we can insert a fragment
 	#tag for this fragment "fragment".
 	file = FileAccess.open(path, FileAccess.WRITE_READ);
-	
-	while (file == null):
-		pass;
 	
 	
 	#Runs to the end of the file
