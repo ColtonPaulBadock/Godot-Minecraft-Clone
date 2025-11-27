@@ -245,6 +245,9 @@ func checkIfFragmentInSaveFile(path, fragment):
 		fragmentInSaveFile = true;
 		pass;
 	
+	#Close the save file
+	save_file.close();
+	
 	return fragmentInSaveFile;
 
 
@@ -359,6 +362,7 @@ func saveFragment(fragment):
 	#it into "save_data" (String) so that we
 	#can index through it
 	save_data = save_file.get_as_text();
+	
 	
 	#Find the begging of the fragment tag
 	#From this data we will then find the begining of
@@ -495,26 +499,41 @@ func createFragmentTag(path, fragment):
 	#into the save file for "fragment"
 	var fragmentTag : String;
 	
+	#The save data already in the file, so we can
+	#insert the fragment tag as well as all
+	#the data carrying said data over without
+	#overwriting it.
+	var save_data : String;
+	
 	#Open the file at "path", so we can insert a fragment
 	#tag for this fragment "fragment".
-	file = FileAccess.open(path, FileAccess.WRITE_READ);
+	file = FileAccess.open(path, FileAccess.READ);
 	
+	#Store all existing data in a string "save_data"
+	#so that we do not overwrite all existing
+	#data in the file. When using "store_string()"
+	#as part of FileAccess all data is overwritten
+	#so by appending the fragment tag on "save_data"
+	#we safely transfer over all data.
+	save_data = file.get_as_text();
 	
-	#Runs to the end of the file
-	#So we can insert a new line and add a fragment
-	#tag for fragment "fragment"
-	file.seek_end(0);
-	
-	#Place a newline,
-	#so we can insert a new fragment tag
-	file.store_string("\n");
+	#Switch file back to write mode so that we can override the files
+	#data and insert the fragment tag and the old data "save_data"
+	file = FileAccess.open(path, FileAccess.WRITE);
 	
 	#Built the fragment tag and store it in
 	#"fragmentTag" using the global position of x and z
 	#for the fragment "fragment" and other default formatting.
 	fragmentTag = getFragmentTag(fragment);
 	
-	file.store_string(fragmentTag);
+	#Append the fragments tag to the end
+	#of the save data, creating a tag for
+	#the fragment to store data in when needed.
+	save_data = save_data + fragmentTag;
+	
+	#Rewrite the save data back to the save file,
+	#this time with the new fragment tag included
+	file.store_string(save_data);
 	
 	pass;
 
