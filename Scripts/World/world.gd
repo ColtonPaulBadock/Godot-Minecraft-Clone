@@ -732,9 +732,12 @@ func removeBlock(pos : Vector3) -> bool:
 #Writes all loaded fragments to a save file before exiting the world
 func exitAndSave():
 	
-	WorldSaveSystem.saveFragment(fragments[1]);
-	
-	
+	#Send each fragment loaded in currently in "fragments"
+	#into the WorldSaveSystem to write all there contents to a file
+	#to be saved.
+	for fragment in fragments:
+		WorldSaveSystem.saveFragment(fragment);
+		pass;
 	
 	#Once everything in the world has been saved
 	#exit to the main menu.
