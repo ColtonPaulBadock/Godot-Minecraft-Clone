@@ -284,6 +284,13 @@ func saveFragment(fragment):
 	var fragmentDataStartIndex : int;
 	var fragmentDataEndIndex : int; 
 	
+	#This variable holds block info for the
+	#postiion and block ID which is going
+	#to be inserted into the fragTag area
+	#of the save file for "fragment".
+	#Example: (1,20,9,10)
+	var blockData : String;
+	
 	#Flow chart for functions operation:
 	#if (fileExists):
 	#	if (fragmentExistsInFile):
@@ -393,21 +400,41 @@ func saveFragment(fragment):
 		fragmentDataEndIndex += 1;
 		pass;
 	
-	print(save_data);
 	
 	#Take all data related to "fragment" and remove all data in the "fragTag"
 	#for it so that we can begin inserting new data.
 	save_data = clearFragTag_SaveData(save_data, fragmentDataStartIndex, fragmentDataEndIndex);
 	
-	print(save_data);
 	
 	#Loop through each block, and write them
 	#into "save_data" so it can be pushed into "save_file" later.
+	for block in fragment.blocks:
+		
+		#Write block data for the current block in the format
+		#(block.x, block.y, block.z, block.id). (Local corrdinates to the fragment)
+		#This block data will then be stored in "save_data"
+		blockData = "(" + str(block.position.x) + "," + str(block.position.y) + "," + str(block.position.z) + "," + str(block.block_id) + ")";
+		
+		#Write "blockData" to the save data. We start at the "fragmentDataStartIndex" and
+		#once we wrote the data, we will increment the start index by the length of the
+		#data so that we have a position to insert the next blocks data, using
+		#fragmentDataStartIndex as a reference.
+		save_data = save_data.insert(fragmentDataStartIndex, blockData);
+		
+		#increment the start index by the length of the
+		#data so that we have a position to insert the next blocks data, using
+		#fragmentDataStartIndex as a reference.
+		fragmentDataStartIndex += blockData.length();
+		
+		pass;
 	
 	
-	
-	#print(fragment.blocks[3].block_id, "(", fragment.blocks[3].global_position.x, ",", fragment.blocks[3].global_position.y, ",", fragment.blocks[3].global_position.z, ")");
-	
+	#Wipe "save_file" and rewrite "save_data" to it, so the new changes to the file
+	#plus the old ones that are presently stored in "save_data"
+	#will be written to the file
+	#Then closes the file system.
+	save_file.store_string(save_data);
+	save_file.close();
 	
 	pass;
 
