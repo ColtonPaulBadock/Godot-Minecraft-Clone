@@ -371,6 +371,12 @@ func derenderOldFragments() -> void:
 		#Same logic applies for the z-axis (height)
 		if (FRAGMENT.position.x < row_minX || FRAGMENT.position.x > row_maxX || FRAGMENT.position.z < height_minZ || FRAGMENT.position.z > height_maxZ):
 			
+			#Before removing the old fragments from the scene
+			#when there being derendered, we write the contents
+			#of them to a save file, so we don't lose progress
+			#or regenerate fragments
+			WorldSaveSystem.saveFragment(FRAGMENT);
+			
 			#Remove the fragment from the scene and take it out of the fragments array (array of loaded/rendered fragments)
 			remove_child(FRAGMENT);
 			fragments.erase(FRAGMENT);
