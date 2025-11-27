@@ -282,7 +282,7 @@ func saveFragment(fragment):
 	#which marks the index in which data ends for the
 	#"fragment" in the save file.
 	var fragmentDataStartIndex : int;
-	
+	var fragmentDataEndIndex : int; 
 	
 	#Flow chart for functions operation:
 	#if (fileExists):
@@ -382,12 +382,35 @@ func saveFragment(fragment):
 	fragmentDataStartIndex += 1;
 	
 	
-	save_data = save_data.insert(fragmentDataStartIndex, "CHECKSUM");
+	#Now we we need to determine the end index for the
+	#"save_data" in the "fragTag". To determine the end 
+	#index, we will use a while loop and just keep looping
+	#until we find the "}" character, we will not need to increment'
+	#one final time as in "ID: 89283923", because we are already
+	#inside the data
+	fragmentDataEndIndex = fragmentDataStartIndex; #Start where we know the data must begin, then we keep going forward till we find "}"
+	while (save_data.substr(fragmentDataEndIndex, 1) != "}"):
+		fragmentDataEndIndex += 1;
+		pass;
 	
 	print(save_data);
 	
+	#Take all data related to "fragment" and remove all data in the "fragTag"
+	#for it so that we can begin inserting new data.
+	save_data = clearFragTag_SaveData(save_data, fragmentDataStartIndex, fragmentDataEndIndex);
+	
+	print(save_data);
+	
+	#Loop through each block, and write them
+	#into "save_data" so it can be pushed into "save_file" later.
+	
+	
+	
+	#print(fragment.blocks[3].block_id, "(", fragment.blocks[3].global_position.x, ",", fragment.blocks[3].global_position.y, ",", fragment.blocks[3].global_position.z, ")");
+	
 	
 	pass;
+
 
 
 
@@ -491,3 +514,40 @@ func getFragmentTag(fragment):
 	fragmentTag = "<" + str(int(fragment.global_position.x)) + "," + str(int(fragment.global_position.z)) + "{}";
 	
 	return fragmentTag;
+
+
+#Takes "save_data" and a start and end index and will remove
+#anything from in inbetween.
+#Then returns the resaulting data, this is good for removing
+#data from a fragment before writing save data to it.
+#-----
+#Arguments:
+#
+#save_data -> The save_data to manupulate and remove data from.
+#
+#fragmentDataStartIndex -> Start index of the fragTags data.
+#
+#fragmentDataEndIndex -> End index of the fragTags data.
+func clearFragTag_SaveData(save_data, fragmentDataStartIndex, fragmentDataEndIndex):
+	
+	#Data to the operation for clearing save data from
+	#a fragTag.
+	var length_to_remove: int; #The total indexs of the save_data to remove.
+	var part_before: String; #Part of the string before the removed section
+	var part_after : String; #Part of the string after the removed section
+	var result_string: String; #The resaulted string to return (part_before + part_after)
+	
+	# Calculate the length of the segment to remove
+	length_to_remove = fragmentDataEndIndex - fragmentDataStartIndex
+	
+	# Get the part of the string before the unwanted segment
+	part_before = save_data.left(fragmentDataStartIndex)
+	
+	# Get the part of the string after the unwanted segment
+	# The starting index for the right part is where the removal ends
+	part_after = save_data.right(save_data.length() - fragmentDataEndIndex)
+	
+	# Combine the two parts to form the new string
+	result_string = part_before + part_after
+	
+	return result_string;
