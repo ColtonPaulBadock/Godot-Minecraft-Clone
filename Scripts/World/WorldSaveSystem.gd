@@ -376,11 +376,15 @@ func saveFragment(fragment):
 		pass;
 	
 	#ID: 89283923
+	#Increment the index of the string to the right by 1
+	#so that we go past "{" in the save file and are right at the begining
+	#to where data should start for "fragment" in the save file
+	fragmentDataStartIndex += 1;
 	
-	print(save_data.substr(fragmentDataStartIndex, 1));
 	
+	save_data = save_data.insert(fragmentDataStartIndex, "CHECKSUM");
 	
-	#print(save_data.substr(fragmentDataStartIndex, 8));
+	print(save_data);
 	
 	
 	pass;
