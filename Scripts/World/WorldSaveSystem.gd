@@ -444,7 +444,6 @@ func saveFragment(fragment):
 
 
 
-
 func createSaveFile(fragment):
 	
 	#The area variables.
