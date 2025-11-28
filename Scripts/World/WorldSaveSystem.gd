@@ -14,7 +14,7 @@ var user_path : String = OS.get_environment("USERPROFILE");
 #The default world save path.
 #Which points to the ".gratisexemptus" folder and the
 #"Saves" folder inside it.
-var default_world_save_path : String = "\\AppData\\Roaming\\.gratisexemptus\\Saves";
+var default_world_save_path : String = user_path + "\\AppData\\Roaming\\.gratisexemptus\\Saves";
 
 #Default path from the worlds save folder
 #into the "terrain" folder, holding all
