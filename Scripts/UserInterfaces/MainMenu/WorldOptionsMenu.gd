@@ -53,9 +53,6 @@ func initButtonPressActions():
 #Intending to replace this with creating a save file, etc.
 func startWorldTemp():
 	
-	#var testFile = FileAccess.open(global_variables.save_path + "\\FirstWorldSave\\testFile.txt", FileAccess.READ_WRITE);
-	
-	
 	#Pass seed info to the global variables script
 	global_variables.worldTerrainSeed = int($TerrainSeedTextBox.text);
 	global_variables.worldBiomeSeed = int($BiomeSeedTextBox.text);
