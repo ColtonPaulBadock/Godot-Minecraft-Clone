@@ -235,6 +235,6 @@ func playGame() -> void:
 	#Set the state to transitioning to the world selection menu.
 	#The applicaton will detect this change in the main loop
 	#and begin switching accordingly
-	state = menuState.TRANSITIONING_TO_WORLD_SELECTION;
+	#state = menuState.TRANSITIONING_TO_WORLD_SELECTION;
 	
 	pass;

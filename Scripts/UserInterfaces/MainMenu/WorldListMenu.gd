@@ -52,13 +52,6 @@ func displayWorlds():
 		#world by the same name)
 		var worldList_worldInstance : Button;
 		
-		#This variable is a callable, which holds the function
-		#name and the args that will be applied when a world
-		#save is pressed. Here we intend to bind
-		#the worlds name to this callable, to be a argument
-		#to the world launching system.
-		var onWorldClick : Callable;
-		
 		#Create a empty button, which will be displayed in the
 		#"WorldListContainer" under world list. When clicked
 		#this button will launch the name of the world associated with it
@@ -69,7 +62,10 @@ func displayWorlds():
 		worldList_worldInstance.text = world;
 		worldList_worldInstance.add_theme_font_size_override("font_size", 32);
 		
-		worldList_worldInstance.pressed.connect(test);
+		#When the world is selected in the WorldListMenu (its of type button)
+		#call "launchWorld()" to launch the world and pass it the
+		#world name to launch, so that we begin loading into the world.
+		worldList_worldInstance.pressed.connect(launchWorld.bind(world));
 		
 		#Add the world to the "WorldList" so it can be
 		#selected and loaded into once pressed.
@@ -80,8 +76,28 @@ func displayWorlds():
 	pass;
 
 
-func test():
+#Launchs a saved world by the name
+#name in the first argument "world".
+#Exits the main menu and will begin loading the player into
+#the world.
+#-----
+#ARGUMENTS:
+#
+#world -> name of the world to launch from the "Saves"
+#folder.
+func launchWorld(world : String):
 	
-	print("Hello");
+	#Set the world save name we loaded into
+	#in the WorldSaveSystem.
+	#This is so we know which world we are running
+	#and will pull data from it when getting player inventory,
+	#loading fragments, or any save data related to this world.
+	WorldSaveSystem.world_save_name = "\\" + world;
+	
+	#Now that the world save name is set,
+	#and we selected a world to load, we
+	#will switch to the gameplay scene
+	#"World" to play the game!
+	get_tree().change_scene_to_file("res://Scenes/World.tscn");
 	
 	pass;

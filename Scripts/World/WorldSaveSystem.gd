@@ -5,7 +5,7 @@
 extends Node
 
 #The save name (this will be the worlds name)
-var world_save_name : String = "\\FirstWorldSave";
+var world_save_name : String = "\\DEBUG_EMPTY";
 
 #Stores the users username and path,
 #EXAMPLE: "C:\users\<USERNAME>\
