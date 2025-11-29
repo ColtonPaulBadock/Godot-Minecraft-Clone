@@ -94,9 +94,6 @@ func launchWorld(world : String):
 	#loading fragments, or any save data related to this world.
 	WorldSaveSystem.world_save_name = "\\" + world;
 	
-	print(WorldSaveSystem.world_save_name);
-	print(WorldSaveSystem.user_path + WorldSaveSystem.default_world_save_path + WorldSaveSystem.world_save_name + WorldSaveSystem.world_save_terrain_folder);
-	
 	#Now that the world save name is set,
 	#and we selected a world to load, we
 	#will switch to the gameplay scene

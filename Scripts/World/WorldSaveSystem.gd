@@ -180,7 +180,7 @@ func getFragmentSaveFilePath(fragment):
 	#Now we have the x and z area corrdinates
 	#of the fragment area, we need to search
 	#for a save file that has these same corrdinates
-	path = user_path + default_world_save_path + world_save_name + world_save_terrain_folder + "\\" + str(x_area) + "." + str(z_area) + ".gewd";
+	path = default_world_save_path + world_save_name + world_save_terrain_folder + "\\" + str(x_area) + "." + str(z_area) + ".gewd";
 	
 	
 	return path;
@@ -459,7 +459,7 @@ func createSaveFile(fragment):
 	#The save path representing "C:\users\<USER>\AppData\Roaming\.gratisexemptus\Saves\<WorldName>\terrain"
 	#Here is where the area save file will be stored in the terrain folder showing the worlds rendered
 	#terrain.
-	var save_path : String = user_path + default_world_save_path + world_save_name + world_save_terrain_folder;
+	var save_path : String = default_world_save_path + world_save_name + world_save_terrain_folder;
 	
 	#The name of the save file (including extension ".gewd") to
 	#be stored at path "save_path".
