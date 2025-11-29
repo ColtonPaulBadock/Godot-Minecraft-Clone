@@ -21,7 +21,11 @@ var default_world_save_path : String = user_path + "\\AppData\\Roaming\\.gratise
 #Default path from the worlds save folder
 #into the "terrain" folder, holding all
 #files within the area save format.
+#------
+#"world_save_meta_folder" is the default meta
+#data folder
 var world_save_terrain_folder : String = "\\terrain";
+var world_save_meta_folder : String = "\\meta";
 
 #Checks the position "world_pos" to see if a save file
 #holds data for a fragment at said "world_pos" if so, true
@@ -598,3 +602,101 @@ func clearFragTag_SaveData(save_data, fragmentDataStartIndex, fragmentDataEndInd
 	result_string = part_before + part_after
 	
 	return result_string;
+
+
+
+#Retrieves the value of a piece of meta data
+#from the "meta" folder.
+#Takes argument 1 "meta_tag" and searches
+#\meta\meta.gemd for said meta_tag and
+#returns the data associated with the meta tag.
+#------
+#ARGUMENTS:
+#
+#meta_tag -> The meta_tag to search \meta\meta.gemd for and if found, returns
+#data associated with this tag.
+func getMetaData(meta_tag : String):
+	
+	#The path to the meta data file
+	#as part of the meta folder
+	var path : String = default_world_save_path + world_save_name + world_save_meta_folder + "\\meta.gemd";
+	
+	#Instance of the file via FileAccess;
+	#This is the world meta data file "meta.gemd"
+	var meta_file : FileAccess;
+	
+	#The contents "meta_file" as text,
+	#so we can parse through the data.
+	var meta_data : String
+	
+	#The meta data retrieved from "meta_tag".
+	#This is what we will return from this function.
+	var meta_value;
+	
+	#The meta data start index. This marks
+	#the begining of the meta data of the actual "meta_tag"
+	#At this index, we can read until we hit "}", marking
+	#the end of the meta data associated with "meta_tag"
+	#This value will be computed later
+	#------
+	#metaDataEndIndex, is the last index of the meta
+	#data associated with "meta_tag". This allows
+	#us to pull all data between metaDataStartIndex
+	#and metaDataEndIndex and this will be our
+	#meta data.
+	#-------
+	#metaDataLength, is the length between start and end indexs of the
+	#meta data. This will be used with substr() to pull
+	#the meta data from said "meta_tag"
+	var metaDataStartIndex : int = 0;
+	var metaDataEndIndex : int;
+	var metaDataLength : int;
+	
+	#Open the meta file and store instance of said
+	#opened file in "meta_file" in READ mode,
+	#so nothing is overrided and we can pull data
+	#from it
+	meta_file = FileAccess.open(path, FileAccess.READ);
+	
+	print(path);
+	
+	return 0;
+	
+	#Store the contents of the meta file
+	#in "meta_data" so we can index through it.
+	meta_data = meta_file.get_as_text();
+	
+	
+	#Search through the meta data until we find
+	#the "meta_tag". Once we found it, we will increment
+	#one more time past "{", so that we can mark the start
+	#of the actual data.
+	while (meta_data.substr(metaDataStartIndex, 1) != meta_tag):
+		metaDataStartIndex += 1;
+		pass;
+	metaDataStartIndex += 1; #Increment one more time past "{", marking the start of the data associated with "meta_tag"
+	
+	
+	#We know where the meta data associated with "meta_tag"
+	#starts (metaDataStartIndex), we now simply
+	#move along until we find "}" marking the datas end,
+	#from here we can simply pull the data between
+	#these two index (metaDataEndIndex, metaDataStartIndex) and
+	#can get the meta data next.
+	metaDataEndIndex = metaDataStartIndex; #Start where we know the data must begin, then we keep going forward till we find "}"
+	while (meta_data.substr(metaDataEndIndex, 1) != "}"):
+		metaDataEndIndex += 1;
+		pass;
+	
+	
+	#Figure out the total length of the meta data
+	#and then use the length from the start index to
+	#return the meta data associated with "meta_tag"
+	#and store it in "meta_value" so we can
+	#return our meta data.
+	metaDataLength = metaDataEndIndex - metaDataStartIndex;
+	meta_value = meta_data.substr(metaDataStartIndex, metaDataLength);
+	
+	#Return the meta_value associated with "meta_tag",
+	#from the \meta\meta.gemd
+	return meta_value;

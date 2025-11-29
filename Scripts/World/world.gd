@@ -82,6 +82,13 @@ func _input(event) -> void:
 
 func _ready() -> void:
 	
+	#Set world data and paramters
+	#from the World Save File.
+	#Terrain/Biome seeds, player pos
+	#and other data will be pulled from
+	#the save file and intialized
+	initSaveData();
+	
 	#Starts the main menu if "global_variables.in_main_menu" is true.
 	#The entire "World" scene will be thrown out and we will load into
 	#the main menu scene as the main scene.
@@ -109,6 +116,27 @@ func _ready() -> void:
 	#the output box if needed
 	debugWindow = $Player/CameraPivot/Camera3D/DebugWindow/DebugWindowPanel/OutputBoxPanel/OutputBox;
 
+
+#Sets the world and player parameters
+#from the world save file. (Example: biome/terrain
+#seeds, player pos, etc).
+func initSaveData():
+	
+	#Retrieve the world biome noise seed from
+	#the world save file and set it in the noise_manager
+	#for world generation of unloaded fragments.
+	noise_manager.worldBiomeNoise_seed = WorldSaveSystem.getMetaData("biome_seed");
+	
+	print(WorldSaveSystem.getMetaData("biome_seed"));
+	
+	#Retrieve the world terrain noise seed from
+	#the world save file and set it in the noise_manager
+	#for world generation of unloaded fragments.
+	noise_manager.worldTerrainNoise_seed = WorldSaveSystem.getMetaData("terrain_seed");
+	
+	print(WorldSaveSystem.getMetaData("terrain_seed"));
+	
+	pass;
 
 
 
