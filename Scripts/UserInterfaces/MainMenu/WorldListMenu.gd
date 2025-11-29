@@ -97,7 +97,7 @@ func launchWorld(world : String):
 	#Now that the world save name is set,
 	#and we selected a world to load, we
 	#will switch to the gameplay scene
-	#"World" to play the game!
+	#"World" to play the game!.
 	get_tree().change_scene_to_file("res://Scenes/World.tscn");
 	
 	pass;
