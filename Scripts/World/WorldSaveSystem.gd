@@ -658,10 +658,6 @@ func getMetaData(meta_tag : String):
 	#from it
 	meta_file = FileAccess.open(path, FileAccess.READ);
 	
-	print(path);
-	
-	return 0;
-	
 	#Store the contents of the meta file
 	#in "meta_data" so we can index through it.
 	meta_data = meta_file.get_as_text();
