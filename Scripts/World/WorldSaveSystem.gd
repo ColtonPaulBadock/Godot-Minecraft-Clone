@@ -5,7 +5,9 @@
 extends Node
 
 #The save name (this will be the worlds name)
-var world_save_name : String = "\\DEBUG_EMPTY";
+#Default name is "DEBUG_WORLD". If a world by
+#this name is created, something went wrong??
+var world_save_name : String = "\\DEBUG_WORLD";
 
 #Stores the users username and path,
 #EXAMPLE: "C:\users\<USERNAME>\
@@ -130,7 +132,7 @@ func checkIfSaveFileExists(fragment):
 	#Now we have the x and z area corrdinates
 	#of the fragment area, we need to search
 	#for a save file that has these same corrdinates
-	path = user_path + default_world_save_path + world_save_name + world_save_terrain_folder + "\\" + str(x_area) + "." + str(z_area) + ".gewd";
+	path = default_world_save_path + world_save_name + world_save_terrain_folder + "\\" + str(x_area) + "." + str(z_area) + ".gewd";
 	
 	#Now that we found the file path the fragment
 	#would exist in, lets see if said file
