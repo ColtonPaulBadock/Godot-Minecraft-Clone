@@ -27,6 +27,15 @@ var default_world_save_path : String = user_path + "\\AppData\\Roaming\\.gratise
 var world_save_terrain_folder : String = "\\terrain";
 var world_save_meta_folder : String = "\\meta";
 
+
+
+
+
+
+
+
+
+
 #Checks the position "world_pos" to see if a save file
 #holds data for a fragment at said "world_pos" if so, true
 #is returned. If a fragment can't be found in save files
