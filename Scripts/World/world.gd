@@ -127,14 +127,10 @@ func initSaveData():
 	#for world generation of unloaded fragments.
 	noise_manager.worldBiomeNoise_seed = WorldSaveSystem.getMetaData("biome_seed");
 	
-	print(WorldSaveSystem.getMetaData("biome_seed"));
-	
 	#Retrieve the world terrain noise seed from
 	#the world save file and set it in the noise_manager
 	#for world generation of unloaded fragments.
 	noise_manager.worldTerrainNoise_seed = WorldSaveSystem.getMetaData("terrain_seed");
-	
-	print(WorldSaveSystem.getMetaData("terrain_seed"));
 	
 	pass;
 

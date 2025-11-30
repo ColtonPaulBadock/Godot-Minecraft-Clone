@@ -664,13 +664,14 @@ func getMetaData(meta_tag : String):
 	
 	
 	#Search through the meta data until we find
-	#the "meta_tag". Once we found it, we will increment
-	#one more time past "{", so that we can mark the start
-	#of the actual data.
-	while (meta_data.substr(metaDataStartIndex, 1) != meta_tag):
+	#the "meta_tag". Once we found it we will increment
+	#the metaDataStartIndex by "meta_tag" length + 1, so that
+	#we don't include the meta tag or '{' in the final
+	#value output for the meta tag
+	while (meta_data.substr(metaDataStartIndex, meta_tag.length()) != meta_tag):
 		metaDataStartIndex += 1;
 		pass;
-	metaDataStartIndex += 1; #Increment one more time past "{", marking the start of the data associated with "meta_tag"
+	metaDataStartIndex += meta_tag.length() + 1; #Add the length of "meta_tag" so that we skip it also increment one more time past "{", marking the start of the data associated with "meta_tag"
 	
 	
 	#We know where the meta data associated with "meta_tag"

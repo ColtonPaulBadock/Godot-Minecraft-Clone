@@ -36,16 +36,41 @@ func generateFragment():
 	#generate it fresh from the seed since it already exists.
 	var fragmentAlreadyGenerated = false;
 	
+	#ID: 11117483789473
 	#Once we create a new fragment, we need to check if a
 	#save file that can later accompany it exists.
 	#If it doesn't, then we are creating a new save area
 	#for the fragment and others nearby
 	if (WorldSaveSystem.checkIfSaveFileExists(self) == false):
 		WorldSaveSystem.createSaveFile(self);
+		pass;
 	
+	#We already checked to see if a save file
+	#existed that could hold this fragment, at
+	#this point we know for sure a save file was
+	#created for it at ID: 11117483789473
+	#Now we need to see if the fragment
+	#itself exists with save data.
+	#If its already been generated and is saved
+	#we will load in the fragment instead of generating
+	#We will set "fragmentAlreadyGenerated" to true
+	#so we don't generate it again and will then load
+	#this fragment from saved data.
+	#If the fragment doesn't exist, we will generate it
+	#at ID: 7892379487247
+	if (WorldSaveSystem.checkIfFragmentIsSaved(self) == true):
+		
+		#Load the fragment from save data,
+		#as we determined it exists in save files.
+		loadTerrain();
+		
+		#We already loaded the fragment from save data
+		#so here we set this value as true so we
+		#don't regenerate it.
+		fragmentAlreadyGenerated = true;
+		pass;
 	
-	
-	
+	#ID: 7892379487247
 	#Generate in the worlds terrain before spawning trees, plants
 	#strutures, etc.
 	#Here we just layout world height, biomes and the actual land
@@ -56,7 +81,14 @@ func generateFragment():
 	pass;
 
 
-
+#Loads this current fragment from
+#saved data instead of generating it
+#based on noise and seeds like in "generateTerrain()".
+func loadTerrain() -> void:
+	
+	
+	
+	pass;
 
 
 

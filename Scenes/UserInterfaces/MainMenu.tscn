@@ -38,8 +38,8 @@ offset_left = 1680.0
 offset_top = 1018.0
 offset_right = 2044.0
 offset_bottom = 1137.0
-text = "Copyright © 2025 Exemptusoft
-Pirates will be prosecuted"
+text = "Copyright © 2025 Colton Paul 
+Badock  (Exemptusoft)"
 
 [node name="Buttons" type="Control" parent="."]
 anchors_preset = 0
