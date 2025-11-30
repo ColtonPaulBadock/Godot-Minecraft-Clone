@@ -27,12 +27,94 @@ var default_world_save_path : String = user_path + "\\AppData\\Roaming\\.gratise
 var world_save_terrain_folder : String = "\\terrain";
 var world_save_meta_folder : String = "\\meta";
 
+#The current fragment we are loading from save
+#data. This is set by "loadFragment" and an instance
+#of the fragment to try and load.
+#-------
+#"fragmentDataPosition" is the index of the data we are working with.
+#it will point to the starting position of the next unread data
+#for the fragment in "feedFragment()", other utilities.
+#-------
+#"loadingFragment_data" is the data as a String from
+#"loadingFragment"
+var loadingFragment : FileAccess;
+var loadingFragment_data : String;
+var fragmentDataPosition : int;
+
+#Laymans: Call this function to get a fragment
+#ready to be feed through by "feedFragment"
+#-----
+#Gets a fragment's data stored in "loadingFragment"
+#so that we can feed it "fragment.gd" or other systems
+#to load a fragment block by block from save files.
+func loadFragment(fragment):
+	
+	#The file path where the fragment
+	#is stored (including area save file)
+	var path : String;
+	
+	#The frag tag associated with the fragment,
+	#this is where data will be stored
+	#for "fragment"
+	var fragTag : String;
+	
+	#These variables are used to compute
+	#the fragtags begginging point so we
+	#can find where the data starts.
+	#These are used to set "fragmentDataPosition"
+	#so we know where in the data we are when
+	#using feedFragment() later.
+	var fragTagStartIndex : int = 0;
+	var fragTagEndIndex : int;
+	var fragTagLength : int;
+	
+	#Check to see if a fragment of "fragment" is even
+	#in the save files, if it is not, return -1.
+	if (checkIfFragmentIsSaved(fragment) == false):
+		return -1;
+	
+	#Get the path the fragment is stored at
+	#in the save files.
+	path = getFragmentSaveFilePath(fragment);
+	
+	#Get the fragtag for "fragment" so we can
+	#find out where the fragment is stored
+	#inside the save file "path".
+	fragTag = getFragmentTag(fragment);
+	
+	#Open the area save file
+	#for the fragment we are trying
+	#to load.
+	loadingFragment = FileAccess.open(path, FileAccess.READ);
+	
+	#Load the save data from
+	#"loadingFragment" as a String into
+	#"loadingFragment_data" universal script variable
+	#so we can parse the data from wherever using
+	#"feedFragment()" and other utilities
+	#in the script.
+	loadingFragment_data = loadingFragment.get_as_text();
+	
+	#Set the start position (index) of the data
+	#relating to "fragment" in "fragmentDataPosition"
+	#so we are at the start of the data, and can keep
+	#track of where we are in the data as we
+	#move through it later in "feedFragment()", other
+	#utilities
+	
+	
+	pass;
 
 
-
-
-
-
+#Returns a block from the current fragment "loadingFragment"
+#Each time its called, the next block in the data/save is
+#returned. Once we hit the end of the data, "-1" will
+#be returned.
+func feedFragment():
+	
+	
+	
+	pass;
 
 
 
