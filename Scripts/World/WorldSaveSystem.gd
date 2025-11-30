@@ -95,13 +95,26 @@ func loadFragment(fragment):
 	#in the script.
 	loadingFragment_data = loadingFragment.get_as_text();
 	
+	#Reset "fragmentDataPosition" to 0, so we start at the top
+	#of the save data
+	fragmentDataPosition = 0;
 	#Set the start position (index) of the data
 	#relating to "fragment" in "fragmentDataPosition"
 	#so we are at the start of the data, and can keep
 	#track of where we are in the data as we
 	#move through it later in "feedFragment()", other
 	#utilities
+	while (loadingFragment_data.substr(fragmentDataPosition, fragTag.length()) != fragTag):
+		fragmentDataPosition += 1;
+		pass;
+	fragmentDataPosition += fragTag.length() + 1;
 	
+	#We now have all save info loaded into
+	#"loadingFragment_data" thats associated with
+	#"fragment" and we found the fragTag and
+	#the begining index of the data. We can
+	#use "feedFragment()" to feed blocks through
+	#one at a time.
 	
 	pass;
 
@@ -111,6 +124,11 @@ func loadFragment(fragment):
 #returned. Once we hit the end of the data, "-1" will
 #be returned.
 func feedFragment():
+	
+	#Instance of the object we are intializing
+	#from saved data, this is what will be returned
+	#(or -1 if we hit end of the save data)
+	var object : Node3D;
 	
 	
 	
