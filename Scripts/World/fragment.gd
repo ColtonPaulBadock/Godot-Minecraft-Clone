@@ -58,7 +58,7 @@ func generateFragment():
 	#this fragment from saved data.
 	#If the fragment doesn't exist, we will generate it
 	#at ID: 7892379487247
-	if (WorldSaveSystem.checkIfFragmentIsSaved(self) == true):
+	if (WorldSaveSystem.checkIfFragmentIsSaved(self) == true && global_variables.debugBool == false):
 		
 		#Load the fragment from save data,
 		#as we determined it exists in save files.
@@ -67,7 +67,8 @@ func generateFragment():
 		#We already loaded the fragment from save data
 		#so here we set this value as true so we
 		#don't regenerate it.
-		fragmentAlreadyGenerated = true;
+		#fragmentAlreadyGenerated = true;
+		global_variables.debugBool = true;
 		pass;
 	
 	#ID: 7892379487247
@@ -86,7 +87,7 @@ func generateFragment():
 #based on noise and seeds like in "generateTerrain()".
 func loadTerrain() -> void:
 	
-	
+	WorldSaveSystem.loadFragment(self);
 	
 	pass;
 

@@ -64,9 +64,10 @@ func loadFragment(fragment):
 	#These are used to set "fragmentDataPosition"
 	#so we know where in the data we are when
 	#using feedFragment() later.
-	var fragTagStartIndex : int = 0;
-	var fragTagEndIndex : int;
-	var fragTagLength : int;
+	#var fragTagStartIndex : int = 0;
+	#var fragTagEndIndex : int;
+	#var fragTagLength : int;
+	
 	
 	#Check to see if a fragment of "fragment" is even
 	#in the save files, if it is not, return -1.
@@ -80,7 +81,7 @@ func loadFragment(fragment):
 	#Get the fragtag for "fragment" so we can
 	#find out where the fragment is stored
 	#inside the save file "path".
-	fragTag = getFragmentTag(fragment);
+	fragTag = getFragmentTag(fragment, false);
 	
 	#Open the area save file
 	#for the fragment we are trying
@@ -103,10 +104,15 @@ func loadFragment(fragment):
 	#so we are at the start of the data, and can keep
 	#track of where we are in the data as we
 	#move through it later in "feedFragment()", other
-	#utilities
-	while (loadingFragment_data.substr(fragmentDataPosition, fragTag.length()) != fragTag):
-		fragmentDataPosition += 1;
-		pass;
+	#utilities;
+	#-----
+	#Laymans Terms: We right after "{" in "fragmentTag + "{}"",
+	#fragmentDataPosition points to this
+	#------
+	#Find "fragTag" and return its position.
+	#The add the length of "fragTag" + 1, so account
+	#for the fragTag's length and '{' to get the data.
+	fragmentDataPosition = loadingFragment_data.find(fragTag);
 	fragmentDataPosition += fragTag.length() + 1;
 	
 	#We now have all save info loaded into
@@ -129,6 +135,16 @@ func feedFragment():
 	#from saved data, this is what will be returned
 	#(or -1 if we hit end of the save data)
 	var object : Node3D;
+	
+	#Data points we need to pull from the
+	#save data for the block/object
+	#All "pos" variables should be local
+	#corrdinates to the fragment they exist in.
+	var x_pos : float;
+	var y_pos : float;
+	var z_pos : float;
+	var id : int; #ID of the block/Object/Whatever
+	
 	
 	
 	
@@ -465,7 +481,7 @@ func saveFragment(fragment):
 	#We now want to locate the tag, and
 	#override everything in {} with the new save data
 	#for the fragment
-	fragTag = getFragmentTag(fragment);
+	fragTag = getFragmentTag(fragment, true);
 	
 	#Open the save file, this will be so we
 	#can extract all data from it, and
@@ -638,7 +654,7 @@ func createFragmentTag(path, fragment):
 	#Built the fragment tag and store it in
 	#"fragmentTag" using the global position of x and z
 	#for the fragment "fragment" and other default formatting.
-	fragmentTag = getFragmentTag(fragment);
+	fragmentTag = getFragmentTag(fragment, true);
 	
 	#Append the fragments tag to the end
 	#of the save data, creating a tag for
@@ -663,7 +679,9 @@ func createFragmentTag(path, fragment):
 #Arguments:
 #
 #fragment -> The fragment to get the fragment tag for
-func getFragmentTag(fragment):
+#
+#inculdeBrackets -> If true, brackets "{}" will be included on the end
+func getFragmentTag(fragment, includeBrackets : bool):
 	#The fragment tag we will insert
 	#into the save file for "fragment"
 	var fragmentTag : String;
@@ -671,7 +689,14 @@ func getFragmentTag(fragment):
 	#Built the fragment tag and store it in
 	#"fragmentTag" using the global position of x and z
 	#for the fragment "fragment" and other default formatting.
-	fragmentTag = "<" + str(int(fragment.global_position.x)) + "," + str(int(fragment.global_position.z)) + "{}";
+	fragmentTag = "<" + str(int(fragment.global_position.x)) + "," + str(int(fragment.global_position.z));
+	
+	#If "includeBrackets" is true, we will include the brackets
+	#on the end of the tag "{}". This is important
+	#for creating a new save file or rewriting data
+	#in situations where we want the brackets included.
+	if (includeBrackets == true):
+		fragmentTag = fragmentTag + "{}";
 	
 	return fragmentTag;
 

@@ -8,6 +8,9 @@ extends Node
 var worldTerrainSeed = 0;
 var worldBiomeSeed = 0;
 
+#Debug variable, should serve no purpose
+#other than for debugging
+var debugBool : bool = false;
 
 #How far the RayCast3D.collision_point will enter into the block,
 #this cuts back on the fragment and block boarders issue.
