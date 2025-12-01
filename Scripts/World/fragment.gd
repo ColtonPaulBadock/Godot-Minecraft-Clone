@@ -64,6 +64,11 @@ func generateFragment():
 		#as we determined it exists in save files.
 		loadTerrain();
 		
+		#No need to generate terrain/fragment via noise,
+		#we already have its generation/status saved in the
+		#games save files.
+		fragmentAlreadyGenerated = true;
+		
 		#We already loaded the fragment from save data
 		#so here we set this value as true so we
 		#don't regenerate it.
@@ -87,7 +92,49 @@ func generateFragment():
 #based on noise and seeds like in "generateTerrain()".
 func loadTerrain() -> void:
 	
+	#The block/object data being returned
+	#from the fragments save data.
+	#Contains position, block id, etc.
+	#When "-1", we hit the end of the
+	#save data for the fragment.
+	var blockData = 0;
+	
+	#Get the save_data for the fragment
+	#ready, set the index to the start of the
+	#fragment data on the WorldSaveSystem's end
 	WorldSaveSystem.loadFragment(self);
+	
+	#Keep pulling blocks using the "WorldSaveSystem.feedFragment()" utility,
+	#and then add said blocks to the fragment from the save data.
+	#Once "-1" is returned, we hit the end of the save
+	#data for the fragment, so we will exit this function as the fragment
+	#is fully loaded.
+	while (blockData != -1):
+		
+		#Position of the block, which
+		#will be set from the block data coming from
+		#the save file.
+		var blockPos : Vector3;
+		
+		#The block data returned from the save file
+		#if "-1", the end of the file/save data is reached and
+		#we will exit.
+		blockData = WorldSaveSystem.feedFragment();
+		
+		#If "-1", no more blocks are left
+		#in the save data, so we will move on.
+		if (blockData == -1):
+			continue;
+		
+		#Set block position using save data
+		blockPos.x = blockData[0];
+		blockPos.y = blockData[1];
+		blockPos.z = blockData[2];
+		
+		#Add the block with saved position and id.
+		addBlock(blockPos, blockData[4]);
+		
+		pass;
 	
 	pass;
 

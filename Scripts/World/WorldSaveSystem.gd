@@ -131,11 +131,34 @@ func loadFragment(fragment):
 #be returned.
 func feedFragment():
 	
-	#Instance of the object we are intializing
-	#from saved data, this is what will be returned
-	#(or -1 if we hit end of the save data)
-	var object : Node3D;
+	#Instance of the block/object/thing
+	#we are loading from save data. Each index holds
+	#a specific value related to the item.
+	#-----
+	#INDEXS:
+	#0 = x position (local to fragment)
+	#1 = y position (local to fragment)
+	#2 = z position (local to fragment)
+	#3 = block_id (id of the object/block)
+	var object = [0, 0, 0, 0];
 	
+	#The current character/char we are retireveing/processing
+	#from the save data.
+	var currentCharacter : String;
+	
+	#The current value we are converting to
+	#data points from ID: 8298379187398719 for
+	#the object/block we are loading from save dara
+	var currentValue : String;
+	
+	#The total corrdinates we have loaded so far.
+	#For each cord (x, y and z) we increment this
+	#variable by 1 so we know which one we are currently
+	#on when pulling the corrdinates from the save data.
+	var corrdsLoaded : int = 0;
+	
+	
+	#ID: 8298379187398719
 	#Data points we need to pull from the
 	#save data for the block/object
 	#All "pos" variables should be local
@@ -146,9 +169,94 @@ func feedFragment():
 	var id : int; #ID of the block/Object/Whatever
 	
 	
+	#Check to make sure we haven't hit the end of the fragment
+	#data. If we have hit the end "}", we will return -1
+	if (loadingFragment_data.substr(fragmentDataPosition, 1) == "}"):
+		return -1;
+	
+	#The following is the algorithm to derive "x_pos",
+	#"y_pos:, "z_pos" and "id" for the block/objects
+	#we are loading in
+	#------
+	#Start by getting "x_pos"
+	while (corrdsLoaded != 3):
+		while (loadingFragment_data.substr(fragmentDataPosition, 1) != ","):
+			
+			#Get the current character we are on
+			#Store it in "currentCharacter"
+			currentCharacter = loadingFragment_data.substr(fragmentDataPosition, 1);
+			
+			#Update the "fragmentDataPosition" which moves us
+			#to be ready for the next character, next loop.
+			fragmentDataPosition = fragmentDataPosition + 1;
+			
+			#If we see the '(' marking the begining
+			#of the data, we will continue past it, to the next value
+			if (currentCharacter == "("):
+				continue;
+			
+			#We must have a legitmate value, 
+			#add it to the end of the current value.
+			#We will keep doing this till we see ","
+			currentValue = currentValue + currentCharacter;
+			pass;
+		
+		#Increment the data position to move past ",",
+		#so we have the next raw data.
+		fragmentDataPosition = fragmentDataPosition + 1;
+		
+		#depending on which corrdinate we are deriving
+		#from the save data, we will store it in its respected value/corrdinate
+		#and will then reset the "currentValue" for the next value
+		if (corrdsLoaded == 0):
+			x_pos = currentValue.to_float();
+		elif (corrdsLoaded == 1):
+			y_pos = currentValue.to_float();
+		elif (corrdsLoaded == 2):
+			z_pos = currentValue.to_float();
+		
+		#Reset the current value (for the next value).
+		#Increment "corrdsLoaded" by one so we
+		#know which one we are pulling from the save data.
+		currentValue = "";
+		corrdsLoaded = corrdsLoaded + 1;
+		
+		pass;
 	
 	
-	pass;
+	
+	#Get the block/object ID as the last data type we need.
+	while (loadingFragment_data.substr(fragmentDataPosition, 1) != ")"):
+		
+		#Get the current character we are on
+		#Store it in "currentCharacter"
+		currentCharacter = loadingFragment_data.substr(fragmentDataPosition, 1);
+		
+		#Add the current character to the current value
+		currentValue = currentValue + currentCharacter;
+		
+		#Update the "fragmentDataPosition" which moves us
+		#to be ready for the next character, next loop.
+		fragmentDataPosition = fragmentDataPosition + 1;
+		
+		pass;
+	
+	#Set the id of the block/object
+	#from the last piece of data in the blocks save
+	#in the fragments data.
+	#Increment "fragmentDataPosition" so we are at "(" for
+	#the next piece of block data in the fragment data.
+	id = currentValue.to_int();
+	fragmentDataPosition = fragmentDataPosition + 1;
+	
+	#Build instance of the block before returning it
+	object[0] = x_pos;
+	object[1] = y_pos;
+	object[2] = z_pos;
+	object[3] = id;
+	
+	#Return the block/object with its position, id, etc
+	return object;
 
 
 
