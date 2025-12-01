@@ -64,6 +64,8 @@ func generateFragment():
 		#as we determined it exists in save files.
 		loadTerrain();
 		
+		print(self.global_position.x, ", ", self.global_position.z);
+		
 		#No need to generate terrain/fragment via noise,
 		#we already have its generation/status saved in the
 		#games save files.
@@ -97,7 +99,7 @@ func loadTerrain() -> void:
 	#Contains position, block id, etc.
 	#When "-1", we hit the end of the
 	#save data for the fragment.
-	var blockData = 0;
+	var blockData = [0];
 	
 	#Get the save_data for the fragment
 	#ready, set the index to the start of the
@@ -109,7 +111,7 @@ func loadTerrain() -> void:
 	#Once "-1" is returned, we hit the end of the save
 	#data for the fragment, so we will exit this function as the fragment
 	#is fully loaded.
-	while (blockData != -1):
+	while (typeof(blockData) != TYPE_INT):
 		
 		#Position of the block, which
 		#will be set from the block data coming from
@@ -123,8 +125,9 @@ func loadTerrain() -> void:
 		
 		#If "-1", no more blocks are left
 		#in the save data, so we will move on.
-		if (blockData == -1):
-			continue;
+		if typeof(blockData) == TYPE_INT:
+			if (blockData == -1):
+				continue;
 		
 		#Set block position using save data
 		blockPos.x = blockData[0];
@@ -132,7 +135,7 @@ func loadTerrain() -> void:
 		blockPos.z = blockData[2];
 		
 		#Add the block with saved position and id.
-		addBlock(blockPos, blockData[4]);
+		addBlock(blockPos, blockData[3]);
 		
 		pass;
 	
