@@ -58,7 +58,7 @@ func generateFragment():
 	#this fragment from saved data.
 	#If the fragment doesn't exist, we will generate it
 	#at ID: 7892379487247
-	if (WorldSaveSystem.checkIfFragmentIsSaved(self) == true && self.global_position.x == -100.0 && self.global_position.z == -100.0):
+	if (WorldSaveSystem.checkIfFragmentIsSaved(self) == true):# && self.global_position.x == -100.0 && self.global_position.z == -100.0):
 		
 		#Load the fragment from save data,
 		#as we determined it exists in save files.
