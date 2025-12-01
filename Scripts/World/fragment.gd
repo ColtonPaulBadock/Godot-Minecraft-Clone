@@ -58,24 +58,17 @@ func generateFragment():
 	#this fragment from saved data.
 	#If the fragment doesn't exist, we will generate it
 	#at ID: 7892379487247
-	if (WorldSaveSystem.checkIfFragmentIsSaved(self) == true && global_variables.debugBool == false):
+	if (WorldSaveSystem.checkIfFragmentIsSaved(self) == true && self.global_position.x == -100.0 && self.global_position.z == -100.0):
 		
 		#Load the fragment from save data,
 		#as we determined it exists in save files.
 		loadTerrain();
-		
-		print(self.global_position.x, ", ", self.global_position.z);
 		
 		#No need to generate terrain/fragment via noise,
 		#we already have its generation/status saved in the
 		#games save files.
 		fragmentAlreadyGenerated = true;
 		
-		#We already loaded the fragment from save data
-		#so here we set this value as true so we
-		#don't regenerate it.
-		#fragmentAlreadyGenerated = true;
-		global_variables.debugBool = true;
 		pass;
 	
 	#ID: 7892379487247
