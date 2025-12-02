@@ -591,7 +591,7 @@ func saveFragment(fragment):
 	#a fragment tag at this point.
 	#We now want to locate the tag, and
 	#override everything in {} with the new save data
-	#for the fragment
+	#for the fragment.
 	fragTag = getFragmentTag(fragment, true);
 	
 	#NOTE: DEBUG
