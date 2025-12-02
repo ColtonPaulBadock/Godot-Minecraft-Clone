@@ -584,7 +584,8 @@ func saveFragment(fragment):
 		pass;
 	
 	#NOTE: DEBUG
-	if (fragment.blocks.is_empty() != true):
+	var debug = false;
+	if (fragment.blocks.is_empty() != true && debug == true):
 		print("I see this fragment contains blocks: " + str(fragment.global_position.x, ", ", fragment.global_position.z));
 	
 	#We know the file exists, and we know it has
@@ -595,7 +596,7 @@ func saveFragment(fragment):
 	fragTag = getFragmentTag(fragment, false);
 	
 	#NOTE: DEBUG
-	if (fragment.blocks.is_empty() != true):
+	if (fragment.blocks.is_empty() != true && debug == true):
 		print("The frag tag is: ", fragTag);
 	
 	#Open the save file, this will be so we
@@ -610,7 +611,7 @@ func saveFragment(fragment):
 	save_data = save_file.get_as_text();
 	
 	#NOTE: DEBUG
-	if (fragment.blocks.is_empty() != true):
+	if (fragment.blocks.is_empty() != true && debug == true):
 		print("\n\nSave data is: ", save_data, "\n\n");
 	
 	#Find the begging of the fragment tag
@@ -621,7 +622,7 @@ func saveFragment(fragment):
 	fragmentDataStartIndex = save_data.find(fragTag);
 	
 	#NOTE: DEBUG
-	if (fragment.blocks.is_empty() != true):
+	if (fragment.blocks.is_empty() != true && debug == true):
 		print("Found the fragTag at index: ", str(fragmentDataStartIndex, "  | It says: ", save_data.substr(fragmentDataStartIndex, 20)));
 	
 	#Find the position of the { bracket of the fragtag,
@@ -663,7 +664,7 @@ func saveFragment(fragment):
 	save_data = clearFragTag_SaveData(save_data, fragmentDataStartIndex, fragmentDataEndIndex);
 	
 	#NOTE: DEBUG
-	if (fragment.blocks.is_empty() != true):
+	if (fragment.blocks.is_empty() != true && debug == true):
 		print("\n\nI cleared save data from the old fragTag, it now looks like: ", save_data, "\n\n");
 	
 	#Loop through each block, and write them
@@ -689,7 +690,7 @@ func saveFragment(fragment):
 		pass;
 	
 	#NOTE: DEBUG
-	if (fragment.blocks.is_empty() != true):
+	if (fragment.blocks.is_empty() != true && debug == true):
 		print("\n\nI wrote data to the save file! Here it is: ", save_data, "\n\nI am writing it to disk!");
 	
 	#Wipe "save_file" and rewrite "save_data" to it, so the new changes to the file
@@ -700,7 +701,7 @@ func saveFragment(fragment):
 	save_file.close();
 	
 	#NOTE: DEBUG
-	if (fragment.blocks.is_empty() != true):
+	if (fragment.blocks.is_empty() != true && debug == true):
 		print("-------END FRAGMENT-------");
 	
 	pass;

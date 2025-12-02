@@ -76,8 +76,8 @@ func generateFragment():
 	#strutures, etc.
 	#Here we just layout world height, biomes and the actual land
 	#before spawning anything on top of it.
-	#if (fragmentAlreadyGenerated != true):
-	#	generateTerrain();
+	if (fragmentAlreadyGenerated != true):
+		generateTerrain();
 	
 	pass;
 
