@@ -583,6 +583,9 @@ func saveFragment(fragment):
 		
 		pass;
 	
+	#NOTE: DEBUG
+	if (fragment.blocks.is_empty() != true):
+		print("I see this fragment contains blocks: " + str(fragment.global_position.x, ", ", fragment.global_position.z));
 	
 	#We know the file exists, and we know it has
 	#a fragment tag at this point.
@@ -590,6 +593,10 @@ func saveFragment(fragment):
 	#override everything in {} with the new save data
 	#for the fragment
 	fragTag = getFragmentTag(fragment, true);
+	
+	#NOTE: DEBUG
+	if (fragment.blocks.is_empty() != true):
+		print("The frag tag is: ", fragTag);
 	
 	#Open the save file, this will be so we
 	#can extract all data from it, and
@@ -602,6 +609,9 @@ func saveFragment(fragment):
 	#can index through it
 	save_data = save_file.get_as_text();
 	
+	#NOTE: DEBUG
+	if (fragment.blocks.is_empty() != true):
+		print("\n\nSave data is: ", save_data, "\n\n");
 	
 	#Find the begging of the fragment tag
 	#From this data we will then find the begining of
@@ -609,6 +619,10 @@ func saveFragment(fragment):
 	#from to wipe the fragment and can then rewrite the data
 	#to the save file.
 	fragmentDataStartIndex = save_data.find(fragTag);
+	
+	#NOTE: DEBUG
+	if (fragment.blocks.is_empty() != true):
+		print("Found the fragTag at index: ", str(fragmentDataStartIndex, "  | It says: ", save_data.substr(fragmentDataStartIndex, 20)));
 	
 	#Find the position of the { bracket of the fragtag,
 	#we can then run until we get to the } bracket, and will delete
@@ -648,6 +662,9 @@ func saveFragment(fragment):
 	#for it so that we can begin inserting new data.
 	save_data = clearFragTag_SaveData(save_data, fragmentDataStartIndex, fragmentDataEndIndex);
 	
+	#NOTE: DEBUG
+	if (fragment.blocks.is_empty() != true):
+		print("\n\nI cleared save data from the old fragTag, it now looks like: ", save_data, "\n\n");
 	
 	#Loop through each block, and write them
 	#into "save_data" so it can be pushed into "save_file" later.
@@ -671,6 +688,9 @@ func saveFragment(fragment):
 		
 		pass;
 	
+	#NOTE: DEBUG
+	if (fragment.blocks.is_empty() != true):
+		print("\n\nI wrote data to the save file! Here it is: ", save_data, "\n\nI am writing it to disk!");
 	
 	#Wipe "save_file" and rewrite "save_data" to it, so the new changes to the file
 	#plus the old ones that are presently stored in "save_data"
@@ -678,6 +698,10 @@ func saveFragment(fragment):
 	#Then closes the file system.
 	save_file.store_string(save_data);
 	save_file.close();
+	
+	#NOTE: DEBUG
+	if (fragment.blocks.is_empty() != true):
+		print("-------END FRAGMENT-------");
 	
 	pass;
 
@@ -798,8 +822,6 @@ func getFragmentTag(fragment, includeBrackets : bool):
 	#"fragmentTag" using the global position of x and z
 	#for the fragment "fragment" and other default formatting.
 	fragmentTag = "<" + str(int(fragment.global_position.x)) + "," + str(int(fragment.global_position.z));
-	
-	print("FragPos: (", fragment.global_position.x, ",", fragment.global_position.z, "). FragTag: ", fragmentTag);
 	
 	#If "includeBrackets" is true, we will include the brackets
 	#on the end of the tag "{}". This is important
