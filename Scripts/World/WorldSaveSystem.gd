@@ -592,7 +592,7 @@ func saveFragment(fragment):
 	#We now want to locate the tag, and
 	#override everything in {} with the new save data
 	#for the fragment.
-	fragTag = getFragmentTag(fragment, true);
+	fragTag = getFragmentTag(fragment, false);
 	
 	#NOTE: DEBUG
 	if (fragment.blocks.is_empty() != true):
