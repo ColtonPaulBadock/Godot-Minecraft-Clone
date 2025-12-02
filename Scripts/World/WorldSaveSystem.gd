@@ -799,6 +799,8 @@ func getFragmentTag(fragment, includeBrackets : bool):
 	#for the fragment "fragment" and other default formatting.
 	fragmentTag = "<" + str(int(fragment.global_position.x)) + "," + str(int(fragment.global_position.z));
 	
+	print("FragPos: (", fragment.global_position.x, ",", fragment.global_position.z, "). FragTag: ", fragmentTag);
+	
 	#If "includeBrackets" is true, we will include the brackets
 	#on the end of the tag "{}". This is important
 	#for creating a new save file or rewriting data
