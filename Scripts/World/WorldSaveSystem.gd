@@ -977,7 +977,15 @@ func getMetaData(meta_tag : String):
 #Default paths/folders will be created:
 #\meta -> For meta data saves; Player meta-data, world meta-data
 #\terrain -> For blocks, walls and terrain save info; Changes to the world and terrain are saved here
-func createNewWorld(worldName : String):
+#----------
+#ARGUMENTS:
+#
+#worldName -> The name the world will be saved under
+#
+#terrainSeed -> The seed to generate noise for the terrain with.
+#
+#biomeSeed -> The seed to generate noise for the biome with.
+func createNewWorld(worldName : String, terrainSeed : int, biomeSeed : int):
 	
 	#The meta file, which we will
 	#store world meta data in.
@@ -1007,7 +1015,7 @@ func createNewWorld(worldName : String):
 	
 	#Write all default world meta
 	#data to the metaFile.
-	var data : String = "(world_name{" + worldName + "})(biome_seed{" + str(global_variables.worldBiomeSeed) + "})(terrain_seed{" + str(global_variables.worldTerrainSeed) + "})";
+	var data : String = "(world_name{" + worldName + "})(biome_seed{" + str(biomeSeed) + "})(terrain_seed{" + str(terrainSeed) + "})";
 	metaFile.store_string(data);
 	
 	

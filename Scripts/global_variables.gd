@@ -5,8 +5,8 @@ extends Node
 
 
 #The world seeds being used
-var worldTerrainSeed = 0;
-var worldBiomeSeed = 0;
+#var worldTerrainSeed = 0;
+#var worldBiomeSeed = 0;
 
 #Debug variable, should serve no purpose
 #other than for debugging

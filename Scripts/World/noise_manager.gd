@@ -20,14 +20,14 @@ var worldBiomeNoise = FastNoiseLite.new();
 #"worldTerrainNoise" generator, reguarding cliffs, hills
 #slopes and the worlds terrain
 #Starts as "314159" as a pi reference, will be updated before world generates
-var worldTerrainNoise_seed : int = global_variables.worldTerrainSeed;
+var worldTerrainNoise_seed : int;
 
 #This is the seed used for the
 #"worldBiomeNoise" generator, which is used to generate
 #biome boarders, and the top world layer, along with other
 #biome specific behaviour
 #Starts as "314159" as a pi reference, will be updated before world generates
-var worldBiomeNoise_seed : int = global_variables.worldBiomeSeed;
+var worldBiomeNoise_seed : int;
 
 #This variable holds the height amplifier for "worldTerrainNoise"
 #engine for the world terrain height, slopes and surface.

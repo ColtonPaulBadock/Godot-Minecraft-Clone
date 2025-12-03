@@ -115,6 +115,8 @@ func _ready() -> void:
 	#Setup the instance of the debug window so we can log
 	#the output box if needed
 	debugWindow = $Player/CameraPivot/Camera3D/DebugWindow/DebugWindowPanel/OutputBoxPanel/OutputBox;
+	
+	pass;
 
 
 #Sets the world and player parameters
@@ -125,12 +127,22 @@ func initSaveData():
 	#Retrieve the world biome noise seed from
 	#the world save file and set it in the noise_manager
 	#for world generation of unloaded fragments.
+	#------
+	#Run the setup for the biome noise "setup_worldBiomeNoise()",
+	#set the seed and noise type and other info related to
+	#noise generation
 	noise_manager.worldBiomeNoise_seed = WorldSaveSystem.getMetaData("biome_seed");
+	noise_manager.setup_worldBiomeNoise();
 	
 	#Retrieve the world terrain noise seed from
 	#the world save file and set it in the noise_manager
 	#for world generation of unloaded fragments.
+	#------
+	#Run the setup for the biome noise "setup_worldTerrainNoise()",
+	#set the seed and noise type and other info related to
+	#noise generation
 	noise_manager.worldTerrainNoise_seed = WorldSaveSystem.getMetaData("terrain_seed");
+	noise_manager.setup_worldTerrainNoise();
 	
 	pass;
 
