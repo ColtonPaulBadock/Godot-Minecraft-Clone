@@ -57,16 +57,14 @@ func createNewWorld():
 	#these values will hold data pulled from the text boxes,
 	#before being pushed to "WorldSaveSystem.createNewWorld()"
 	var worldName : String;
-	var biomeSeed : int;
-	var terrainSeed : int;
+	var seed : int;
 	
 	#Pass seed info to the global variables script
 	#-------
 	#pass the worlds name to the WorldSaveSystem and have
 	#it stored so we pull data from that save when loading
 	#into the world and during runtime.
-	terrainSeed = int($TerrainSeedTextBox.text);
-	biomeSeed = int($BiomeSeedTextBox.text);
+	seed = int($SeedTextBox.text);
 	worldName = $WorldNameTextBox.text;
 	
 	#If the world name is empty, fill it with
@@ -83,7 +81,7 @@ func createNewWorld():
 	#new save/world when switching to the
 	#world scene and out of the main menu
 	#at ID: LAJSUHHI*(@#
-	WorldSaveSystem.createNewWorld(worldName, terrainSeed, biomeSeed);
+	WorldSaveSystem.createNewWorld(worldName, seed);
 	
 	#ID: LAJSUHHI*(@#
 	#Switch to the main gameplay sceen "World".

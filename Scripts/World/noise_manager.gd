@@ -15,19 +15,17 @@ var worldTerrainNoise = FastNoiseLite.new();
 #to spawn in "generateBiome()" in "fragment.gd".
 var worldBiomeNoise = FastNoiseLite.new();
 
-
-#This is the seed used for the
-#"worldTerrainNoise" generator, reguarding cliffs, hills
-#slopes and the worlds terrain
-#Starts as "314159" as a pi reference, will be updated before world generates
-var worldTerrainNoise_seed : int;
-
-#This is the seed used for the
-#"worldBiomeNoise" generator, which is used to generate
-#biome boarders, and the top world layer, along with other
-#biome specific behaviour
-#Starts as "314159" as a pi reference, will be updated before world generates
-var worldBiomeNoise_seed : int;
+#This is the seed for the noise_manager
+#to generate all the worlds terrain, biomes
+#and structures off of.
+#--------
+#All seeds and FastNoiseLite models for biome generation, terrain,
+#structures, etc will all be set based on a derivative of this seed.
+#For example: (the terrain seed might be set by dividing this
+#seed by 10 and adding 4 (Not actually, but similar to this, get a random
+#number thats different from seed, but related to it so we can
+#always get it each time when loading the save file))
+var seed : int;
 
 #This variable holds the height amplifier for "worldTerrainNoise"
 #engine for the world terrain height, slopes and surface.
@@ -116,8 +114,10 @@ func setup_worldBiomeNoise() -> void:
 	
 	
 	#Set the seed for the world biome noise generator
-	#to the seed we picked for the world.
-	worldBiomeNoise.seed = worldBiomeNoise_seed;
+	#we will take the worlds seed, and add, divide, etc to get
+	#a deriviative number to the seed thats different ensuring
+	#unique biomes different from the terrain.
+	worldBiomeNoise.seed = (seed / 2) + 12;
 	
 	#Setup the noise type for the world biome noise.
 	#Setting the noise equal to the picked noise type
@@ -140,9 +140,13 @@ func setup_worldBiomeNoise() -> void:
 #and its noise images.
 func setup_worldTerrainNoise() -> void:
 	
-	#Apply the choosen seed to "worldTerrainNoise", our
-	#FastNoiseLite generator for the worlds terrain.
-	worldTerrainNoise.seed = worldTerrainNoise_seed;
+	#Set the terrain seed for the terrain noise
+	#generator (FastNoiseLite).
+	#-----
+	#We will take the worlds seed, and add, divide, etc to get
+	#a deriviative number to the seed thats different ensuring
+	#unique terrain.
+	worldTerrainNoise.seed = ((seed * 4) / 12) - 6;
 	
 	#Setup the noise type we want to use in "worldTerrainNoise" the type of
 	#noise is preset in variable "worldTerrainNoise_type", which is declared

@@ -182,7 +182,7 @@ offset_top = 155.0
 offset_right = 1020.0
 offset_bottom = 200.0
 theme_override_font_sizes/normal_font_size = 32
-text = "Terrain Seed:"
+text = "World Seed:"
 
 [node name="WorldNameTextBox" type="TextEdit" parent="WorldSelectionMenu/WorldOptions"]
 layout_mode = 0
@@ -193,7 +193,7 @@ offset_bottom = 150.0
 theme_override_font_sizes/font_size = 32
 placeholder_text = "World 1..."
 
-[node name="TerrainSeedTextBox" type="TextEdit" parent="WorldSelectionMenu/WorldOptions"]
+[node name="SeedTextBox" type="TextEdit" parent="WorldSelectionMenu/WorldOptions"]
 layout_mode = 0
 offset_left = 800.0
 offset_top = 205.0
@@ -216,24 +216,6 @@ offset_right = 1245.0
 offset_bottom = 1080.0
 theme_override_font_sizes/font_size = 32
 text = "Title Screen"
-
-[node name="BiomeGeneratorSeedLabel" type="RichTextLabel" parent="WorldSelectionMenu/WorldOptions"]
-layout_mode = 0
-offset_left = 800.0
-offset_top = 260.0
-offset_right = 1020.0
-offset_bottom = 305.0
-theme_override_font_sizes/normal_font_size = 32
-text = "Biomes Seed:"
-
-[node name="BiomeSeedTextBox" type="TextEdit" parent="WorldSelectionMenu/WorldOptions"]
-layout_mode = 0
-offset_left = 800.0
-offset_top = 305.0
-offset_right = 1100.0
-offset_bottom = 360.0
-theme_override_font_sizes/font_size = 32
-placeholder_text = "27182..."
 
 [node name="ClockWork" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_hfc3f")

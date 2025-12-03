@@ -124,25 +124,13 @@ func _ready() -> void:
 #seeds, player pos, etc).
 func initSaveData():
 	
-	#Retrieve the world biome noise seed from
-	#the world save file and set it in the noise_manager
-	#for world generation of unloaded fragments.
-	#------
-	#Run the setup for the biome noise "setup_worldBiomeNoise()",
-	#set the seed and noise type and other info related to
-	#noise generation
-	noise_manager.worldBiomeNoise_seed = WorldSaveSystem.getMetaData("biome_seed");
-	noise_manager.setup_worldBiomeNoise();
-	
-	#Retrieve the world terrain noise seed from
-	#the world save file and set it in the noise_manager
-	#for world generation of unloaded fragments.
-	#------
-	#Run the setup for the biome noise "setup_worldTerrainNoise()",
-	#set the seed and noise type and other info related to
-	#noise generation
-	noise_manager.worldTerrainNoise_seed = WorldSaveSystem.getMetaData("terrain_seed");
+	#Retirve the seed from "\meta\meta.gemd",
+	#and set the seed for the noise_manager
+	#so we can generate all terrain, biomes, structures,
+	#etc.
+	noise_manager.seed = WorldSaveSystem.getMetaData("seed");
 	noise_manager.setup_worldTerrainNoise();
+	noise_manager.setup_worldBiomeNoise();
 	
 	pass;
 
