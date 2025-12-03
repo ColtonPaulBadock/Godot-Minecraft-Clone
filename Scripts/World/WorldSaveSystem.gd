@@ -1022,3 +1022,19 @@ func createNewWorld(worldName : String, terrainSeed : int, biomeSeed : int):
 	#Everything is created, the world has been created as
 	#a save in "Saves" in ".gratisexemptus" folder
 	pass;
+
+
+#When called,
+#this function makes sure "\\AppData\\Roaming\\.gratisexemptus\\Saves"
+#exists, so that world saves can be created and stored
+#without issue.
+func ensureDefaultSaveDirExists():
+	
+	#If the "default_world_save_path" path "\\.gratisexmeptus\\Saves"
+	#folder/path does not exist, then create its
+	#directory so world saves have a place to be
+	#stored, as well as meta data for the game.
+	if (DirAccess.dir_exists_absolute(default_world_save_path) == false):
+		DirAccess.make_dir_recursive_absolute(default_world_save_path);
+	
+	pass;

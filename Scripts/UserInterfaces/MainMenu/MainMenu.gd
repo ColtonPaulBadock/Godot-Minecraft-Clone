@@ -42,6 +42,16 @@ enum menuState {
 #Runs once on "MainMenu" scene startup.
 func _ready() -> void:
 	
+	#ENTRY POINT TO THE GAME
+	#Check to make sure the default save/data
+	#directory exists. If it doesn't
+	#the game is likely being opened
+	#on this device for the first time,
+	#so we create the ".gratisexemptus" dir.
+	#If it does already exist, we will simply do
+	#nothing
+	WorldSaveSystem.ensureDefaultSaveDirExists();
+	
 	#Set our current menu state to being in the main
 	#menu viewing the title screen. With the playbuttons,
 	#exit buttons, options, etc visible
