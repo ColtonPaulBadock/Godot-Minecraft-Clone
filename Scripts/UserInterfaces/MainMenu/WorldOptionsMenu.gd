@@ -44,20 +44,44 @@ func initButtonPressActions():
 	#If the create world button is pressed,
 	#we will evaluate data inside the create world options
 	#to start the new world!
-	$"Play-CreateButton".pressed.connect(startWorldTemp);
+	$"Play-CreateButton".pressed.connect(createNewWorld);
 	
 	pass;
 
-#A temporary function to start the game when "Play-CreateButton" is pressed
-#This starts the world and passes the seed game itself.
-#Intending to replace this with creating a save file, etc.
-func startWorldTemp():
+#Creates a new world and begins loading the player
+#in with parameters from WorldOptions menu, such
+#as World name, entered seed, etc
+func createNewWorld():
 	
 	#Pass seed info to the global variables script
+	#-------
+	#pass the worlds name to the WorldSaveSystem and have
+	#it stored so we pull data from that save when loading
+	#into the world and during runtime.
 	global_variables.worldTerrainSeed = int($TerrainSeedTextBox.text);
 	global_variables.worldBiomeSeed = int($BiomeSeedTextBox.text);
+	WorldSaveSystem.world_save_name = $WorldNameTextBox.text;
 	
-	#Switch to the main gameplay sceen "World"
+	#If the world name is empty, fill it with
+	#random numbers so its not empty
+	if (WorldSaveSystem.world_save_name == ""):
+		WorldSaveSystem.world_save_name = str(randi_range(0, 1000000));
+	
+	#Call the "createNewWorld()" utility from the WorldSaveSystem
+	#so that we can create the a empty world and get ready to generate
+	#all folders and meta-data for it based on entered seeds
+	#and world name.
+	#------
+	#Since the world name is set, we will load this
+	#new save/world when switching to the
+	#world scene and out of the main menu
+	#at ID: LAJSUHHI*(@#
+	WorldSaveSystem.createNewWorld(WorldSaveSystem.world_save_name);
+	
+	#ID: LAJSUHHI*(@#
+	#Switch to the main gameplay sceen "World".
+	#Exit the main menu, we will load the save based on
+	#the name "WorldSaveSystem.world_save_name"
 	global_variables.in_main_menu = false;
 	get_tree().change_scene_to_file("res://Scenes/World.tscn");
 	

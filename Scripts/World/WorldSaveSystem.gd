@@ -964,3 +964,53 @@ func getMetaData(meta_tag : String):
 	#Return the meta_value associated with "meta_tag",
 	#from the \meta\meta.gemd
 	return meta_value;
+
+
+
+#Creates a new world for the
+#player to load into.
+#Called from MainMenu.
+#----------
+#Default meta data will be created:
+#world_name, terrain_seed, biome_seed
+#----------
+#Default paths/folders will be created:
+#\meta -> For meta data saves; Player meta-data, world meta-data
+#\terrain -> For blocks, walls and terrain save info; Changes to the world and terrain are saved here
+func createNewWorld(worldName : String):
+	
+	#The meta file, which we will
+	#store world meta data in.
+	#We also intially create the file
+	#off this instance as well.
+	var metaFile : FileAccess;
+	
+	#Take the "worldName" argument and create
+	#the world save folder in the "Saves" folder
+	#in ".gratisexemptus"; Then create
+	#all default directories such as
+	#"\terrain", "\meta", etc
+	DirAccess.make_dir_absolute(default_world_save_path + "\\" + worldName);
+	DirAccess.make_dir_absolute(default_world_save_path + "\\" + worldName + "\\meta"); #Meta data directory
+	DirAccess.make_dir_absolute(default_world_save_path + "\\" + worldName + "\\terrain"); #Terrain data directory
+	
+	#Set the current world name so we can
+	#access it in different WorldSaveSystem utilities
+	#later when writing save data
+	world_save_name = "\\" + worldName;
+	
+	#Create and set all meta-tags insde
+	#"\meta\meta.gemd" so we have all
+	#meta data for the world stored
+	#in the save
+	metaFile = FileAccess.open(default_world_save_path + world_save_name + "\\meta\\meta.gemd", FileAccess.WRITE);
+	
+	#Write all default world meta
+	#data to the metaFile.
+	var data : String = "(world_name{" + worldName + "})(biome_seed{" + str(global_variables.worldBiomeSeed) + "})(terrain_seed{" + str(global_variables.worldTerrainSeed) + "})";
+	metaFile.store_string(data);
+	
+	
+	#Everything is created, the world has been created as
+	#a save in "Saves" in ".gratisexemptus" folder
+	pass;
