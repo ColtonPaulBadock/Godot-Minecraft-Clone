@@ -1,0 +1,3 @@
+1. git add .                             (This adds all your changes to git)
+2. git commit -m "<YOUR MESSAGE HERE>"   (This adds a message to the changes you stored, so we know what they are)
+3. git push                              (This puts your changes on github)
