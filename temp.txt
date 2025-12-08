@@ -1,0 +1,159 @@
+#Spawns the intial flat surface terrain
+#of the world.
+func spawnSurfaceTerrain():
+	
+	#Plane mesh; Used to generate the ArrayMesh3D
+	#Also holds values defining the array meshes size,
+	#its total subdivides, etc
+	var plane = PlaneMesh.new();
+	
+	#Arrays relating to the arraymeshes
+	#vertices, which will be set in "vertices"
+	#array.
+	var arrays;
+	
+	#The vertices of the
+	#array mesh, these will define
+	#all points in the array mesh at which
+	#said mesh bends, curves
+	#and adds physical detail to the
+	#mesh.
+	#-------
+	#Laymans Terms: Array of every
+	#point defining the meshes shape
+	var vertices : PackedVector3Array;
+	
+	#Default plane size for each fragment
+	#and the total subdivisions (vertices)
+	#of the planes are set here;
+	#Planes are 10 units * 10 units.
+	#There is 3 subdivisions per unit, so we have decent terrain detail
+	#------
+	#These are set from global_variables
+	#for easy, on the fly editing
+	plane.size = global_variables.plane_size;
+	plane.subdivide_width = global_variables.plane_subdivide_depth;
+	plane.subdivide_depth = global_variables.plane_subdivide_depth;
+	
+	#Create a array "PackedVector3Array" type of
+	#each individual vetice from the verticies of the
+	#PlaneMesh, and from this array we can set height,
+	#and move the vertices to create curvature, etc.
+	arrays = plane.surface_get_arrays(0);
+	vertices = arrays[ArrayMesh.ARRAY_VERTEX];
+	
+	
+	
+	#Set the y height of the terrain at each
+	#vertice, this will use noise_manager
+	#for terrain noise!
+	#-------
+	#Loop through each vertice in the plane,
+	#this will allow us to indivdually address each
+	#y-corrdinate.
+	#for i in range(vertices.size()):
+	#	
+	#	#The current vertice will
+	#	#be refered to as "v".
+	#	#Here we can edit anything about
+	#	#the vertice, including the y level.
+	#	var vertice = vertices[i];
+	#	
+	#	#Generate the terrain height
+	#	#using noise+utilities from
+	#	#noise_manager.
+	#	vertice.y = ((1 * (noise_manager.worldTerrainNoise_heightAmplifier * noise_manager.worldTerrainNoise.get_noise_2d(vertice.x + global_position.x , vertice.z + global_position.z))) + vertice.y);# + global_variables.medianWorldLayer;
+	#	
+	#	#Update the vertice in the array with the changes we made.
+	#	#Including:
+	#	#-Y-level for terrain generation/noise.
+	#	vertices[i] = vertice;
+	
+	
+	
+	#Variables used when setting each
+	#unit of the top layer to a block
+	#texture
+	#-------
+	#This is an array containing a Vector3
+	#position partaining to each vertice
+	#within the ArrayMesh (Top layer)
+	#we are about to set as a unit
+	#texture.
+	var verticesOfUnit : PackedVector3Array;
+	
+	#System to set each unit covered by the terrain
+	#with a blocks texture. This gives block
+	#textures to our smooth terrain
+	#We will loop through a fragments
+	#size row by row, then skipping
+	#to the next column once we complete a row
+	#Each unit represents 1 block.
+	for row in 10: #Row is z
+		for column in 10: #Column is x
+			
+			#Here we need to determine the 3 vertices of
+			#two different triangles each that make up the
+			#(1x1) block/unit face of the arraymesh
+			#in which we want to set the blocks texture.
+			#Add the row and column to each
+			#vector, so that we are on the correct unit
+			#when setting the face.
+			verticesOfUnit = PackedVector3Array([
+				Vector3(0 + (column), 0, 0 + (row)), # Vertex A 
+				Vector3(1 + (column), 0, 0 + (row)), # Vertex B
+				Vector3(1 + (column), 0, + (row)), # Vertex C
+				Vector3(1 + (column), 0, + (row)), # Vertex A (again for second triangle)
+				Vector3(1 + (column), 0, + (row)), # Vertex C (again for second triangle)
+				Vector3(1 + (column), 0, + (row))  # Vertex D
+			]);
+			
+			pass;
+		pass;
+	
+	
+	
+	#Update the array mesh with our changes to its
+	#vertices?
+	#Not entirely sure what this does, but it
+	#is pivotal for vertice terrain generation.
+	#Thanks for inspiration GOOGLE!
+	arrays[ArrayMesh.ARRAY_VERTEX] = vertices
+	
+	
+	#Here we create a new mesh
+	#using changes to the vertices of the old
+	#one; "TopLayer" is updated with these
+	#changes.
+	var new_mesh := ArrayMesh.new();
+	new_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays);
+	
+	#Add the generated mesh to the
+	#scene
+	$TopLayer.mesh = new_mesh;
+	
+	
+	# Create the physics body
+	#This physics body creates a static body
+	#for the terrain so we have a body/shape
+	#to add a hitbox to.
+	var static_body = StaticBody3D.new();
+	static_body.name = "TerrainCollisionBody";
+	$TopLayer.add_child(static_body);
+	
+	# Create a CollisionShape3D
+	#This collision shape 3D will become a
+	#child to "static_body" and will act as
+	#a hitbox shape for it.
+	var col_shape := CollisionShape3D.new();
+	static_body.add_child(col_shape);
+	
+	# Create a collision shape based on the mesh geometry
+	#Set the collision shapes shape using the "new_mesh"
+	#(array mesh) and generate a hitbox polygon
+	#shape with each indivdual vertice.
+	var trimesh_shape := new_mesh.create_trimesh_shape();
+	col_shape.shape = trimesh_shape;
+	
+	
+	pass;
