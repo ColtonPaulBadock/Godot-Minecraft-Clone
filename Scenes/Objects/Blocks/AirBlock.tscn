@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5do5r1p8o13g"]
+
+[ext_resource type="Script" uid="uid://cq2t7uuoeha5y" path="res://Scripts/Objects/Blocks/AirBlock.gd" id="1_sgk35"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2iqbe"]
+
+[node name="AirBlock" type="Node3D"]
+script = ExtResource("1_sgk35")
+
+[node name="AirBlock" type="Node3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
+
+[node name="Area3D" type="Area3D" parent="AirBlock"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AirBlock/Area3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_2iqbe")

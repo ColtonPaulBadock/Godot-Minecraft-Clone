@@ -7,6 +7,14 @@ var fragmentSize : Vector3 = Vector3(10.0, 30.0, 10.0);
 #All blocks currently in the fragment.
 var blocks = [];
 
+#All illegal (debug) blocks
+#used for world generation or other
+#features of the game.
+#-----
+#These blocks should not be attainable
+#by the player!
+var illegal_blocks = [];
+
 #Random number generator for world generation
 var rng = RandomNumberGenerator.new(); #Generates random numbers
 
