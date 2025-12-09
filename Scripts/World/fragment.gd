@@ -155,7 +155,10 @@ func loadTerrain() -> void:
 #This function is a sub/child-function of "generateFragment()".
 #Here we spawn in the fragments terrain.
 #On top of this terrain we can spawn structures, etc.
-#The terrain is created using noise from "noise_manager.worldTerrainNoise"
+#The terrain is created using noise from "noise_manager.worldTerrainNoise";
+#---------
+#Generates the top layer of the world, we have a seperate function loading
+#blocks individually of noise (for the ground, maybe elsewhere in the future)
 func generateTerrain() -> void:
 	
 	#This variable is a reference to the block
@@ -245,6 +248,16 @@ func generateTerrain() -> void:
 				
 				pass;
 			
+	
+	pass;
+
+
+#Takes the Vector3 point provided
+#and generates the block it resides in
+#within the fragment if the block hasn't been generated.
+#Uses noise_manager and world noise for this.
+func generateBlock():
+	
 	
 	pass;
 
@@ -550,8 +563,14 @@ func loadAirBlock(position : Vector3):
 	#  c. row 1
 	#  d. row 2
 	#
-	for blockNumber in 27:
-		
+	for row in 3:
+		for column in 3:
+			for block in 3:
+				
+				
+				
+				pass;
+			pass;
 		pass;
 	
 	
