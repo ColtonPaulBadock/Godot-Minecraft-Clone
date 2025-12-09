@@ -3,11 +3,6 @@
 extends Node
 
 
-
-#The world seeds being used
-#var worldTerrainSeed = 0;
-#var worldBiomeSeed = 0;
-
 #Debug variable, should serve no purpose
 #other than for debugging
 var debugBool : bool = false;
@@ -34,7 +29,7 @@ var in_main_menu : bool = true;
 var application_cycles : int = 0;
 
 #The version of the game
-const version : String = "PCR 0.3.0";
+const version : String = "PCR 0.4.0";
 
 #User information
 #The username of the player.

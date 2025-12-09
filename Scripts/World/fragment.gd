@@ -498,6 +498,66 @@ func insertAirBlock(pos : Vector3) -> bool:
 	return returnStatus;
 
 
+
+#This function is pivitol to world generation.
+#It takes a Vector3 (air blocks position) and renders/loads all blocks around
+#said air block within 1/2 block distance.
+#This allows for us to only load what should
+#be visible to the player and save massive ammounts
+#of space in the save files and RAM.
+#------
+#ARGUMENTS:
+#
+#"position" -> Position of the airBlock in the fragment (Can take local or global corrdinates)
+func loadAirBlock(position : Vector3):
+	
+	#We have the corrdinates of the airBlock to load,
+	#we will make sure they are in local formatting to
+	#the fragment and will convert them to local
+	#corrdinates if there global.
+	if position.x > global_variables.fragmentSideLength || position.z > global_variables.fragmentSideLength:
+		#Modulous both x and z corrdinates by the length of a fragments
+		#side so we can have what they would be locally.
+		#y corrdinate is ignored as it is redundent, and universally
+		#the y corrdinate is always the same anywhere (global to local; global -> local)
+		position.x = position.x % global_variables.fragmentSideLength;
+		position.z = position.z % global_variables.fragmentSideLength;
+	
+	
+	#System to generate all nearby blocks
+	#touching the air block which are ungenerated
+	#All nearby blocks will form a 3 * 3 * 3 cube
+	#around the single air block (including the air block itself).
+	#This will come out to be a volume of 27 blocks,
+	# we will start with each column of blocks,
+	#then will move to the right down each row,
+	#until we have complete 3 rows of 3 columns
+	#each
+	#
+	#   1. We go up column 1,
+	#   2. Then move right to column 2
+	#   3. Continuing until the end of row 1
+	#   4. Before droping back to row 2 and repeating till we hit every column
+	#
+	#  a. b.
+	#  \/ \/
+	#  *  *  *  < c.
+	#  *  *  *  < d.
+	#  *  *  *
+	#
+	#  a. column 1
+	#  b. column 2
+	#  c. row 1
+	#  d. row 2
+	#
+	for blockNumber in 27:
+		
+		pass;
+	
+	
+	pass;
+
+
 #A function to help streamline
 #determining if a block is illegal or not.
 #EXAMPLE:
