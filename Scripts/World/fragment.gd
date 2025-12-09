@@ -417,3 +417,23 @@ func removeBlock(pos : Vector3) -> bool:
 	objectRemoved = true;
 	
 	return objectRemoved;
+
+
+
+#This will insert an air block at the provided
+#corrdinates matched to the fragments
+#block grid.
+#We intend for air blocks to help render
+#everything around them underground.
+#This function will return "true" or "false"
+#depending on wether or not the airblock
+#was successfully inserted.
+func insertAirBlock(pos : Vector3, id) -> bool:
+	
+	#If the air block was inserted successfully,
+	#return true, else we will return the default
+	#value "false".
+	var returnStatus : bool = false;
+	
+	
+	return returnStatus;
