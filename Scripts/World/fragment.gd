@@ -7,14 +7,6 @@ var fragmentSize : Vector3 = Vector3(10.0, 30.0, 10.0);
 #All blocks currently in the fragment.
 var blocks = [];
 
-#All illegal (debug) blocks
-#used for world generation or other
-#features of the game.
-#-----
-#These blocks should not be attainable
-#by the player!
-var illegal_blocks = [];
-
 #Random number generator for world generation
 var rng = RandomNumberGenerator.new(); #Generates random numbers
 
@@ -130,13 +122,29 @@ func loadTerrain() -> void:
 			if (blockData == -1):
 				continue;
 		
+		
 		#Set block position using save data
 		blockPos.x = blockData[0];
 		blockPos.y = blockData[1];
 		blockPos.z = blockData[2];
 		
 		#Add the block with saved position and id.
-		addBlock(blockPos, blockData[3]);
+		#However, there are special exceptions (see: EXCEPTIONS)
+		#--------
+		#EXCEPTIONS:
+		#Air Block (ID: 7) -> If its an air block, we call insertAirBlock(),
+		#if just the position provided, as air blocks are used
+		#for world rendering and are not legitimate blocks.
+		if (blockData[3] != 7):
+			addBlock(blockPos, blockData[3]);
+		
+		#handle special air blocks.
+		#These blocks are used for terrain generation
+		#and are not legitimate blocks, they will
+		#be added by "insertAirBlock()" with special
+		#operations as needed.
+		elif (blockData[3] == 7):
+			insertAirBlock(blockPos);
 		
 		pass;
 	
@@ -229,7 +237,7 @@ func generateTerrain() -> void:
 				addBlock(block.position, block.block_id);
 				
 				#-ORPHAN NODE PROBLEM SOLVED AFTER 1 WEEK!!!!-
-				#9/18/2025. I was instantiating a instance of "block", then passing it to
+				#I was instantiating a instance of "block", then passing it to
 				#"addBlock()" just to pull data from it and create a whole new block via instancating,
 				#effectively creating two instances of the block, with one not being added.
 				#Free the extra instance of the block from RAM.
@@ -321,7 +329,11 @@ func addBlock(pos : Vector3, id) -> bool:
 		#If the request placement corrdinates already match an existing block,
 		#then don't place a block and exit this function.
 		if (BLOCK.position.x == pos.x && BLOCK.position.y == pos.y && BLOCK.position.z == pos.z):
-			return false; #If a block already occupies the spot in the fragment, return false, placing no block
+			#However, if this block is ID: 7 (AirBlock)
+			#there is nothing here but a terrain generation
+			#block and we can safely override it.
+			if (isIllegalBlock(BLOCK) == false):
+				return false; #If a block already occupies the spot in the fragment, return false, placing no block
 		pass;
 	#Create a temporary instance of the block "block", use
 	#global block table to select the right type of block
@@ -342,7 +354,10 @@ func addBlock(pos : Vector3, id) -> bool:
 
 
 
-
+#Removes a block from the fragment.
+#This takes it out of "blocks[]" array and it
+#will be removed from save data when the fragement
+#is derendered.
 func removeBlock(pos : Vector3) -> bool:
 	
 	#This value contains a boolean to the status of
@@ -376,19 +391,22 @@ func removeBlock(pos : Vector3) -> bool:
 		#to inspect both Y and Z axis's.
 		#Basically in laymans terms we are seeing if the block is within 1 blockSideLength or range
 		#of the corrdinate of the block in the fragment.
+		#Finally we check if the block is illegal. If its an illegal block,
+		#we will ignore it (such as airBlock) and will make it
+		#undestroyable.
 		if (BLOCK.position.x < pos.x && pos.x < BLOCK.position.x + global_variables.blockSideLength):
 			if (BLOCK.position.z < pos.z && pos.z < BLOCK.position.z + global_variables.blockSideLength):
 				if (BLOCK.position.y < pos.y && pos.y < BLOCK.position.y + global_variables.blockSideLength):
-					
-					#Okay, if we are here, we have identified there is infact a object/block
-					#at the position of the block/object we want to remove, this is the object.
-					#Now, take a instance of this item and exit this for loop. We will
-					#remove it from the scene, "blocks[]" block array next.
-					#Set "objectToRemove" as a instance of the object we want to 
-					#remove from the scene.
-					objectToRemove = BLOCK;
-					break; #Break out of this for loop, we found the object.
-					
+					if (isIllegalBlock(BLOCK) == false):
+						#Okay, if we are here, we have identified there is infact a object/block
+						#at the position of the block/object we want to remove, this is the object.
+						#Now, take a instance of this item and exit this for loop. We will
+						#remove it from the scene, "blocks[]" block array next.
+						#Set "objectToRemove" as a instance of the object we want to 
+						#remove from the scene.
+						objectToRemove = BLOCK;
+						break; #Break out of this for loop, we found the object.
+						pass;
 					pass;
 				pass;
 			pass;
@@ -408,6 +426,10 @@ func removeBlock(pos : Vector3) -> bool:
 	#we will set "objectRemoved" as true, leaving our return status
 	#as having successfully removed the object/block in question from
 	#the fragment.
+	#We will also insert an air-block into its position, so that
+	#everything around it will be rendered (within 1/2 block/unit
+	#distance).
+	insertAirBlock(objectToRemove.position)
 	blocks.erase(objectToRemove); #Erase the block from the "blocks[]" array
 	remove_child(objectToRemove); #Remove the block from the scene.
 	#We removed the object at the described position "pos"
@@ -428,12 +450,82 @@ func removeBlock(pos : Vector3) -> bool:
 #This function will return "true" or "false"
 #depending on wether or not the airblock
 #was successfully inserted.
-func insertAirBlock(pos : Vector3, id) -> bool:
+func insertAirBlock(pos : Vector3) -> bool:
 	
 	#If the air block was inserted successfully,
 	#return true, else we will return the default
 	#value "false".
 	var returnStatus : bool = false;
 	
+	#Remove the decimal on the block to adds position, so that it is
+	#aligned with the grid space.
+	pos.x = int(pos.x);
+	pos.y = int(pos.y);
+	pos.z = int(pos.z);
 	
+	#Loop through all illegal blocks,
+	#if an air block already exists there,
+	#then we can ignore adding this air block,
+	#and will simply return false "returnStatus"
+	#default value, since we couldn't add the
+	#air block
+	for BLOCK in blocks:
+		#If the request placement corrdinates already match an existing air block,
+		#then don't place a air block and exit this function, since
+		#one must already be there and we don't need a second
+		#one placed there.
+		if (BLOCK.position.x == pos.x && BLOCK.position.y == pos.y && BLOCK.position.z == pos.z && BLOCK.block_id == 7):
+			return returnStatus; #If a block already occupies the spot in the fragment, return false, placing no block
+		pass;
+	
+	
+	#We determined and air block is not actively
+	#at the provided space in the fragment,
+	#so we will create a temporary
+	#"block" and will insert it at the
+	#block requested insertion position
+	#alligned with the block grid.
+	var block = global_variables.block_table[7].instantiate();
+	block.position = pos;
+	blocks.append(block);
+	add_child(block);
+	returnStatus = true; #We successfully inserted the airBlock, so we will return true.
+	
+	
+	#Return the status of the air blocks insertion
+	#true -> we successfully inserted the air-block
+	#false -> we failed to insert the air-block.
 	return returnStatus;
+
+
+#A function to help streamline
+#determining if a block is illegal or not.
+#EXAMPLE:
+#This is useful if we want to say, place
+#a block and detect a block is already there,
+#however, if its a illegal block like "airBlock"
+#for terrain generation, we don't care and can override it.
+#-----
+#RETURNS:
+#true -> block is illegal block (airBlock, etc)
+#false -> block is not illegal block
+func isIllegalBlock(BLOCK):
+	
+	#The return status of this function.
+	#If the block is illegal, we will update
+	#it to true.
+	var isIllegal : bool = false;
+	
+	
+	#LOOP THROUGH ALL POSSIBLE ILLEGAL BLOCKS:
+	#Here we will determine if the block
+	#matches the ID of any known illegal block,
+	#if so, the return status "isIllegal" is
+	#updated to true!
+	
+	#If its an "airBlock", then its
+	#illegal.
+	if (BLOCK.block_id == 7):
+		isIllegal = true;
+	
+	return isIllegal;

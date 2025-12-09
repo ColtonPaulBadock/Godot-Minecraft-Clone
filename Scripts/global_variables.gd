@@ -95,20 +95,16 @@ var debugWindowOpen : bool = false;
 #ID 4: BrickBlock
 #ID 5: SandBlock
 #ID 6: LimestoneBlock
+#ID 7: AirBlock -> Illegal block for world generation, player can't have this
 var block_table = [preload("res://Scenes/Objects/Blocks/DarkBlock.tscn"), 
 preload("res://Scenes/Objects/Blocks/SodBlock.tscn"), 
 preload("res://Scenes/Objects/Blocks/TopSoilBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/SubSoilBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/BrickBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/SandBlock.tscn"),
-preload("res://Scenes/Objects/Blocks/LimestoneBlock.tscn")];
-#Illegal blocks are debug blocks, or blocks
-#that have unique features or functions in
-#the game that do not make them player
-#interactable blocks
-#"ILLEGAL BLOCKS":
-#ID 0: AirBlock -> Used for rendering in all blocks around a broken block (for rendering the underground)
-var illegal_block_table = [preload("res://Scenes/Objects/Blocks/AirBlock.tscn")];
+preload("res://Scenes/Objects/Blocks/LimestoneBlock.tscn"),
+preload("res://Scenes/Objects/Blocks/AirBlock.tscn")];
+
 
 #Instances of scenes
 var titleScreen : String = "res://Scenes/UserInterfaces/MainMenu.tscn";

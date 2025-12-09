@@ -10,4 +10,4 @@
 
 extends Node
 
-var block_id : int = -1; #Id of the block, based on "global_variables.block_table".
+var block_id : int = 7; #Id of the block, based on "global_variables.block_table".
