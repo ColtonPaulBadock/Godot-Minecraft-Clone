@@ -536,7 +536,7 @@ func insertAirBlock(pos : Vector3) -> bool:
 #"position" -> Position of the airBlock in the fragment (Local corrdinates only)
 func loadAirBlock(position : Vector3):
 	
-	
+	#ID: 80280482094
 	#System to generate all nearby blocks
 	#touching the air block which are ungenerated
 	#All nearby blocks will form a 3 * 3 * 3 cube
@@ -592,94 +592,57 @@ func loadAirBlock(position : Vector3):
 		
 		#X-Axis
 		#Each row has 3 columns in it to address
+		#ID: checksum90812
 		for column in 3:
-			
 			#Y-Axis
 			#Each column contains 3 blocks.
+			#ID: testghagjge
 			for block in 3:
 				
 				
-				#Generate the current block at the position
-				#around the airBlock; This is assuming a few statements
-				#below
-				#-----
-				#First we need to check to see if this block will even be within
-				#the fragment itself. If we where mining on the direct edge
-				#of a fragment, these new loaded in blocks might
-				#be inside other fragments, so we need to make sure we
-				#we are checking the correct fragments
-				#-----
-				#First we will identify if x overflows the fragment, then z.
 				
 				
-				#Detect if the block would be above the surface where it is,
-				#if so, we can't generate it there.
-				#We use "noise_manager.getTerrainHeightNoise()" where we pass a Vector2
-				#relating to the world position with x, z corrdinates so we can derive Y
-				#height. We add the global position of this fragment, plus the local corrdinates
-				#we are currently handleing.
-				if (blockPosition.y >= floor(noise_manager.getTerrainHeightNoise(Vector2(global_position.x + blockPosition.x, global_position.z + blockPosition.z)))):
-					blockSafeToGenerate = false;
-				
-				#Detect if another block (including air blocks) is present,
-				#if so, we can't generate it here.
-				#We will loop through every block in the fragment,
-				#if a block has the same corrdinates as the one
-				#we are attempting to add around the air block,
-				#then we will not add the block (including other air
-				#blocks).
-				for BLOCK in blocks:
-					
-					#If a block is already in this fragment with
-					#the same corrdinates (thats rendered in),
-					#then we will skip adding this block.
-					if (BLOCK.position == blockPosition):
-						blockSafeToGenerate = false;
-					
-					pass;
-				
-				#NOTE: DEBUG
-				print(blockSafeToGenerate, "  ", floor(noise_manager.getTerrainHeightNoise(Vector2(global_position.x + blockPosition.x, global_position.z + blockPosition.z))), "  ", blockPosition.y);
-				
-				#If we detected no issues in generating
-				#a block at "blockPosition" around the air block,
-				#such as no blocks already being there,
-				#no air already being there, etc -> we can
-				#then generate our block.
-				if (blockSafeToGenerate == true):
+				#If we determined its safe
+				#for the block to generate, we will
+				#do so at the blockPosition.
+				if blockSafeToGenerate == true:
 					generateBlock(blockPosition);
 				
-				#We finished generating the previous block (assuming
-				#nothing existed there), we now will move up
-				#1 unit on the y-axis, to start the next block.
+				#We start at a y of 1 below the air block,
+				#since we want to generate in columns all
+				#around the air block if blocks are not
+				#generated, then we will generate up this
+				#column we are on. We add 1 to y to go to
+				#the next block above, so next time we can
+				#check and generate a block there is its
+				#not present. (As described in ID: 80280482094)
 				blockPosition.y = blockPosition.y + 1;
-				#Reset "blockSafeToGenerate", so we can
-				#set it to false for the next block if nessciary.
-				blockSafeToGenerate = true;
 				
 				pass;
 			
-			#We finished the last block in the column at this
-			#point along the Y-Axis, so we will reset the position
-			#we where at on the Y, and will now move
-			#1 unit down the row, ready for the next column.
+			#We finished our column, as described
+			#by ID: 80280482094. We reset to the intial
+			#y-height we want to generate
+			#at and will then move to the next column in
+			#the row "blockPosition.x + 1".
+			#We will then generate the next 3 blocks
+			#in this column in ID: testghagjge.
 			blockPosition.y = y_axis_init;
 			blockPosition.x = blockPosition.x + 1;
 			
 			pass;
-			
-			#We move back 1 whole row, since we completed
-			#the previous row.
-			blockPosition.z = blockPosition.z + 1;
-			
-			#We hit the end of the row and column,
-			#so we now reset the column and the block
-			#in the column we where on.
-			blockPosition.x = x_axis_init;
-			blockPosition.y = y_axis_init;
-			
+		
+		#We completed a full row of columns at this
+		#point, so we will reset back to the start
+		#of the row "blockPosition.x = x_axis_init".
+		#We will then move back to the next row,
+		#and repeat generating the row
+		#and all of its columns again as in
+		#ID: checksum90812.
+		blockPosition.x = x_axis_init;
+		blockPosition.z = blockPosition.z - 1;
+		
 		pass;
-	
 	
 	pass;
 
