@@ -256,8 +256,18 @@ func generateTerrain() -> void:
 #and generates the block it resides in
 #within the fragment if the block hasn't been generated.
 #Uses noise_manager and world noise for this.
-func generateBlock():
+func generateBlock(position : Vector3):
 	
+	#Remove the decimal of the positon
+	#provided so that the generated
+	#block snaps to the block
+	#grid of the fragment
+	position.x = floor(position.x);
+	position.y = floor(position.y);
+	position.z = floor(position.z);
+	
+	#temporary generates subsoil only.
+	addBlock(position, 2);
 	
 	pass;
 
@@ -521,20 +531,8 @@ func insertAirBlock(pos : Vector3) -> bool:
 #------
 #ARGUMENTS:
 #
-#"position" -> Position of the airBlock in the fragment (Can take local or global corrdinates)
+#"position" -> Position of the airBlock in the fragment (Local corrdinates only)
 func loadAirBlock(position : Vector3):
-	
-	#We have the corrdinates of the airBlock to load,
-	#we will make sure they are in local formatting to
-	#the fragment and will convert them to local
-	#corrdinates if there global.
-	if position.x > global_variables.fragmentSideLength || position.z > global_variables.fragmentSideLength:
-		#Modulous both x and z corrdinates by the length of a fragments
-		#side so we can have what they would be locally.
-		#y corrdinate is ignored as it is redundent, and universally
-		#the y corrdinate is always the same anywhere (global to local; global -> local)
-		position.x = position.x % global_variables.fragmentSideLength;
-		position.z = position.z % global_variables.fragmentSideLength;
 	
 	
 	#System to generate all nearby blocks
@@ -563,14 +561,98 @@ func loadAirBlock(position : Vector3):
 	#  c. row 1
 	#  d. row 2
 	#
+	
+	#Variables related to spawning in
+	#-----------
+	#Starting positions of each axis
+	#when generating
+	#blocks around the air block.
+	var x_axis_init = position.x - 1;
+	var y_axis_init = position.y - 1;
+	var z_axis_init = position.z + 1;
+	var blockPosition : Vector3 = Vector3(x_axis_init, y_axis_init, z_axis_init);
+	#If true, we detected no issues with generating a block at "blockPosition"
+	#and can procede with generating the block that should be there.
+	var blockSafeToGenerate : bool = true;
+	#If the block is in a foreign fragment,
+	#we store instances of that fragment here
+	var foreignFragment;
+	var foreignBlock : Vector3 = Vector3(0, 0, 0);
+	var foreignFragmentPosition : Vector2;
+	#If true, we overflowed into another fragment
+	#and will need to uniquely detect/call
+	#this block for the rest of the sequence.
+	var overflowDetected : bool = false;
+	
+	#Z-Axis
+	#There is 3 rows of of columns to address
 	for row in 3:
+		
+		#X-Axis
+		#Each row has 3 columns in it to address
 		for column in 3:
+			
+			#Y-Axis
+			#Each column contains 3 blocks.
 			for block in 3:
 				
 				
+				#Generate the current block at the position
+				#around the airBlock; This is assuming a few statements
+				#below
+				#-----
+				#First we need to check to see if this block will even be within
+				#the fragment itself. If we where mining on the direct edge
+				#of a fragment, these new loaded in blocks might
+				#be inside other fragments, so we need to make sure we
+				#we are checking the correct fragments
+				#-----
+				#First we will identify if x overflows the fragment, the z.
+				
+				
+				#Detect if the block would be above the surface where it is,
+				#if so, we can't generate it there.
+				
+				
+				#Detect if another block (including air blocks) is present,
+				#if so, we can't generate it here.
+				
+				
+				
+				#If we detected no issues in generating
+				#a block at "blockPosition" around the air block,
+				#such as no blocks already being there,
+				#no air already being there, etc -> we can
+				#then generate our block.
+				if (blockSafeToGenerate == true):
+					generateBlock(blockPosition);
+				
+				#We finished generating the previous block (assuming
+				#nothing existed there), we now will move up
+				#1 unit on the y-axis, to start the next block.
+				blockPosition.y = blockPosition.y + 1;
 				
 				pass;
+			
+			#We finished the last block in the column at this
+			#point along the Y-Axis, so we will reset the position
+			#we where at on the Y, and will now move
+			#1 unit down the row, ready for the next column.
+			blockPosition.y = y_axis_init;
+			blockPosition.x = blockPosition.x + 1;
+			
 			pass;
+			
+			#We move back 1 whole row, since we completed
+			#the previous row.
+			blockPosition.z = blockPosition.z + 1;
+			
+			#We hit the end of the row and column,
+			#so we now reset the column and the block
+			#in the column we where on.
+			blockPosition.x = x_axis_init;
+			blockPosition.y = y_axis_init;
+			
 		pass;
 	
 	
