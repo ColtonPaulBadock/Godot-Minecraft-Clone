@@ -268,7 +268,7 @@ func generateBlock(position : Vector3):
 	position.z = floor(position.z);
 	
 	#temporary generates subsoil only.
-	addBlock(position, 2);
+	addBlock(position, 4);
 	
 	pass;
 
@@ -599,9 +599,35 @@ func loadAirBlock(position : Vector3):
 			#ID: testghagjge
 			for block in 3:
 				
+				#print(blockPosition.x);
+				#print(noise_manager.getTerrainHeightNoise(Vector2(blockPosition.x + global_position.x, blockPosition.z + global_position.z)), " BlockPos: ", blockPosition.y);
+				
+				
+				#In the following statements, we will check for specific values,
+				#instances or times where we can't generate blocks around the air
+				#block. We will be checking until we determine it is safe
+				#to generate the block and we generate it at ID: 09823478902749
+				#(or we determine there is issues generateing a block there,
+				#such as being above the surface, or a block is already there
+				#and we won't generate).
+				#----------------------
+				#Check to see if the block would be generate above the
+				#surface, if so, we can't generate the block there
+				#since the surface is full of air, structures, folliage,
+				#etc. "blockSafeToGenerate" will become false, preventing us
+				#from generating the new block.
+				if (blockPosition.y >= floor(noise_manager.getTerrainHeightNoise(Vector2(blockPosition.x + global_position.x, blockPosition.z + global_position.z)))):
+					blockSafeToGenerate = false;
+					pass;
+				
+				
+				for BLOCK in blocks:
+					if (BLOCK.position == blockPosition):
+						blockSafeToGenerate = false;
 				
 				
 				
+				#ID: 09823478902749
 				#If we determined its safe
 				#for the block to generate, we will
 				#do so at the blockPosition.
@@ -617,6 +643,13 @@ func loadAirBlock(position : Vector3):
 				#check and generate a block there is its
 				#not present. (As described in ID: 80280482094)
 				blockPosition.y = blockPosition.y + 1;
+				
+				#Reset the status of block being safe to generate.
+				#since we either generated or didn't the previous
+				#block depending on if it was safe, we now reset
+				#this value to determine if its safe for the next
+				#block.
+				blockSafeToGenerate = true;
 				
 				pass;
 			

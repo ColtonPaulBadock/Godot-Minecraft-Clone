@@ -117,7 +117,7 @@ func getTerrainHeightNoise(noisePos : Vector2):
 	#in argument 1.
 	#NOTE: "noisePos.y" is actually a z-axis corrdinate, since we only need
 	#two corrdinates "Vector2" and y is one of them by default in godot.
-	var height = ((1 * (worldTerrainNoise_heightAmplifier * worldTerrainNoise.get_noise_2d(noisePos.x, noisePos.y)))) + global_variables.medianWorldLayer;
+	var height = floor(((1 * (worldTerrainNoise_heightAmplifier * worldTerrainNoise.get_noise_2d(noisePos.x, noisePos.y)))) + global_variables.medianWorldLayer);
 	
 	
 	return height;
