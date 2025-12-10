@@ -105,6 +105,24 @@ func _ready() -> void:
 	pass;
 
 
+#Returns the terrain height for the surface
+#layer based on provided corrdinates as argument
+#1 (which is a vector2).
+#-----
+#ARGUMENTS:
+# noisePos -> The position on the noise map, related to the world position
+func getTerrainHeightNoise(noisePos : Vector2):
+	
+	#The height of the world based on the corrdinates provided
+	#in argument 1.
+	#NOTE: "noisePos.y" is actually a z-axis corrdinate, since we only need
+	#two corrdinates "Vector2" and y is one of them by default in godot.
+	var height = ((1 * (worldTerrainNoise_heightAmplifier * worldTerrainNoise.get_noise_2d(noisePos.x, noisePos.y)))) + global_variables.medianWorldLayer;
+	
+	
+	return height;
+
+
 
 #This function intializes parameters
 #or data for the biome noise generator

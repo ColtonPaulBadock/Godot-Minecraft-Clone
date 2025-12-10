@@ -235,7 +235,8 @@ func generateTerrain() -> void:
 				#"+ global_variables.medianWorldLayer" takes into account negative noise.
 				#This adds a buffer zone for the top world layer to spawn in with mountains and valleys,
 				#without the risk of dropping below Y=0.
-				block.position.y = ((1 * (noise_manager.worldTerrainNoise_heightAmplifier * noise_manager.worldTerrainNoise.get_noise_2d(block_x + global_position.x , block_z + global_position.z))) + block_y) + global_variables.medianWorldLayer;
+				#block.position.y = ((1 * (noise_manager.worldTerrainNoise_heightAmplifier * noise_manager.worldTerrainNoise.get_noise_2d(block_x + global_position.x , block_z + global_position.z))) + block_y) + global_variables.medianWorldLayer;
+				block.position.y = noise_manager.getTerrainHeightNoise(Vector2(block_x + global_position.x, block_z + global_position.z)) + block_y;
 				
 				addBlock(block.position, block.block_id);
 				
@@ -452,9 +453,10 @@ func removeBlock(pos : Vector3) -> bool:
 	#We will also insert an air-block into its position, so that
 	#everything around it will be rendered (within 1/2 block/unit
 	#distance).
-	insertAirBlock(objectToRemove.position)
 	blocks.erase(objectToRemove); #Erase the block from the "blocks[]" array
 	remove_child(objectToRemove); #Remove the block from the scene.
+	insertAirBlock(objectToRemove.position);
+	loadAirBlock(objectToRemove.position);
 	#We removed the object at the described position "pos"
 	#Now set the exit status for our function as "true"
 	#indicating we successfully removed the object/block at the
@@ -576,13 +578,13 @@ func loadAirBlock(position : Vector3):
 	var blockSafeToGenerate : bool = true;
 	#If the block is in a foreign fragment,
 	#we store instances of that fragment here
-	var foreignFragment;
-	var foreignBlock : Vector3 = Vector3(0, 0, 0);
-	var foreignFragmentPosition : Vector2;
+	#var foreignFragment;
+	#var foreignBlock : Vector3 = Vector3(0, 0, 0);
+	#var foreignFragmentPosition : Vector2;
 	#If true, we overflowed into another fragment
 	#and will need to uniquely detect/call
 	#this block for the rest of the sequence.
-	var overflowDetected : bool = false;
+	#var overflowDetected : bool = false;
 	
 	#Z-Axis
 	#There is 3 rows of of columns to address
@@ -607,17 +609,37 @@ func loadAirBlock(position : Vector3):
 				#be inside other fragments, so we need to make sure we
 				#we are checking the correct fragments
 				#-----
-				#First we will identify if x overflows the fragment, the z.
+				#First we will identify if x overflows the fragment, then z.
 				
 				
 				#Detect if the block would be above the surface where it is,
 				#if so, we can't generate it there.
-				
+				#We use "noise_manager.getTerrainHeightNoise()" where we pass a Vector2
+				#relating to the world position with x, z corrdinates so we can derive Y
+				#height. We add the global position of this fragment, plus the local corrdinates
+				#we are currently handleing.
+				if (blockPosition.y >= floor(noise_manager.getTerrainHeightNoise(Vector2(global_position.x + blockPosition.x, global_position.z + blockPosition.z)))):
+					blockSafeToGenerate = false;
 				
 				#Detect if another block (including air blocks) is present,
 				#if so, we can't generate it here.
+				#We will loop through every block in the fragment,
+				#if a block has the same corrdinates as the one
+				#we are attempting to add around the air block,
+				#then we will not add the block (including other air
+				#blocks).
+				for BLOCK in blocks:
+					
+					#If a block is already in this fragment with
+					#the same corrdinates (thats rendered in),
+					#then we will skip adding this block.
+					if (BLOCK.position == blockPosition):
+						blockSafeToGenerate = false;
+					
+					pass;
 				
-				
+				#NOTE: DEBUG
+				print(blockSafeToGenerate, "  ", floor(noise_manager.getTerrainHeightNoise(Vector2(global_position.x + blockPosition.x, global_position.z + blockPosition.z))), "  ", blockPosition.y);
 				
 				#If we detected no issues in generating
 				#a block at "blockPosition" around the air block,
@@ -631,6 +653,9 @@ func loadAirBlock(position : Vector3):
 				#nothing existed there), we now will move up
 				#1 unit on the y-axis, to start the next block.
 				blockPosition.y = blockPosition.y + 1;
+				#Reset "blockSafeToGenerate", so we can
+				#set it to false for the next block if nessciary.
+				blockSafeToGenerate = true;
 				
 				pass;
 			
@@ -690,3 +715,40 @@ func isIllegalBlock(BLOCK):
 		isIllegal = true;
 	
 	return isIllegal;
+
+
+#Returns true of false, depending
+#on if a block can be located at "blockPos"
+#or not from the "blocks[]" array.
+#------
+#RETURNS:
+#true -> if a block is found with same position "blockPos"
+#false -> if a block is not found with position "blockPos"
+func blockExists(blockPos : Vector3):
+	
+	#This is the return value of this function.
+	#If we find a block with the same corrdinates
+	#as "blockPos" (the corrdinates of the
+	#block we are trying to find/check if exists),
+	#then this value is updated to true and we
+	#return true.
+	var blockExists : bool = false;
+	
+	#Loop through all blocks in "blocks[]" array
+	#comparing the position "blockPos" to all blocks.
+	#If we find a matching position
+	#to "blockPos", then we will set our
+	#return value "blockExists" as true,
+	#since we determined a block at position "blockPos"
+	#exists.
+	for block in blocks:
+		if (blockPos.x == block.position.x):
+			if (blockPos.z == block.position.z):
+				if (blockPos.y == block.position.y):
+					blockExists = true;
+					break;
+		pass;
+	
+	#Return a boolean value showing if
+	#the block exists or not.
+	return blockExists;
