@@ -581,6 +581,11 @@ func loadAirBlock(position : Vector3):
 	#fragment (because blocks could be in
 	#another fragment)
 	var world = get_parent();
+	#The fragment we are currently working
+	#with. This is "self" by default,
+	#but if we have blocks in a foreign fragment
+	#it will change.
+	var fragment = self;
 	
 	#Z-Axis
 	#There is 3 rows of of columns to address
@@ -595,10 +600,25 @@ func loadAirBlock(position : Vector3):
 			#ID: testghagjge
 			for block in 3:
 				
-				print(blockPosition.x);
-				if (blockPosition.x >= global_variables.fragmentSideLength || blockPosition.z >= global_variables.fragmentSideLength):
-					print(get_parent());
+				#If the blocks position is outside of or below the length
+				#of a fragment, then it is overflowing into another fragment.
+				#we need to determine which fragment this is flowing into,
+				#by search the corrdinates (global) and returning the fragment.
+				#We then need to store an instance to the fragment
+				#and use it to call and determine data about the block
+				#we are trying to place around the air block.
+				if (blockPosition.x >= global_variables.fragmentSideLength || blockPosition.x < 0.0 || blockPosition.z >= global_variables.fragmentSideLength || blockPosition.z < 0.0):
+					
+					#We take the global position of our current fragment "self" and add
+					#the position of the block we are currently working with "blockPosition".
+					#This will give us each corrdinate for the block in the world, and we keep
+					#Y corrdinate the same since Y is redundent. We will then, use these corrdinates
+					#in a Vector3 position and pass it to the world at "locateFragmentAt()" to return
+					#an instance of the fragment the block is in.
+					fragment = world.locateFragmentAt(Vector3(self.global_position.x + blockPosition.x, blockPosition.y, self.global_position.z + blockPosition.z));
+					
 					pass;
+					
 				
 				#In the following statements, we will check for specific values,
 				#instances or times where we can't generate blocks around the air
