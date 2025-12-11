@@ -611,7 +611,7 @@ func loadAirBlock(position : Vector3):
 				#by search the corrdinates (global) and returning the fragment.
 				#We then need to store an instance to the fragment
 				#and use it to call and determine data about the block
-				#we are trying to place around the air block.
+				#we are trying to place around the air block..
 				if (blockPosition.x >= global_variables.fragmentSideLength || blockPosition.x < 0.0 || blockPosition.z >= global_variables.fragmentSideLength || blockPosition.z < 0.0):
 					
 					#We take the global position of our current fragment "self" and add
