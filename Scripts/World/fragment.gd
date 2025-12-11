@@ -622,6 +622,7 @@ func loadAirBlock(position : Vector3):
 					#an instance of the fragment the block is in.
 					fragment = world.locateFragmanetAt(Vector3(self.global_position.x + blockPosition.x, blockPosition.y, self.global_position.z + blockPosition.z));
 					
+					
 					#Get the new block corrdinates for the
 					#block (since we are in a different fragment)
 					#corrdinates will be flipped
