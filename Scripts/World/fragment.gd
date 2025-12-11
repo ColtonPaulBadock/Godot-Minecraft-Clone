@@ -627,6 +627,8 @@ func loadAirBlock(position : Vector3):
 						print("Foreign fragment!");
 						if (fragment == self):
 							print("Not self!");
+							print(fragment.position);
+							print(world.locateFragmanetAt(Vector3(30.0, 5.0, 10.0)).position);
 					
 					#Get the new block corrdinates for the
 					#block (since we are in a different fragment)
