@@ -622,6 +622,11 @@ func loadAirBlock(position : Vector3):
 					#an instance of the fragment the block is in.
 					fragment = world.locateFragmanetAt(Vector3(self.global_position.x + blockPosition.x, blockPosition.y, self.global_position.z + blockPosition.z));
 					
+					#NOTE: Debug
+					if (blockPosition.x >= global_variables.fragmentSideLength):
+						print("Foreign fragment!");
+						if (fragment == self):
+							print("Not self!");
 					
 					#Get the new block corrdinates for the
 					#block (since we are in a different fragment)
@@ -679,8 +684,22 @@ func loadAirBlock(position : Vector3):
 				#for the block to generate, we will
 				#do so at the blockPosition.
 				if blockSafeToGenerate == true:
-					generateBlock(blockPosition);
+					fragment.generateBlock(blockPosition);
+					#NOTE: DEBUG
+					if (fragment != self):
+						print("Generated outside self!!");
 				
+				#Reset the fragment pointing back to self.
+				#So that we will reference this current fragment "self"
+				#next time unless we detect we are in a foreign fragment.
+				#MAKE_FAST: We could set this back to self
+				#when done with the column (So we aren't checking for the same
+				#foreign fragment 2 additional times)
+				#------
+				#We reset "blockPosition" back to its expected position
+				#this is just in case we where in a foreign fragment
+				#and set "blockPosition" to reflect the foreign fragments
+				#local corrdinates of the blocks.
 				fragment = self;
 				blockPosition = expectedPos;
 				
