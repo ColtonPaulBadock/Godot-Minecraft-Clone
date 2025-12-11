@@ -600,6 +600,11 @@ func loadAirBlock(position : Vector3):
 			#ID: testghagjge
 			for block in 3:
 				
+				#Temporary stores a copy of the blockPosition,
+				#in the event we modify it for overflowing
+				#into other fragments.
+				var expectedPos : Vector3 = blockPosition; 
+				
 				#If the blocks position is outside of or below the length
 				#of a fragment, then it is overflowing into another fragment.
 				#we need to determine which fragment this is flowing into,
@@ -615,7 +620,28 @@ func loadAirBlock(position : Vector3):
 					#Y corrdinate the same since Y is redundent. We will then, use these corrdinates
 					#in a Vector3 position and pass it to the world at "locateFragmentAt()" to return
 					#an instance of the fragment the block is in.
-					fragment = world.locateFragmentAt(Vector3(self.global_position.x + blockPosition.x, blockPosition.y, self.global_position.z + blockPosition.z));
+					fragment = world.locateFragmanetAt(Vector3(self.global_position.x + blockPosition.x, blockPosition.y, self.global_position.z + blockPosition.z));
+					
+					#Get the new block corrdinates for the
+					#block (since we are in a different fragment)
+					#corrdinates will be flipped
+					#--------
+					#ID: LDGHYU##*8
+					#First we will flip the x corrdinate (if needed)
+					#We will add or subtract global length of a fragment
+					#depending on if x is less than or larger than the
+					#global length, to basically convert/flip the corrdinate
+					#to the other fragments eqivalent corrdinate.
+					if (blockPosition.x >= global_variables.fragmentSideLength):
+						blockPosition.x = blockPosition.x - global_variables.fragmentSideLength;
+					elif (blockPosition.x < 0.0):
+						blockPosition.x = blockPosition.x + global_variables.fragmentSideLength;
+					#We follow the same procedure for the z-axis as in the x-axis for flipping
+					#corrdinates (ID: LDGHYU##*8)
+					if (blockPosition.z >= global_variables.fragmentSideLength):
+						blockPosition.z = blockPosition.z - global_variables.fragmentSideLength;
+					elif (blockPosition.z < 0.0):
+						blockPosition.z = blockPosition.z + global_variables.fragmentSideLength;
 					
 					pass;
 					
@@ -633,14 +659,14 @@ func loadAirBlock(position : Vector3):
 				#since the surface is full of air, structures, folliage,
 				#etc. "blockSafeToGenerate" will become false, preventing us
 				#from generating the new block.
-				if (blockPosition.y >= floor(noise_manager.getTerrainHeightNoise(Vector2(blockPosition.x + global_position.x, blockPosition.z + global_position.z)))):
+				if (blockPosition.y >= floor(noise_manager.getTerrainHeightNoise(Vector2(blockPosition.x + fragment.global_position.x, blockPosition.z + fragment.global_position.z)))):
 					blockSafeToGenerate = false;
 					pass;
 				
 				#If the there is already a generated/loaded block there,
 				#or more air blocks, then we will not generate
 				#the block.
-				for BLOCK in blocks:
+				for BLOCK in fragment.blocks:
 					if (BLOCK.position == blockPosition):
 						blockSafeToGenerate = false;
 				
@@ -653,6 +679,9 @@ func loadAirBlock(position : Vector3):
 				#do so at the blockPosition.
 				if blockSafeToGenerate == true:
 					generateBlock(blockPosition);
+				
+				fragment = self;
+				blockPosition = expectedPos;
 				
 				#We start at a y of 1 below the air block,
 				#since we want to generate in columns all
@@ -670,6 +699,8 @@ func loadAirBlock(position : Vector3):
 				#this value to determine if its safe for the next
 				#block.
 				blockSafeToGenerate = true;
+				
+				
 				
 				pass;
 			
