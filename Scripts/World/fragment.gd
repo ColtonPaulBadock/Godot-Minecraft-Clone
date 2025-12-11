@@ -568,7 +568,7 @@ func loadAirBlock(position : Vector3):
 	#-----------
 	#Starting positions of each axis
 	#when generating
-	#blocks around the air block.
+	#blocks around the air block..
 	var x_axis_init = position.x - 1;
 	var y_axis_init = position.y - 1;
 	var z_axis_init = position.z + 1;
