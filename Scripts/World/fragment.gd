@@ -620,10 +620,13 @@ func loadAirBlock(position : Vector3):
 					blockSafeToGenerate = false;
 					pass;
 				
-				
+				#If the there is already a generated/loaded block there,
+				#or more air blocks, then we will not generate
+				#the a block.
 				for BLOCK in blocks:
 					if (BLOCK.position == blockPosition):
 						blockSafeToGenerate = false;
+				
 				
 				
 				
