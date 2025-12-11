@@ -520,7 +520,8 @@ func locateFragmanetAt(pos : Vector3):
 		if (FRAGMENT.position.x + global_variables.fragmentSideLength >= pos.x + global_variables.fragmentSideLength):
 			continue;
 		
-		#Check each fragment in "fragments" array. Make sure the x and z corrdinates are both between the min and max corrdinates on each axis
+		
+		#.Check each fragment in "fragments" array. Make sure the x and z corrdinates are both between the min and max corrdinates on each axis
 		if (pos.x >= FRAGMENT.position.x && pos.x <= FRAGMENT.position.x + global_variables.fragmentSideLength && pos.z >= FRAGMENT.position.z && pos.z < FRAGMENT.position.z + global_variables.fragmentSideLength):
 			identifiedFragment = FRAGMENT; #If we found the fragment that contains corrdinates that posses the block, set "identifiedFragment" as a instance of this fragment
 			pass;
