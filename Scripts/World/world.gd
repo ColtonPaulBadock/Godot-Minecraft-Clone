@@ -774,3 +774,15 @@ func exitAndSave():
 	get_tree().change_scene_to_file(global_variables.titleScreen);
 	
 	pass;
+
+
+
+#A test function that prints a message when
+#called. This function has no use
+#anywhere and can be safely deleted if
+#needed.
+func testFunc():
+	
+	print("Checksum!");
+	
+	pass;

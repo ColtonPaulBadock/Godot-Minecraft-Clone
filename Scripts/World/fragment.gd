@@ -576,15 +576,11 @@ func loadAirBlock(position : Vector3):
 	#If true, we detected no issues with generating a block at "blockPosition"
 	#and can procede with generating the block that should be there.
 	var blockSafeToGenerate : bool = true;
-	#If the block is in a foreign fragment,
-	#we store instances of that fragment here
-	#var foreignFragment;
-	#var foreignBlock : Vector3 = Vector3(0, 0, 0);
-	#var foreignFragmentPosition : Vector2;
-	#If true, we overflowed into another fragment
-	#and will need to uniquely detect/call
-	#this block for the rest of the sequence.
-	#var overflowDetected : bool = false;
+	#Instance of the world, incase
+	#we need to get interact with another
+	#fragment (because blocks could be in
+	#another fragment)
+	var world = get_parent();
 	
 	#Z-Axis
 	#There is 3 rows of of columns to address
@@ -599,9 +595,10 @@ func loadAirBlock(position : Vector3):
 			#ID: testghagjge
 			for block in 3:
 				
-				#print(blockPosition.x);
-				#print(noise_manager.getTerrainHeightNoise(Vector2(blockPosition.x + global_position.x, blockPosition.z + global_position.z)), " BlockPos: ", blockPosition.y);
-				
+				print(blockPosition.x);
+				if (blockPosition.x >= global_variables.fragmentSideLength || blockPosition.z >= global_variables.fragmentSideLength):
+					print(get_parent());
+					pass;
 				
 				#In the following statements, we will check for specific values,
 				#instances or times where we can't generate blocks around the air
@@ -622,7 +619,7 @@ func loadAirBlock(position : Vector3):
 				
 				#If the there is already a generated/loaded block there,
 				#or more air blocks, then we will not generate
-				#the a block.
+				#the block.
 				for BLOCK in blocks:
 					if (BLOCK.position == blockPosition):
 						blockSafeToGenerate = false;
