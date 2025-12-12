@@ -132,6 +132,22 @@ func evaluateCommands(message : String) -> void:
 		outputBox.writeLog("Polo!\n");
 		return;
 	
+	#"-save" command exits and saves to main menu
+	if (message.begins_with("-save")):
+		
+		#Calls the scene tree, gets the main "World" node,
+		#and calls function "exitAndSave()".
+		get_tree().get_root().get_node("World").exitAndSave();
+		return;
+	
+	#"-emergency_kill" command exits the game without saving
+	if (message.begins_with("-emergency_kill")):
+		
+		#Quits/kills the entire application from the main scene
+		#tree.
+		get_tree().quit();
+		return;
+	
 	#"-clear" command, clears the "OutputBox" of all logs
 	if (message.begins_with("-clear")):
 		outputBox.clear();
