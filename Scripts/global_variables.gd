@@ -55,7 +55,7 @@ var worldDepth : int = 2;
 #Assuming we have now spawning the top world layer with this,
 #we can use noise to spawn blocks/objects below
 #it and spawn nothing below Y=0.
-var medianWorldLayer : int = 50;
+var medianWorldLayer : int = 200;
 
 #Length of each side of the fragment.
 var fragmentSideLength = 10; 

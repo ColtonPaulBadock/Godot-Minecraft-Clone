@@ -99,7 +99,7 @@ func _ready() -> void:
 		startMainMenu();
 	
 	#Set the players spawn position for the Y corrdinate after the world has spawned in.
-	player.position.y = 95;
+	player.position.y = 295;
 	
 	add_child(player); #Add the player into the world
 	

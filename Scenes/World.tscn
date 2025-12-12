@@ -25,7 +25,7 @@ script = ExtResource("1_gjpho")
 environment = SubResource("Environment_p70al")
 
 [node name="SpawnPlatform" parent="." instance=ExtResource("1_5cjrv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 90, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 290, 0)
 
 [node name="menu_and_keys" parent="." instance=ExtResource("3_5nsto")]
 
