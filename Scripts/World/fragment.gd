@@ -386,7 +386,12 @@ func addBlock(pos : Vector3, id) -> bool:
 #This takes it out of "blocks[]" array and it
 #will be removed from save data when the fragement
 #is derendered.
-func removeBlock(pos : Vector3) -> bool:
+#----------------
+#ARGUMENTS:
+#pos -> The position of the block to remove (we search for this position and remove the block there if it exists)
+#source -> the source of the removal (player, the code, etc)
+#        -"PLAYER" -> The player called the remove block function
+func removeBlock(pos : Vector3, source : String) -> bool:
 	
 	#This value contains a boolean to the status of
 	#if we removed a block or not.
@@ -448,6 +453,23 @@ func removeBlock(pos : Vector3) -> bool:
 	if (objectToRemove == null):
 		return objectRemoved;
 	
+	
+	#If the player was the source of the blocks
+	#removal, we will check several parameters,
+	#and might not remove the block depending on
+	#parameters such as destructiblity (is the block
+	#even breakable?)
+	if (source == "PLAYER"):
+		
+		#If the block is not breakable,
+		#I.E. its indestructible, then
+		#we will return null and break/remove
+		#no blocks.
+		if (objectToRemove.is_indestructible == true):
+			objectToRemove = null;
+			return objectRemoved;
+			pass;
+		pass;
 	
 	#We found the object to remove! based on the position "pos" provided
 	#Now we need to remove it. Assuming we are able to remove it,

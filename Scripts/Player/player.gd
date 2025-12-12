@@ -147,7 +147,7 @@ func interactionManager():
 		#Sends the position within the block we want to remove.
 		#"blockSuccessfullyRemoved" will be true if a block/object is removed
 		#else, it will be false.
-		blockSuccessfullyRemoved = world.removeBlock(applyRaycastBehviour(playerReach.get_collision_point(), "penetrate"));
+		blockSuccessfullyRemoved = world.removeBlock(applyRaycastBehviour(playerReach.get_collision_point(), "penetrate"), "PLAYER");
 		
 		
 		

@@ -1,5 +1,20 @@
 #Imbilisite block
 
-extends Node
+extends "res://Scripts/World/block.gd"
 
-var block_id : int = 8; #Id of the block, based on "global_variables.block_table".
+#Runs once when entering the scene tree.
+func _ready() -> void:
+	
+	#Set all default parameters for the block
+	setDefaultParameters();
+	
+	pass;
+
+#Intilizes all default parameters for the block
+func setDefaultParameters() -> void:
+	
+	block_id = 8;
+	
+	is_indestructible = true;
+	
+	pass;

@@ -709,9 +709,10 @@ func worldCordsToFragment_Vector3(value : Vector3) -> Vector3:
 #removed and true being a block was removed.
 #
 #-Arguments-
-#
 #pos = The position of the block/object to remove. If the object is within these corrdinates, remove it.
-func removeBlock(pos : Vector3) -> bool:
+#source -> the source of the removal (player, the code, etc)
+#        -"PLAYER" -> The player called the remove block function
+func removeBlock(pos : Vector3, source : String) -> bool:
 	
 	#If this variable is true, we successfully removed a block
 	#from the fragment/scene/world.
@@ -754,7 +755,7 @@ func removeBlock(pos : Vector3) -> bool:
 	#Convert both X and Z corrdinates to fit the local fragments corrdinates.
 	#We will use "worldCordsToFragment()" to accomplish this.
 	pos = worldCordsToFragment(pos);
-	blockRemoved = fragmentContainingBlock.removeBlock(pos);
+	blockRemoved = fragmentContainingBlock.removeBlock(pos, source);
 	
 	
 	#Return the status if a block was removed or not
