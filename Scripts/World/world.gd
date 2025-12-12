@@ -711,7 +711,8 @@ func worldCordsToFragment_Vector3(value : Vector3) -> Vector3:
 #-Arguments-
 #pos = The position of the block/object to remove. If the object is within these corrdinates, remove it.
 #source -> the source of the removal (player, the code, etc)
-#        -"PLAYER" -> The player called the remove block function
+#        -"PLAYER" -> The player called the removal block function
+#        -"MACHINE" -> The code called the remoal of the block
 func removeBlock(pos : Vector3, source : String) -> bool:
 	
 	#If this variable is true, we successfully removed a block
