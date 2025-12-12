@@ -263,6 +263,9 @@ func generateTerrain() -> void:
 #Uses noise_manager and world noise for this.
 func generateBlock(position : Vector3):
 	
+	#The ID of the block to spawn in.
+	var block_id : int = 0;
+	
 	#Remove the decimal of the positon
 	#provided so that the generated
 	#block snaps to the block
@@ -271,8 +274,16 @@ func generateBlock(position : Vector3):
 	position.y = floor(position.y);
 	position.z = floor(position.z);
 	
-	#temporary generates subsoil only.
-	addBlock(position, 6);
+	
+	#If we are at the bottom of the world, the block
+	#will be inibillisite, so we can't mine out
+	#of the world.
+	if (position.y == 0):
+		block_id = 8;
+	
+	#Generate the choosen block based on noise,
+	#and the rest of the generation algorithm above
+	addBlock(position, block_id);
 	
 	pass;
 
