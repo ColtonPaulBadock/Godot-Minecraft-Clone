@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4l6tw6bdc5nb"]
+
+[ext_resource type="PackedScene" uid="uid://ka3w1gtnctk8" path="res://Assets/Imibillisite/Imibillisite.glb" id="1_ys2gr"]
+[ext_resource type="Script" uid="uid://crl5e7w2vt1a8" path="res://Scripts/Objects/Blocks/Imibillisite.gd" id="2_r3jsd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r3jsd"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("2_r3jsd")
+
+[node name="Imibillisite" parent="." instance=ExtResource("1_ys2gr")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Imibillisite"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Imibillisite/StaticBody3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_r3jsd")

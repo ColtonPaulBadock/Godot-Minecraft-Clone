@@ -83,14 +83,15 @@ var debugWindowOpen : bool = false;
 
 #Block table of all blocks that exist in the game, holding there locations. The index of the array is the block id
 #BLOCKS:
-#ID 0: DarkBlock
-#ID 1: SodBlock
-#ID 2: TopSoilBlock
-#ID 3: SubSoilBlock
-#ID 4: BrickBlock
-#ID 5: SandBlock
-#ID 6: LimestoneBlock
+#ID 0: DarkBlock -> Debug block
+#ID 1: SodBlock -> Top natural glass layer
+#ID 2: TopSoilBlock -> Soil just beneth the Sod layer
+#ID 3: SubSoilBlock -> Deeper more packed soil below Top Soil
+#ID 4: BrickBlock -> Bricks
+#ID 5: SandBlock -> Sand/setiment of other rocks
+#ID 6: LimestoneBlock -> A naturally forming stone
 #ID 7: AirBlock -> Illegal block for world generation, player can't have this
+#ID 8: Imibillisite -> Unbreakable rock on the bottom of the world
 var block_table = [preload("res://Scenes/Objects/Blocks/DarkBlock.tscn"), 
 preload("res://Scenes/Objects/Blocks/SodBlock.tscn"), 
 preload("res://Scenes/Objects/Blocks/TopSoilBlock.tscn"),
@@ -98,7 +99,8 @@ preload("res://Scenes/Objects/Blocks/SubSoilBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/BrickBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/SandBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/LimestoneBlock.tscn"),
-preload("res://Scenes/Objects/Blocks/AirBlock.tscn")];
+preload("res://Scenes/Objects/Blocks/AirBlock.tscn"),
+preload("res://Scenes/Objects/Blocks/Imibillisite.tscn")];
 
 
 #Instances of scenes
