@@ -148,6 +148,10 @@ func loadTerrain() -> void:
 		
 		pass;
 	
+	#Load all air blocks in, spawning in the natural
+	#terrain from the generator around them (if any)
+	loadAllAirblocks();
+	
 	pass;
 
 
@@ -268,7 +272,7 @@ func generateBlock(position : Vector3):
 	position.z = floor(position.z);
 	
 	#temporary generates subsoil only.
-	addBlock(position, 4);
+	addBlock(position, 6);
 	
 	pass;
 
@@ -646,6 +650,15 @@ func loadAirBlock(position : Vector3):
 					pass;
 					
 				
+				#If we can't find a fragment, it is because the air
+				#block is trying to load blocks from
+				#a fragment that doesn't exist outside
+				#render distance. We will skip checking anything
+				#for this block by setting "blockSafeToGenerate" to false,
+				#so we try to spawn the next block around the air block.
+				if (fragment == null):
+					blockSafeToGenerate = false;
+				
 				#In the following statements, we will check for specific values,
 				#instances or times where we can't generate blocks around the air
 				#block. We will be checking until we determine it is safe
@@ -659,17 +672,24 @@ func loadAirBlock(position : Vector3):
 				#since the surface is full of air, structures, folliage,
 				#etc. "blockSafeToGenerate" will become false, preventing us
 				#from generating the new block.
-				if (blockPosition.y >= floor(noise_manager.getTerrainHeightNoise(Vector2(blockPosition.x + fragment.global_position.x, blockPosition.z + fragment.global_position.z)))):
-					blockSafeToGenerate = false;
+				#----------------------
+				#We only check if the block is still determined to be safe to generate
+				if (blockSafeToGenerate == true):
+					if (blockPosition.y >= floor(noise_manager.getTerrainHeightNoise(Vector2(blockPosition.x + fragment.global_position.x, blockPosition.z + fragment.global_position.z)))):
+						blockSafeToGenerate = false;
+						pass;
 					pass;
 				
 				#If the there is already a generated/loaded block there,
 				#or more air blocks, then we will not generate
 				#the block.
-				for BLOCK in fragment.blocks:
-					if (BLOCK.position == blockPosition):
-						blockSafeToGenerate = false;
-				
+				#----------------------
+				#We only check if the block is still determined to be safe to generate
+				if (blockSafeToGenerate == true):
+					for BLOCK in fragment.blocks:
+						if (BLOCK.position == blockPosition):
+							blockSafeToGenerate = false;
+					pass;
 				
 				
 				
@@ -740,6 +760,25 @@ func loadAirBlock(position : Vector3):
 		pass;
 	
 	pass;
+
+
+
+#Loads all airblocks present inside the fragment.
+#This is useful when loading a fragment from save data,
+#as we can spawn in all tunnels and ground destruction
+#as we previously had
+func loadAllAirblocks():
+	
+	#Loop through all blocks in the "block[]" array, this is
+	#all blocks in the fragment that are surface layer or loaded
+	#from save data (player placed blocks, natural surface terrain, etc).
+	#We will then load each air block (of id type 7) if we find air blocks.
+	for BLOCK in blocks:
+		if (BLOCK.block_id == 7):
+			loadAirBlock(BLOCK.position);
+	
+	pass;
+
 
 
 #A function to help streamline
