@@ -622,14 +622,6 @@ func loadAirBlock(position : Vector3):
 					#an instance of the fragment the block is in.
 					fragment = world.locateFragmanetAt(Vector3(self.global_position.x + blockPosition.x, blockPosition.y, self.global_position.z + blockPosition.z));
 					
-					#NOTE: Debug
-					if (blockPosition.x >= global_variables.fragmentSideLength):
-						print("Foreign fragment!");
-						if (fragment == self):
-							print("Not self!");
-							print(fragment.position);
-							print(world.locateFragmanetAt(Vector3(30.0, 5.0, 10.0)).position);
-					
 					#Get the new block corrdinates for the
 					#block (since we are in a different fragment)
 					#corrdinates will be flipped
@@ -687,9 +679,6 @@ func loadAirBlock(position : Vector3):
 				#do so at the blockPosition.
 				if blockSafeToGenerate == true:
 					fragment.generateBlock(blockPosition);
-					#NOTE: DEBUG
-					if (fragment != self):
-						print("Generated outside self!!");
 				
 				#Reset the fragment pointing back to self.
 				#So that we will reference this current fragment "self"

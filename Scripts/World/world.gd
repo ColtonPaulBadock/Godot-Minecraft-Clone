@@ -517,12 +517,16 @@ func locateFragmanetAt(pos : Vector3):
 	#Using the corrdinates, identify which fragment the pos is in.
 	for FRAGMENT in fragments:
 		
-		if (FRAGMENT.position.x + global_variables.fragmentSideLength >= pos.x + global_variables.fragmentSideLength):
-			continue;
+		#BROKEN CODE:
+		#This was removed and fragmend.loadAirBlock() began working.
+		#Likely a crutch because "pos.x < FRAGMENT.position.x + global_variables.fragmentSideLength"
+		#was originally "pos.x <= FRAGMENT.position.x + global_variables.fragmentSideLength"
+		#if (FRAGMENT.position.x + global_variables.fragmentSideLength >= pos.x + global_variables.fragmentSideLength):
+		#	continue;
 		
 		
 		#.Check each fragment in "fragments" array. Make sure the x and z corrdinates are both between the min and max corrdinates on each axis
-		if (pos.x >= FRAGMENT.position.x && pos.x <= FRAGMENT.position.x + global_variables.fragmentSideLength && pos.z >= FRAGMENT.position.z && pos.z < FRAGMENT.position.z + global_variables.fragmentSideLength):
+		if (pos.x >= FRAGMENT.position.x && pos.x < FRAGMENT.position.x + global_variables.fragmentSideLength && pos.z >= FRAGMENT.position.z && pos.z < FRAGMENT.position.z + global_variables.fragmentSideLength):
 			identifiedFragment = FRAGMENT; #If we found the fragment that contains corrdinates that posses the block, set "identifiedFragment" as a instance of this fragment
 			pass;
 		
