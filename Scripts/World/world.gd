@@ -68,13 +68,6 @@ func _process(delta: float) -> void:
 #running, we assign actions to functions to run here
 func _input(event) -> void:
 	
-	#If the keybind to save and exit the world is pressed,
-	#then we will run the "exitAndSave()" method to exit
-	#the world and write all loaded fragments to world save.
-	#Then we will return to the main menu
-	if (Input.is_action_just_pressed("save_world_exit")):
-		exitAndSave();
-	
 	pass;
 
 
