@@ -215,6 +215,7 @@ func generateTerrain() -> void:
 				#make it a topsoil block
 				else:
 					block = global_variables.block_table[2].instantiate();
+					block.block_id = 2;
 				
 				
 				
@@ -264,7 +265,7 @@ func generateTerrain() -> void:
 func generateBlock(position : Vector3):
 	
 	#The ID of the block to spawn in.
-	var block_id : int = 0;
+	var block_id : int = 6;
 	
 	#Remove the decimal of the positon
 	#provided so that the generated
@@ -333,14 +334,17 @@ func generateBiome(BLOCK, BLOCK_X, BLOCK_Z):
 	#based on noise and the known biome
 	if (noise_manager.identifyBiome(noiseValue) == "GRASSLAND"):
 		BLOCK = global_variables.block_table[1].instantiate();
+		BLOCK.block_id = 1;
 	#We detected a desert, so build the desert block accordingly
 	#based on noise and the known biome
 	elif (noise_manager.identifyBiome(noiseValue) == "DESERT"):
 		BLOCK = global_variables.block_table[5].instantiate();
+		BLOCK.block_id = 5;
 	#Somehow, nothing was detected or a unexpected value was returned,
 	#so make the biome dark blocks.
 	else:
 		BLOCK = global_variables.block_table[0].instantiate();
+		BLOCK.block_id = 0;
 	
 	return BLOCK;
 
