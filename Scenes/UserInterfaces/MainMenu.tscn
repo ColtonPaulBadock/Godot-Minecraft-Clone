@@ -39,7 +39,7 @@ offset_top = 1018.0
 offset_right = 2044.0
 offset_bottom = 1137.0
 text = "Copyright © 2025 Colton Paul 
-Badock  (Exemptusoft)"
+Badock, Orion Tullis  (Exemptusoft)"
 
 [node name="Buttons" type="Control" parent="."]
 anchors_preset = 0
@@ -55,39 +55,12 @@ offset_bottom = 520.0
 theme_override_font_sizes/font_size = 50
 text = "Play Game"
 
-[node name="SettingsButton" type="Button" parent="Buttons"]
-layout_mode = 0
-offset_left = 735.0
-offset_top = 530.0
-offset_right = 1185.0
-offset_bottom = 630.0
-theme_override_font_sizes/font_size = 50
-text = "Settings"
-
-[node name="CreditsButton" type="Button" parent="Buttons"]
-layout_mode = 0
-offset_left = 735.0
-offset_top = 640.0
-offset_right = 1185.0
-offset_bottom = 740.0
-theme_override_font_sizes/font_size = 50
-text = "Credits"
-
-[node name="DonateButton" type="Button" parent="Buttons"]
-layout_mode = 0
-offset_left = 735.0
-offset_top = 750.0
-offset_right = 1185.0
-offset_bottom = 850.0
-theme_override_font_sizes/font_size = 50
-text = "Tip/Donate"
-
 [node name="QuitGameButton" type="Button" parent="Buttons"]
 layout_mode = 0
 offset_left = 735.0
-offset_top = 860.0
+offset_top = 540.0
 offset_right = 1185.0
-offset_bottom = 960.0
+offset_bottom = 640.0
 theme_override_font_sizes/font_size = 50
 text = "Quit Game"
 
