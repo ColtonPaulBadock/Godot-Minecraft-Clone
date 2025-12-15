@@ -27,23 +27,20 @@ var worldBiomeNoise = FastNoiseLite.new();
 #always get it each time when loading the save file))
 var seed : int;
 
-#This variable holds the height amplifier for "worldTerrainNoise"
-#engine for the world terrain height, slopes and surface.
-#The higher this variable, the more extreme the terrain will
-#be, with huge cliffs, etc.
-#--------
-#PERLIN:
-#100: Extreme hills
-#50: Large Hills
-#25: Sweeping/Rolling hills
-#10: Flat lands
-#5: Ultraflat
-#--------
-#SIMPLEX NOISE:
-#35: Jagged Peaks
-#5: Layered Flat Lands
-#--------
+#World terrain amplifer variables,
+#these are used to set the height of the terrain,
+#over specific distances, flatness, etc.
+#----------
+#How high the world terrain is amplifed to generate
+#the higher this variable, the higher mountains
+#will become.
 var worldTerrainNoise_heightAmplifier : int = 50; #10-50 is default
+#This is the distance at which height is drawn out.
+#this doesn't effect overall height "worldTerrainNoise_heightAmplifier",
+#it just modifies how long it takes for terrain to achieve
+#max height and how long mountains will roll for.
+#The lower this variable, the further mountains will roll.
+var worldTerrainNoise_heightDrawDistance : float = 0.5;
 
 #This is the biome size multipler. Used to amplify or shrink the size of generated
 #biomes in "fragment.gd".
@@ -117,7 +114,14 @@ func getTerrainHeightNoise(noisePos : Vector2):
 	#in argument 1.
 	#NOTE: "noisePos.y" is actually a z-axis corrdinate, since we only need
 	#two corrdinates "Vector2" and y is one of them by default in godot.
-	var height = floor(((1 * (worldTerrainNoise_heightAmplifier * worldTerrainNoise.get_noise_2d(noisePos.x, noisePos.y)))) + global_variables.medianWorldLayer);
+	#--------------
+	#"worldTerrainNoise_heightDrawDistance" is how far/long it will take for the
+	#terrain to reach peak amplified height "worldTerrainNoise_heightAmplifier".
+	#We multiply corrdinates by said "worldTerrainNoise_heightDrawDistance" value
+	#to ensure runs longer or shorter by streaching out the variable in "get_noise_2d()"
+	#as "worldTerrainNoise_heightDrawDistance" is expected to be a lower double/float
+	#around 0.2 for example.
+	var height = floor(((1 * (worldTerrainNoise_heightAmplifier * worldTerrainNoise.get_noise_2d(noisePos.x * worldTerrainNoise_heightDrawDistance, noisePos.y * worldTerrainNoise_heightDrawDistance)))) + global_variables.medianWorldLayer);
 	
 	
 	return height;
