@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8w6tgn67x8kc"]
+[gd_scene load_steps=7 format=3 uid="uid://c8w6tgn67x8kc"]
 
 [ext_resource type="Script" uid="uid://blgf0p6tujmdx" path="res://Scripts/Player/player.gd" id="1_h54ih"]
 [ext_resource type="PackedScene" uid="uid://b8gjp0uf8kg3h" path="res://Scenes/UserInterfaces/DebugWindow.tscn" id="2_ude3g"]
 [ext_resource type="Texture2D" uid="uid://dh82y0g7kx33r" path="res://Assets/ingameUI/crosshair/crosshair.png" id="3_jmcll"]
+[ext_resource type="PackedScene" uid="uid://c2q0654k64srd" path="res://Scenes/Player/ToolBelt.tscn" id="4_ude3g"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qbkls"]
 size = Vector3(0.5, 2.5, 0.5)
@@ -25,10 +26,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 
-[node name="DebugWindow" parent="CameraPivot/Camera3D" instance=ExtResource("2_ude3g")]
-
 [node name="Crosshair" type="Sprite2D" parent="CameraPivot/Camera3D"]
 texture = ExtResource("3_jmcll")
+
+[node name="DebugWindowCanvasLayer" type="CanvasLayer" parent="CameraPivot/Camera3D"]
+layer = 2
+
+[node name="DebugWindow" parent="CameraPivot/Camera3D/DebugWindowCanvasLayer" instance=ExtResource("2_ude3g")]
+
+[node name="ToolBeltCanvasLayer" type="CanvasLayer" parent="CameraPivot/Camera3D"]
+
+[node name="ToolBelt" parent="CameraPivot/Camera3D/ToolBeltCanvasLayer" instance=ExtResource("4_ude3g")]
 
 [node name="PlayerReach" type="RayCast3D" parent="CameraPivot"]
 transform = Transform3D(1.375, 0, 0, 0, -2.40413e-07, -1.375, 0, 5.5, -6.01032e-08, 0, 0, 0)

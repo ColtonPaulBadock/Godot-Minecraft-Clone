@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2q0654k64srd"]
+[gd_scene load_steps=4 format=3 uid="uid://c2q0654k64srd"]
 
 [ext_resource type="Script" uid="uid://c6v1t10g4uv1u" path="res://Scripts/Player/ToolBelt.gd" id="1_wmkf3"]
+[ext_resource type="Texture2D" uid="uid://deab2f6bkmu1x" path="res://Assets/ingameUI/toolbelt/ToolBelt.png" id="2_ra2uy"]
+[ext_resource type="Texture2D" uid="uid://bc7thhf1m6am6" path="res://Assets/ingameUI/toolbelt/ToolBeltSelectedSlot.png" id="3_68mal"]
 
 [node name="ToolBelt" type="Control"]
 layout_mode = 3
@@ -10,3 +12,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wmkf3")
+
+[node name="Inventory" type="Sprite2D" parent="."]
+editor_description = "The players inventory. Will be the toolbelt or backpack, depending on which one is open."
+position = Vector2(170, 911)
+texture = ExtResource("2_ra2uy")
+
+[node name="ToolBeltSelectedSlot" type="Sprite2D" parent="."]
+editor_description = "The slot in the toolbar we currently selected"
+position = Vector2(48, 790)
+texture = ExtResource("3_68mal")

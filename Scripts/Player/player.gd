@@ -17,7 +17,7 @@ var objectPlayerIsLookingAt; #The object the player is looking at within there r
 @onready var crosshair = $CameraPivot/Camera3D/Crosshair;
 
 #Istance to the players toolbelt/backpack (inventoru)
-@onready var toolbelt = $CameraPivot/Camera3D/ToolBelt;
+@onready var toolbelt = $CameraPivot/Camera3D/ToolBeltCanvasLayer/ToolBelt;
 
 #Instance of the players camera
 @onready var cameraPivot = $CameraPivot;
@@ -39,7 +39,7 @@ func _ready() -> void:
 	
 	#Setup the instance of the debug window so we can log
 	#the output box if needed
-	debugWindow = get_tree().get_root().get_node("World/Player/CameraPivot/Camera3D/DebugWindow/DebugWindowPanel/OutputBoxPanel/OutputBox")
+	debugWindow = get_tree().get_root().get_node("World/Player/CameraPivot/Camera3D/DebugWindowCanvasLayer/DebugWindow/DebugWindowPanel/OutputBoxPanel/OutputBox")
 	
 	#Setup the users crosshair, which assists with aiming
 	#Set the crosshair to appear in the middle of the screen
