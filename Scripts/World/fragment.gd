@@ -262,10 +262,18 @@ func generateTerrain() -> void:
 #and generates the block it resides in
 #within the fragment if the block hasn't been generated.
 #Uses noise_manager and world noise for this.
-func generateBlock(position : Vector3):
+#---------
+#This is used for generating blocks underground.
+func generateUnderground(position : Vector3):
 	
 	#The ID of the block to spawn in.
 	var block_id : int = 6;
+	
+	#The height of the surface layer,
+	#so we can determine which type of blocks we
+	#want to spawn underground (depending on the biome, our depth,
+	#etc)
+	var surfaceLayerHeight : int = noise_manager.getTerrainHeightNoise(Vector2(position.x, position.z));
 	
 	#Remove the decimal of the positon
 	#provided so that the generated
@@ -276,14 +284,18 @@ func generateBlock(position : Vector3):
 	position.z = floor(position.z);
 	
 	
+	
+	
+	
 	#If we are at the bottom of the world, the block
 	#will be inibillisite, so we can't mine out
 	#of the world.
 	if (position.y == 0):
 		block_id = 8;
 	
-	#Generate the choosen block based on noise,
-	#and the rest of the generation algorithm above
+	#Add the block picked by the generated at the
+	#provided position "position" of the block we
+	#wanted to generate
 	addBlock(position, block_id);
 	
 	pass;
@@ -736,7 +748,7 @@ func loadAirBlock(position : Vector3):
 				#for the block to generate, we will
 				#do so at the blockPosition.
 				if blockSafeToGenerate == true:
-					fragment.generateBlock(blockPosition);
+					fragment.generateUnderground(blockPosition);
 				
 				#Reset the fragment pointing back to self.
 				#So that we will reference this current fragment "self"
