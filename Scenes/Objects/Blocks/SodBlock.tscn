@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://nshig1xu0r0w"]
 
 [ext_resource type="Script" uid="uid://cxx4yevkd7b65" path="res://Scripts/Objects/Blocks/SodBlock.gd" id="1_724qv"]
-[ext_resource type="PackedScene" uid="uid://dokw08l71gdyx" path="res://Assets/SodBlock/SodTextureNew.glb" id="2_724qv"]
+[ext_resource type="PackedScene" uid="uid://dokw08l71gdyx" path="res://Assets/Objects/Blocks/SodBlock/SodTextureNew.glb" id="2_724qv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q65fl"]
 

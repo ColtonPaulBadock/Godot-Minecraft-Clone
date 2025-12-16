@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cy7fnwmlyjhe4"]
 
 [ext_resource type="Script" uid="uid://ba4x63yd7e8lr" path="res://Scripts/Objects/Blocks/BrickBlock.gd" id="1_1kvhs"]
-[ext_resource type="PackedScene" uid="uid://oquc4wh86x3m" path="res://Assets/BrickBlock/BrickBlock.glb" id="1_5q61c"]
+[ext_resource type="PackedScene" uid="uid://oquc4wh86x3m" path="res://Assets/Objects/Blocks/BrickBlock/BrickBlock.glb" id="1_5q61c"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1kvhs"]
 
