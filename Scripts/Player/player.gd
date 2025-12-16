@@ -71,7 +71,6 @@ func _physics_process(delta: float) -> void:
 	
 	movementManager(delta);
 	
-	
 
 #Sets up the players crosshair in the center of the screen
 #This helps assist with aiming, etc

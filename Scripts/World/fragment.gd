@@ -283,10 +283,6 @@ func generateUnderground(position : Vector3):
 	position.y = floor(position.y);
 	position.z = floor(position.z);
 	
-	
-	
-	
-	
 	#If we are at the bottom of the world, the block
 	#will be inibillisite, so we can't mine out
 	#of the world.

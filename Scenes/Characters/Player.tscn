@@ -31,7 +31,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="Crosshair" type="Sprite2D" parent="CameraPivot/Camera3D"]
 texture = ExtResource("3_o5en2")
 
-[node name="HotBar" type="Sprite2D" parent="CameraPivot/Camera3D"]
+[node name="InventoryUI" type="Sprite2D" parent="CameraPivot/Camera3D"]
 position = Vector2(169, 911)
 texture = ExtResource("4_7pt4t")
 
