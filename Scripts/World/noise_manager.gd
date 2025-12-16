@@ -120,7 +120,7 @@ func getTerrainHeightNoise(noisePos : Vector2):
 	#We multiply corrdinates by said "worldTerrainNoise_heightDrawDistance" value
 	#to ensure runs longer or shorter by streaching out the variable in "get_noise_2d()"
 	#as "worldTerrainNoise_heightDrawDistance" is expected to be a lower double/float
-	#around 0.2 for example.
+	#around 0.2 for example..
 	var height = floor(((1 * (worldTerrainNoise_heightAmplifier * worldTerrainNoise.get_noise_2d(noisePos.x * worldTerrainNoise_heightDrawDistance, noisePos.y * worldTerrainNoise_heightDrawDistance)))) + global_variables.medianWorldLayer);
 	
 	
