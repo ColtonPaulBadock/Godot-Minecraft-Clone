@@ -16,6 +16,9 @@ var objectPlayerIsLookingAt; #The object the player is looking at within there r
 #Helps the player aim
 @onready var crosshair = $CameraPivot/Camera3D/Crosshair;
 
+#Istance to the players toolbelt/backpack (inventoru)
+@onready var toolbelt = $CameraPivot/Camera3D/ToolBelt;
+
 #Instance of the players camera
 @onready var cameraPivot = $CameraPivot;
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3jq8wm8j82k6"
-path="res://.godot/imported/HotBar.png-f05d315e4eb508ca103017c33dfde44e.ctex"
+uid="uid://deab2f6bkmu1x"
+path="res://.godot/imported/ToolBelt.png-9e3642ae3ceaf44068b00c2f3e43e014.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ingameUI/hotbar/HotBar.png"
-dest_files=["res://.godot/imported/HotBar.png-f05d315e4eb508ca103017c33dfde44e.ctex"]
+source_file="res://Assets/ingameUI/toolbelt/ToolBelt.png"
+dest_files=["res://.godot/imported/ToolBelt.png-9e3642ae3ceaf44068b00c2f3e43e014.ctex"]
 
 [params]
 

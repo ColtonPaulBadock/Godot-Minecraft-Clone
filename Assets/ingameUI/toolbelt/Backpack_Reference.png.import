@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpvc1qspgtxxu"
-path="res://.godot/imported/Inventory.png-cbd69066a1796b89968a74c9172b0f88.ctex"
+uid="uid://l1e36ux1vvjr"
+path="res://.godot/imported/Backpack_Reference.png-b2673cb36f26f00edc5cabe2cbc3a709.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ingameUI/hotbar/Inventory.png"
-dest_files=["res://.godot/imported/Inventory.png-cbd69066a1796b89968a74c9172b0f88.ctex"]
+source_file="res://Assets/ingameUI/toolbelt/Backpack_Reference.png"
+dest_files=["res://.godot/imported/Backpack_Reference.png-b2673cb36f26f00edc5cabe2cbc3a709.ctex"]
 
 [params]
 

@@ -8,7 +8,7 @@ var debugWindow;
 
 #Scenes
 var fragmentScene = preload("res://Scenes/World/Fragment.tscn"); #Use fragments to makeup the world
-var playerScene = preload("res://Scenes/Characters/Player.tscn"); #Instance of the player
+var playerScene = preload("res://Scenes/Player/Player.tscn"); #Instance of the player
 var mainMenuScene : String = "res://Scenes/UserInterfaces/MainMenu.tscn"; #Path to the main menu
 
 #Player
