@@ -1,0 +1,4 @@
+The items directory. Here is icons for all items
+the player can posses/hold in there backpack/toolbelt.
+Majority of these items will have a 3D model in the
+Assets folder elsewhere.
