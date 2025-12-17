@@ -11,6 +11,10 @@ var debugBool : bool = false;
 #this cuts back on the fragment and block boarders issue.
 var playerReachPenetration = 0.02;
 
+#The default max value of blocks/objects you can carry
+#in a stack.
+var stack_height_default_limit : int = 100;
+
 #These variables dictate the maximum rotation the camera (player view) can legally perform
 #(In radians)
 const playerCameraMaxLookUp = 1.57; #The maximum rotation allowed by the players camera looking up from its starting positon.

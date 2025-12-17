@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cy7fnwmlyjhe4"]
+[gd_scene load_steps=5 format=3 uid="uid://cy7fnwmlyjhe4"]
 
 [ext_resource type="Script" uid="uid://ba4x63yd7e8lr" path="res://Scripts/Objects/Blocks/BrickBlock.gd" id="1_1kvhs"]
 [ext_resource type="PackedScene" uid="uid://oquc4wh86x3m" path="res://Assets/Objects/Blocks/BrickBlock/BrickBlock.glb" id="1_5q61c"]
+[ext_resource type="Texture2D" uid="uid://c0l7b262frrk0" path="res://Assets/Items/Blocks/BrickBlockItem/BrickBlockItemIcon.png" id="3_qa2v6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1kvhs"]
 
@@ -16,3 +17,12 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BrickBlock/StaticBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("BoxShape3D_1kvhs")
+
+[node name="ToolBelt" type="Node2D" parent="."]
+
+[node name="Icon" type="Sprite2D" parent="ToolBelt"]
+texture = ExtResource("3_qa2v6")
+
+[node name="Stack_Height" type="RichTextLabel" parent="ToolBelt"]
+offset_right = 40.0
+offset_bottom = 40.0

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cw5vlv12opkde"]
+[gd_scene load_steps=5 format=3 uid="uid://cw5vlv12opkde"]
 
 [ext_resource type="PackedScene" uid="uid://h36q8rjm12ss" path="res://Assets/Objects/Blocks/SubSoilBlock/SubSoilBlock.glb" id="1_b3ejc"]
 [ext_resource type="Script" uid="uid://bveussvs6043l" path="res://Scripts/Objects/Blocks/SubSoilBlock.gd" id="1_kxp1d"]
+[ext_resource type="Texture2D" uid="uid://dfhjgdx0pif4p" path="res://Assets/Items/Blocks/SubSoilBlockItem/SubSoilBlockItemIcon.png" id="3_1pm17"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kxp1d"]
 
@@ -16,3 +17,13 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubSoilBlock/StaticBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("BoxShape3D_kxp1d")
+
+[node name="ToolBelt" type="Node2D" parent="."]
+
+[node name="Icon" type="Sprite2D" parent="ToolBelt"]
+texture = ExtResource("3_1pm17")
+
+[node name="Stack_Height" type="RichTextLabel" parent="ToolBelt"]
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
