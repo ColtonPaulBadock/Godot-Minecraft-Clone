@@ -15,10 +15,24 @@ script = ExtResource("1_wmkf3")
 
 [node name="ToolBelt" type="Sprite2D" parent="."]
 editor_description = "The players inventory. Will be the toolbelt or backpack, depending on which one is open."
+z_index = 1
 position = Vector2(170, 911)
 texture = ExtResource("2_ra2uy")
 
 [node name="ToolBeltSelectedSlot" type="Sprite2D" parent="."]
 editor_description = "The slot in the toolbar we currently selected"
-position = Vector2(48, 790)
+z_index = 2
+position = Vector2(49, 790)
 texture = ExtResource("3_68mal")
+
+[node name="BackPackWindow" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.056
+anchor_bottom = 0.056
+offset_left = -4.0
+offset_top = -58.288
+offset_right = 2781.0
+offset_bottom = 1128.712
+color = Color(0.1786, 0.19, 0.18734, 0.74902)

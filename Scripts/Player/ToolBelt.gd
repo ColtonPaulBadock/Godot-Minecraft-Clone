@@ -87,6 +87,9 @@ func openBackPack() -> void:
 	#Set the position of the "ToolBelt" (Sprite2D) to be moved
 	#over so the backpack sprite fits.
 	$ToolBelt.position.x = 332.0;
+	#Apply the grayed out background/effect
+	#for the backpack window
+	$BackPackWindow.visible = true;
 	
 	#Disable all inputs while we are in the backpack.
 	global_variables.inputAllowed = false;
@@ -105,6 +108,10 @@ func closeBackPack() -> void:
 	#Set the position of the "ToolBelt" (Sprite2D) to be moved
 	#over so the ToolBelt sprite fits.
 	$ToolBelt.position.x = 170.0;
+	#Hide the backpack background
+	#so that its not visible while we are
+	#outside the backpack
+	$BackPackWindow.visible = false;
 	
 	#Allow inputs again once we close the backpack.
 	global_variables.inputAllowed = true;
