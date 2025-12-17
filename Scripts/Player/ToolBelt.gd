@@ -9,10 +9,6 @@ extends Control
 #Inventory textures
 var tool_belt_texture_path : Resource = preload("res://Assets/ingameUI/toolbelt/ToolBelt.png");
 var back_pack_texture_path : Resource = preload("res://Assets/ingameUI/toolbelt/Backpack.png");
-#Sprite2D textures of the toolbelt/backpack and other
-#inventory components
-var tool_belt_texture : Sprite2D = Sprite2D.new();
-var back_pack_texture : Sprite2D = Sprite2D.new();
 
 #Boolean status to if the player is in their
 #backpack or not. 
@@ -54,7 +50,7 @@ func _process(delta: float) -> void:
 	#if true. This will run the inventory/backpack management
 	#system until the player hits this keybind again to
 	#close the backpack.
-	if (Input.is_action_just_pressed("toggle_backpack")):
+	if (Input.is_action_just_pressed("toggle_backpack") && global_variables.inputAllowed != false):
 		isInBackpack = !isInBackpack;
 		
 		#Depending on if we where in or not in
@@ -84,7 +80,10 @@ func openBackPack() -> void:
 	
 	#Switch from the toolbelt only texture to the texture
 	#including the backpack.
-	$ToolBelt.texture = back_pack_texture;
+	$ToolBelt.texture = back_pack_texture_path;
+	#Set the position of the "ToolBelt" (Sprite2D) to be moved
+	#over so the backpack sprite fits.
+	$ToolBelt.position.x = 332.0;
 	
 	pass;
 
@@ -95,7 +94,10 @@ func closeBackPack() -> void:
 	
 	#Switch from the toolbelt+backpack texture
 	#to the toollbelt only texture.
-	$ToolBelt.texture = tool_belt_texture;
+	$ToolBelt.texture = tool_belt_texture_path;
+	#Set the position of the "ToolBelt" (Sprite2D) to be moved
+	#over so the ToolBelt sprite fits.
+	$ToolBelt.position.x = 170.0;
 	
 	pass;
 
@@ -114,9 +116,5 @@ func runInventory() -> void:
 #This will be called from _ready();
 func initInventoryUtilities() -> void:
 	
-	#Load the backpack and tool belt textures so we can flip between
-	#them depending on if the inventory is open or not.
-	tool_belt_texture.texture = tool_belt_texture_path;
-	back_pack_texture.texture = back_pack_texture_path;
 	
 	pass;
