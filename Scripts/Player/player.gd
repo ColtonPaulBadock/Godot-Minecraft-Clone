@@ -99,7 +99,7 @@ func interactionManager():
 	#position the raycast3d hits, apply the raycast bounce behaviour
 	#take the ID of the block they want to place and place the block
 	#at there bounced raycast endpoint if no block is there
-	if (Input.is_action_just_pressed("place")):
+	if (Input.is_action_just_pressed("place") && global_variables.inputAllowed == true):
 		
 		#If the object/block was successfully placed,
 		#this value will be set as true, we then use this
@@ -132,7 +132,7 @@ func interactionManager():
 	#(RayCast3D) to enter inside the object, to truely detect we hit
 	#it. Then we will use the appropriate method (removeBlockAt, or a attack
 	#method) to carry out the action.
-	if (Input.is_action_just_pressed("strike")):
+	if (Input.is_action_just_pressed("strike") && global_variables.inputAllowed == true):
 		
 		#THis variable holds a value indicating
 		#if we successfully destroyed a block/object.

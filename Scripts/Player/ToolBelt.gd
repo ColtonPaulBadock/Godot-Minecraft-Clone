@@ -50,8 +50,11 @@ func _process(delta: float) -> void:
 	#if true. This will run the inventory/backpack management
 	#system until the player hits this keybind again to
 	#close the backpack.
-	if (Input.is_action_just_pressed("toggle_backpack") && global_variables.inputAllowed != false):
+	if (Input.is_action_just_pressed("toggle_backpack") && (global_variables.inputAllowed != false || isInBackpack == true)):
 		isInBackpack = !isInBackpack;
+		
+		#NOTE: DEBUG
+		print("Inventory toggled!");
 		
 		#Depending on if we where in or not in
 		#the backpack at the time for the key being pressed
@@ -85,6 +88,10 @@ func openBackPack() -> void:
 	#over so the backpack sprite fits.
 	$ToolBelt.position.x = 332.0;
 	
+	#Disable all inputs while we are in the backpack.
+	global_variables.inputAllowed = false;
+	
+	
 	pass;
 
 
@@ -98,6 +105,9 @@ func closeBackPack() -> void:
 	#Set the position of the "ToolBelt" (Sprite2D) to be moved
 	#over so the ToolBelt sprite fits.
 	$ToolBelt.position.x = 170.0;
+	
+	#Allow inputs again once we close the backpack.
+	global_variables.inputAllowed = true;
 	
 	pass;
 

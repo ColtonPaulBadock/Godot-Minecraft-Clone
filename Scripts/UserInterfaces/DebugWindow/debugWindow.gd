@@ -95,6 +95,9 @@ func manageInputBox() -> void:
 	if (global_variables.debugWindowOpen == false):
 		return;
 	
+	#Keep input for the game disabled
+	#until the window is closed
+	global_variables.inputAllowed = false;
 	
 	#If any key mapped to "debugTerminal_submit", then get the text in "InputBox"
 	#Evaluate this text for commands, if no commands,
