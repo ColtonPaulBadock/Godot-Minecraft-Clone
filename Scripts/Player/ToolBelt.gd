@@ -92,8 +92,9 @@ func openBackPack() -> void:
 	$BackPackWindow.visible = true;
 	
 	#Disable all inputs while we are in the backpack.
+	#Make the mouse visible for inventory management
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE);
 	global_variables.inputAllowed = false;
-	
 	
 	pass;
 
@@ -114,6 +115,8 @@ func closeBackPack() -> void:
 	$BackPackWindow.visible = false;
 	
 	#Allow inputs again once we close the backpack.
+	#Also hide the mouse so we can play the game again.
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN);
 	global_variables.inputAllowed = true;
 	
 	pass;
