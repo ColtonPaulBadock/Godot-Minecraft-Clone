@@ -13,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wmkf3")
 
-[node name="Inventory" type="Sprite2D" parent="."]
+[node name="ToolBelt" type="Sprite2D" parent="."]
 editor_description = "The players inventory. Will be the toolbelt or backpack, depending on which one is open."
 position = Vector2(170, 911)
 texture = ExtResource("2_ra2uy")

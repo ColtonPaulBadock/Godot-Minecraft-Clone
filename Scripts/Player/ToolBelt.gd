@@ -6,6 +6,14 @@
 
 extends Control
 
+#Inventory textures
+var tool_belt_texture_path : Resource = preload("res://Assets/ingameUI/toolbelt/ToolBelt.png");
+var back_pack_texture_path : Resource = preload("res://Assets/ingameUI/toolbelt/Backpack.png");
+#Sprite2D textures of the toolbelt/backpack and other
+#inventory components
+var tool_belt_texture : Sprite2D = Sprite2D.new();
+var back_pack_texture : Sprite2D = Sprite2D.new();
+
 #Boolean status to if the player is in their
 #backpack or not. 
 #------------
@@ -30,6 +38,11 @@ var items = [];
 #related to the inventory, such as pulling
 #save data for what was in the inventory
 func _ready() -> void:
+	
+	#Intialize the inventory and all its sprites,
+	#assets, functions, vars, etc.
+	initInventoryUtilities();
+	
 	pass;
 
 
@@ -65,7 +78,13 @@ func _process(delta: float) -> void:
 #Opens the players inventory/backpack
 #menu. The backpack will be open until
 #"closeBackPack()" is called.
+#--------
+#Intializes the players inventory
 func openBackPack() -> void:
+	
+	#Switch from the toolbelt only texture to the texture
+	#including the backpack.
+	$ToolBelt.texture = back_pack_texture;
 	
 	pass;
 
@@ -74,6 +93,10 @@ func openBackPack() -> void:
 #menu.
 func closeBackPack() -> void:
 	
+	#Switch from the toolbelt+backpack texture
+	#to the toollbelt only texture.
+	$ToolBelt.texture = tool_belt_texture;
+	
 	pass;
 
 
@@ -81,5 +104,19 @@ func closeBackPack() -> void:
 #player when the menu is open. Allows for
 #moving, slecting items, etc.
 func runInventory() -> void:
+	
+	pass;
+
+
+#Intializes the inventory system when
+#the "ToolBelt.tscn" scene is loaded into
+#the game (with the player).
+#This will be called from _ready();
+func initInventoryUtilities() -> void:
+	
+	#Load the backpack and tool belt textures so we can flip between
+	#them depending on if the inventory is open or not.
+	tool_belt_texture.texture = tool_belt_texture_path;
+	back_pack_texture.texture = back_pack_texture_path;
 	
 	pass;
