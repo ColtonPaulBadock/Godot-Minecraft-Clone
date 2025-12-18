@@ -138,3 +138,18 @@ func initInventoryUtilities() -> void:
 	
 	
 	pass;
+
+
+#Inserts the object "BLOCK" into the inventory
+#at the index of "index" and inputs the given
+#amount "amount" into said index. Will destroy
+#the instance of whatever was previously in that
+#index
+#----------
+#ARGUMENTS:
+#BLOCK -> What to insert
+#index -> Where to insert the object (which index of the backpack)
+#amount -> The amount of the object to insert.
+func insertAtIndex(BLOCK, index, amount) -> void:
+	
+	pass;

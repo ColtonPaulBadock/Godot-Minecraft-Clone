@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://br7j5ibbf17wu"]
+[gd_scene load_steps=4 format=3 uid="uid://br7j5ibbf17wu"]
 
 [ext_resource type="Script" uid="uid://cubgbvw4tglhf" path="res://Scripts/Objects/Blocks/LimestoneBlock.gd" id="1_52o0r"]
 [ext_resource type="PackedScene" uid="uid://dyfcvnk6uu7s7" path="res://Assets/Objects/Blocks/LimestoneBlock/LimestoneBlock.glb" id="2_p3i42"]
-[ext_resource type="Texture2D" uid="uid://hoiesnfrixf3" path="res://Assets/Objects/Blocks/LimestoneBlock/LimeStoneBlockIcon.png" id="3_p3i42"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f04bt"]
 
@@ -17,13 +16,3 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LimestoneBlock/StaticBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("BoxShape3D_f04bt")
-
-[node name="ToolBelt" type="Node2D" parent="."]
-
-[node name="Icon" type="Sprite2D" parent="ToolBelt"]
-texture = ExtResource("3_p3i42")
-
-[node name="Stack_Height" type="RichTextLabel" parent="ToolBelt"]
-offset_right = 40.0
-offset_bottom = 40.0
-metadata/_edit_use_anchors_ = true

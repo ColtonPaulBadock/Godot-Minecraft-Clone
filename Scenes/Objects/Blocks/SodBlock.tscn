@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://nshig1xu0r0w"]
+[gd_scene load_steps=4 format=3 uid="uid://nshig1xu0r0w"]
 
 [ext_resource type="Script" uid="uid://cxx4yevkd7b65" path="res://Scripts/Objects/Blocks/SodBlock.gd" id="1_724qv"]
 [ext_resource type="PackedScene" uid="uid://dokw08l71gdyx" path="res://Assets/Objects/Blocks/SodBlock/SodTextureNew.glb" id="2_724qv"]
-[ext_resource type="Texture2D" uid="uid://bl1sqcsbdkes0" path="res://Assets/Objects/Blocks/SodBlock/SodBlockItemIcon.png" id="3_a6682"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q65fl"]
 
@@ -17,13 +16,3 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SodTextureNew/StaticBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("BoxShape3D_q65fl")
-
-[node name="ToolBelt" type="Node2D" parent="."]
-
-[node name="Icon" type="Sprite2D" parent="ToolBelt"]
-texture = ExtResource("3_a6682")
-
-[node name="Stack_Height" type="RichTextLabel" parent="ToolBelt"]
-offset_right = 40.0
-offset_bottom = 40.0
-metadata/_edit_use_anchors_ = true
