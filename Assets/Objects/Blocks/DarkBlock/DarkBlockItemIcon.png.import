@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c41fsh404lg5"
-path="res://.godot/imported/SandBlockItemIcon.png-502b4546d5cc57c418dafb837e5c9876.ctex"
+uid="uid://mfv4vtcbxwnp"
+path="res://.godot/imported/DarkBlockItemIcon.png-e2a5fd399baa757c1c3f68c59d819270.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Items/Blocks/SandBlockItem/SandBlockItemIcon.png"
-dest_files=["res://.godot/imported/SandBlockItemIcon.png-502b4546d5cc57c418dafb837e5c9876.ctex"]
+source_file="res://Assets/Objects/Blocks/DarkBlock/DarkBlockItemIcon.png"
+dest_files=["res://.godot/imported/DarkBlockItemIcon.png-e2a5fd399baa757c1c3f68c59d819270.ctex"]
 
 [params]
 

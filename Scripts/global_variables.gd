@@ -86,6 +86,9 @@ var debugWindowOpen : bool = false;
 @onready var AudioManager = get_tree().get_root().get_node("World/AudioManager");;
 
 #Block table of all blocks that exist in the game, holding there locations. The index of the array is the block id
+#--------
+#This will also include items as well and any item that exists within the game for
+#the most part
 #BLOCKS:
 #ID 0: DarkBlock -> Debug block
 #ID 1: SodBlock -> Top natural glass layer
@@ -105,7 +108,19 @@ preload("res://Scenes/Objects/Blocks/SandBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/LimestoneBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/AirBlock.tscn"),
 preload("res://Scenes/Objects/Blocks/Imibillisite.tscn")];
-
+#This array holds the icons related index-to-index to "block_table"
+#items/blocks for the toolbelt/backpack.
+#EXAMPLE: Sod block_id = 1, well block_table_icon[1] is the sod_blocks icon
+#in the backpack/toolbelt
+var block_table_icon = [preload("res://Assets/Objects/Blocks/DarkBlock/DarkBlockItemIcon.png"),
+preload("res://Assets/Objects/Blocks/SodBlock/SodBlockItemIcon.png"), 
+preload("res://Assets/Objects/Blocks/TopSoilBlock/TopSoilBlockItemIcon.png"),
+preload("res://Assets/Objects/Blocks/SubSoilBlock/SubSoilBlockItemIcon.png"),
+preload("res://Assets/Objects/Blocks/BrickBlock/BrickBlockItemIcon.png"),
+preload("res://Assets/Objects/Blocks/SandBlock/SandBlockItemIcon.png"),
+preload("res://Assets/Objects/Blocks/LimestoneBlock/LimeStoneBlockIcon.png"),
+preload("res://Assets/Objects/Blocks/AirBlock/AirBlockItemIcon.png"),
+preload("res://Assets/Objects/Blocks/Imibillisite/ImibillisiteBlockItemIcon.png")];
 
 #Instances of scenes
 var titleScreen : String = "res://Scenes/UserInterfaces/MainMenu.tscn";

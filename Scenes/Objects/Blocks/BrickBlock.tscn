@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ba4x63yd7e8lr" path="res://Scripts/Objects/Blocks/BrickBlock.gd" id="1_1kvhs"]
 [ext_resource type="PackedScene" uid="uid://oquc4wh86x3m" path="res://Assets/Objects/Blocks/BrickBlock/BrickBlock.glb" id="1_5q61c"]
-[ext_resource type="Texture2D" uid="uid://c0l7b262frrk0" path="res://Assets/Items/Blocks/BrickBlockItem/BrickBlockItemIcon.png" id="3_qa2v6"]
+[ext_resource type="Texture2D" uid="uid://hoiesnfrixf3" path="res://Assets/Objects/Blocks/LimestoneBlock/LimeStoneBlockIcon.png" id="3_qa2v6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1kvhs"]
 
@@ -26,3 +26,4 @@ texture = ExtResource("3_qa2v6")
 [node name="Stack_Height" type="RichTextLabel" parent="ToolBelt"]
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true

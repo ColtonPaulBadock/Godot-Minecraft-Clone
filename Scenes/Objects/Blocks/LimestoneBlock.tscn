@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cubgbvw4tglhf" path="res://Scripts/Objects/Blocks/LimestoneBlock.gd" id="1_52o0r"]
 [ext_resource type="PackedScene" uid="uid://dyfcvnk6uu7s7" path="res://Assets/Objects/Blocks/LimestoneBlock/LimestoneBlock.glb" id="2_p3i42"]
-[ext_resource type="Texture2D" uid="uid://hoiesnfrixf3" path="res://Assets/Items/Blocks/LimeStoneBlockItem/LimeStoneBlockIcon.png" id="3_p3i42"]
+[ext_resource type="Texture2D" uid="uid://hoiesnfrixf3" path="res://Assets/Objects/Blocks/LimestoneBlock/LimeStoneBlockIcon.png" id="3_p3i42"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f04bt"]
 

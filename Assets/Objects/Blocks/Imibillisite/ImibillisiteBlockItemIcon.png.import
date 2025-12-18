@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfd0syaa3cpnv"
-path="res://.godot/imported/TopSoilBlockItemIcon.png-ccda2369c95833f8fc2a025f022c235b.ctex"
+uid="uid://c070e4ukcqj8i"
+path="res://.godot/imported/ImibillisiteBlockItemIcon.png-5c250f1d3e2c0ec810380ab0f1a1cf53.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Items/Blocks/TopSoilBlockItem/TopSoilBlockItemIcon.png"
-dest_files=["res://.godot/imported/TopSoilBlockItemIcon.png-ccda2369c95833f8fc2a025f022c235b.ctex"]
+source_file="res://Assets/Objects/Blocks/Imibillisite/ImibillisiteBlockItemIcon.png"
+dest_files=["res://.godot/imported/ImibillisiteBlockItemIcon.png-5c250f1d3e2c0ec810380ab0f1a1cf53.ctex"]
 
 [params]
 

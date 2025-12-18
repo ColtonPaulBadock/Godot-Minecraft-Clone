@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://drwofatviry2v" path="res://Scripts/Objects/Blocks/SandBlock.gd" id="1_3vfbh"]
 [ext_resource type="PackedScene" uid="uid://cmj82oohprvsy" path="res://Assets/Objects/Blocks/SandBlock/SandBlock.glb" id="2_du6vw"]
-[ext_resource type="Texture2D" uid="uid://c41fsh404lg5" path="res://Assets/Items/Blocks/SandBlockItem/SandBlockItemIcon.png" id="3_du6vw"]
+[ext_resource type="Texture2D" uid="uid://c41fsh404lg5" path="res://Assets/Objects/Blocks/SandBlock/SandBlockItemIcon.png" id="3_du6vw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5a6kt"]
 

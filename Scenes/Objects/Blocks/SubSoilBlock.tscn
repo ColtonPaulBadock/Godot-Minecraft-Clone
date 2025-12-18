@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://h36q8rjm12ss" path="res://Assets/Objects/Blocks/SubSoilBlock/SubSoilBlock.glb" id="1_b3ejc"]
 [ext_resource type="Script" uid="uid://bveussvs6043l" path="res://Scripts/Objects/Blocks/SubSoilBlock.gd" id="1_kxp1d"]
-[ext_resource type="Texture2D" uid="uid://dfhjgdx0pif4p" path="res://Assets/Items/Blocks/SubSoilBlockItem/SubSoilBlockItemIcon.png" id="3_1pm17"]
+[ext_resource type="Texture2D" uid="uid://dfhjgdx0pif4p" path="res://Assets/Objects/Blocks/SubSoilBlock/SubSoilBlockItemIcon.png" id="3_1pm17"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kxp1d"]
 

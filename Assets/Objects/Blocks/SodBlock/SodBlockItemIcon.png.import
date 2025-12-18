@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0l7b262frrk0"
-path="res://.godot/imported/BrickBlockItemIcon.png-deac8225e60e0c6b113d97e283b23076.ctex"
+uid="uid://bl1sqcsbdkes0"
+path="res://.godot/imported/SodBlockItemIcon.png-f7aea18e390264e1ffce8439a0df80d5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Items/Blocks/BrickBlockItem/BrickBlockItemIcon.png"
-dest_files=["res://.godot/imported/BrickBlockItemIcon.png-deac8225e60e0c6b113d97e283b23076.ctex"]
+source_file="res://Assets/Objects/Blocks/SodBlock/SodBlockItemIcon.png"
+dest_files=["res://.godot/imported/SodBlockItemIcon.png-f7aea18e390264e1ffce8439a0df80d5.ctex"]
 
 [params]
 

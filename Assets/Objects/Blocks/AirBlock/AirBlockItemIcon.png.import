@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hoiesnfrixf3"
-path="res://.godot/imported/LimeStoneBlockIcon.png-fb6d27c7f9194c0adc830369868de9f1.ctex"
+uid="uid://coxhhpd5ij1k6"
+path="res://.godot/imported/AirBlockItemIcon.png-53f52df9b5ecaf8dce05535e790c329c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Items/Blocks/LimeStoneBlockItem/LimeStoneBlockIcon.png"
-dest_files=["res://.godot/imported/LimeStoneBlockIcon.png-fb6d27c7f9194c0adc830369868de9f1.ctex"]
+source_file="res://Assets/Objects/Blocks/AirBlock/AirBlockItemIcon.png"
+dest_files=["res://.godot/imported/AirBlockItemIcon.png-53f52df9b5ecaf8dce05535e790c329c.ctex"]
 
 [params]
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cxx4yevkd7b65" path="res://Scripts/Objects/Blocks/SodBlock.gd" id="1_724qv"]
 [ext_resource type="PackedScene" uid="uid://dokw08l71gdyx" path="res://Assets/Objects/Blocks/SodBlock/SodTextureNew.glb" id="2_724qv"]
-[ext_resource type="Texture2D" uid="uid://bl1sqcsbdkes0" path="res://Assets/Items/Blocks/SodBlockItem/SodBlockItemIcon.png" id="3_a6682"]
+[ext_resource type="Texture2D" uid="uid://bl1sqcsbdkes0" path="res://Assets/Objects/Blocks/SodBlock/SodBlockItemIcon.png" id="3_a6682"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q65fl"]
 
