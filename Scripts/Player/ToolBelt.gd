@@ -40,9 +40,15 @@ func _ready() -> void:
 	initInventoryUtilities();
 	
 	#NOTE: DEBUG
-	insertAtIndex(global_variables.block_table[2].instantiate(), 4, 24);
-	insertAtIndex(global_variables.block_table[4].instantiate(), 8, 28);
-	insertAtIndex(global_variables.block_table[3].instantiate(), 15, 57);
+	#insertAtIndex(global_variables.block_table[2].instantiate(), 4, 24);
+	#insertAtIndex(global_variables.block_table[4].instantiate(), 8, 28);
+	#insertAtIndex(global_variables.block_table[3].instantiate(), 15, 57);
+	#insertIntoBackPack(global_variables.block_table[3].instantiate(), 10000);
+	
+	#NOTE: DEBUG
+	for item in items:
+		if (item != null):
+			print(item.block_id, " | ", item.stack_height);
 	
 	pass;
 
@@ -212,6 +218,14 @@ func insertIntoBackPack(BLOCK, ammount) -> bool:
 	#stacks to max stack limit.
 	for item in items:
 		
+		#If the index has "null" value,
+		#then there can't possibly be anything in
+		#it and theres no reason to check to see if we
+		#can insert some "ammount" into the stack.
+		#We will continue to the next interation
+		if (item == null):
+			continue;
+		
 		#We moved to the next index of "items" we will
 		#check to see if the block_id of the item we want
 		#to insert matches the item, if it does, lets
@@ -265,6 +279,13 @@ func insertIntoBackPack(BLOCK, ammount) -> bool:
 	#to try to store more of it.
 	#ID: 983274274
 	for item in items:
+		
+		#If the item index doesn't hold null,
+		#there is already something in it,
+		#and we can't create a new stack, so we
+		#will skip to the next iteration
+		if (item != null):
+			continue;
 		
 		#If we find an empty index, we will fill
 		#it with as much "ammount" of "BLOCK"
