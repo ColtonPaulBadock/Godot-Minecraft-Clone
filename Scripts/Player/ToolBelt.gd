@@ -183,3 +183,80 @@ func insertAtIndex(BLOCK, index, amount) -> void:
 	items.insert(index, BLOCK);
 	
 	pass;
+
+
+#Takes "BLOCK" and inserts the ammount "ammount"
+#of the "BLOCK" into the next non-full stack.
+#If no space, the object is not inserted into the backpack
+#and false is returned. If there is space, the object is inserted
+#into the next empty stack or a new stack is created
+#if empty space if other stacks are full or no stack
+#of the object "BLOCK" already exists (true is returned).
+#--------
+#ARGUMENTS:
+#BLOCK -> What to insert
+#ammount -> How much to insert.
+#--------
+#RETURNS:
+#true -> everything was inserted with no issue
+#false -> no space, so nothing was inserted OR some space existed but not all of it fit
+func insertIntoBackPack(BLOCK, ammount) -> bool:
+	
+	#This is the return value of this function.
+	#If false, not everything was inserted into
+	#the backpack. If true, everything fit fine.
+	var stuffFullyInserted = false;
+	
+	#First we will check to see if theres any existing
+	#stacks. If there is, we will begin by filling these
+	#stacks to max stack limit.
+	for item in items:
+		
+		#We moved to the next index of "items" we will
+		#check to see if the block_id of the item we want
+		#to insert matches the item, if it does, lets
+		#add the ammount to the stack:
+		if (item.block_id == BLOCK.block_id):
+			
+			#If we can add the ammount to the stack we
+			#found of the same ID, and it sums to less
+			#than the objects stack_height_limit, simply add the ammount to the
+			#stack, and then we can return true for success.
+			if (item.stack_height + ammount < BLOCK.stack_height_limit):
+				item.stack_height = item.stack_height + ammount;
+				stuffFullyInserted = true;
+				return stuffFullyInserted;
+			
+			#If the stack_height travels above the items
+			#stack_height_limit. Then we will store
+			#what we can into the given stack, and will then
+			#move to the next index, trying to store more in
+			#another.
+			if (item.stack_height + ammount > BLOCK.stack_height_limit):
+				
+				#Figure out how much we can add to the
+				#item.stack_height until it is at max
+				#stack height.
+				var addedAmount : int = BLOCK.stack_height_limit - item.stack_height;
+				
+				#We determined that the stack_height for the item
+				#in this index will be filled to the top (max stack height).
+				item.stack_height = BLOCK.stack_height_limit;
+				
+				#We subtract the ammount we added to the
+				#stack in this index of the backpack from
+				#the overall ammount we need to add, to
+				#update "ammount" with how much more left
+				#we need to store.
+				ammount = ammount - addedAmount;
+				
+				pass; 
+			pass;
+		pass;
+	
+	
+	
+	#If we didn't insert everything fully, we will return
+	#false, saying we didn't fully insert everything
+	#as an exit status.
+	return stuffFullyInserted;
