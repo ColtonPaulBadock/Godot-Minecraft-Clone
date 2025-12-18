@@ -255,6 +255,60 @@ func insertIntoBackPack(BLOCK, ammount) -> bool:
 		pass;
 	
 	
+	#The current index of the for items array at ID: 983274274,
+	#as we are looping through it.
+	var index = 0;
+	#We still have some ammount left to insert even though
+	#we tried to fill every existing stack that had the same
+	#item in it. We will now check for any empty indexs.
+	#If indexes are empty, we will fill them with the ammount,
+	#to try to store more of it.
+	#ID: 983274274
+	for item in items:
+		
+		#If we find an empty index, we will fill
+		#it with as much "ammount" of "BLOCK"
+		#as possible
+		if (item == null):
+			
+			#If the ammount we need to insert into this empty
+			#index of the backpack is less than the stack_height_limit
+			#of the item, then we can just insert it all and exit
+			#with success
+			if (ammount < BLOCK.stack_height_limit):
+				insertAtIndex(BLOCK, index, ammount);
+				stuffFullyInserted = true;
+				return stuffFullyInserted;
+				pass;
+			
+			#If we have more ammount to insert than we can
+			#put into this empty stack, we will insert as much
+			#as this item can stack to "stack_height_limit" and will
+			#keep looking for more empty indexs in the next indexs
+			#of the Backpack in this for loop at ID: 983274274.
+			if (ammount > BLOCK.stack_height_limit):
+				
+				#The added ammount is the max stack limit,
+				#since its and empty index.
+				var addedAmmount = BLOCK.stack_height_limit;
+				
+				#Insert the "addedAmmount" (the stack height limit),
+				#into the empty index.
+				insertAtIndex(BLOCK, index, addedAmmount);
+				
+				#Update the ammount left to insert,
+				#factoring in the fact that we just added
+				#the "addedAmmount" to the empty index.
+				ammount = ammount - addedAmmount;
+				
+				pass;
+			
+			pass;
+		
+		#Increment the current index we are on.
+		index = index + 1;
+		
+		pass;
 	
 	#If we didn't insert everything fully, we will return
 	#false, saying we didn't fully insert everything
