@@ -55,9 +55,6 @@ func initDebugWindow() -> void:
 #Closes/terminates not needed systems in the debug window and closes the debug window.
 func killDebugWindow() -> void:
 	
-	#DEVLOG
-	print("Killed debug window|debugWindow.gd, killDebugWindow()");
-	
 	#Hide the debug window
 	visible = false;
 	
@@ -126,9 +123,6 @@ func manageInputBox() -> void:
 #-Phoebe -> ?!?!?!?! This isn't a command
 #-challenge DEGRADE_WORLD -> Starts the degrade world challenge, where blocks slowly disapear
 func evaluateCommands(message : String) -> void:
-	
-	#DEVLOG
-	print("Evaluateing commands|debugWindow.gd, evaluateCommands()");
 	
 	#"-marco" command, prints "Polo!" in "OutputBox"
 	if (message.begins_with("-marco")):

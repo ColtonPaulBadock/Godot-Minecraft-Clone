@@ -10,8 +10,8 @@
 
 extends "res://Scripts/World/block.gd"
 
-#Runs once when entering the scene tree.
-func _ready() -> void:
+#Runs when object is created
+func _init() -> void:
 	
 	#Set all default parameters for the block
 	setDefaultParameters();

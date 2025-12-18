@@ -39,6 +39,11 @@ func _ready() -> void:
 	#assets, functions, vars, etc.
 	initInventoryUtilities();
 	
+	#NOTE: DEBUG
+	insertAtIndex(global_variables.block_table[2].instantiate(), 4, 24);
+	insertAtIndex(global_variables.block_table[4].instantiate(), 8, 28);
+	insertAtIndex(global_variables.block_table[3].instantiate(), 15, 57);
+	
 	pass;
 
 
@@ -52,9 +57,6 @@ func _process(delta: float) -> void:
 	#close the backpack.
 	if (Input.is_action_just_pressed("toggle_backpack") && (global_variables.inputAllowed != false || isInBackpack == true)):
 		isInBackpack = !isInBackpack;
-		
-		#NOTE: DEBUG
-		print("Inventory toggled!");
 		
 		#Depending on if we where in or not in
 		#the backpack at the time for the key being pressed
@@ -174,6 +176,7 @@ func insertAtIndex(BLOCK, index, amount) -> void:
 	#We will now apply the amount
 	#in the stack to the stack of items
 	BLOCK.stack_height = amount;
+	
 	
 	#Insert the stack of the item in instance "BLOCK"
 	#into the backpack at the given index "index".
