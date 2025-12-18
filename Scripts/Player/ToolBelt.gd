@@ -136,6 +136,10 @@ func runInventory() -> void:
 #This will be called from _ready();
 func initInventoryUtilities() -> void:
 	
+	#Sets the "items[]" array to a size of 31
+	#(32 total indexs 0-31). This is the max
+	#inventory size.
+	items.resize(31);
 	
 	pass;
 
@@ -151,5 +155,28 @@ func initInventoryUtilities() -> void:
 #index -> Where to insert the object (which index of the backpack)
 #amount -> The amount of the object to insert.
 func insertAtIndex(BLOCK, index, amount) -> void:
+	
+	#If the index requested is larger than 31,
+	#return from this function as 31 is the largest
+	#possible backpack slot.
+	if (index > 31):
+		return;
+	
+	#Next we need to check the ammount being
+	#inserted at this index. If the ammount
+	#is over the maximum allowed ammount,
+	#then we will set the ammount to the
+	#maximum ammount, and insert the max
+	#ammount allowed in a stack instead.
+	if (amount > BLOCK.stack_height_limit):
+		amount = BLOCK.stack_height_limit;
+	
+	#We will now apply the amount
+	#in the stack to the stack of items
+	BLOCK.stack_height = amount;
+	
+	#Insert the stack of the item in instance "BLOCK"
+	#into the backpack at the given index "index".
+	items.insert(index, BLOCK);
 	
 	pass;
