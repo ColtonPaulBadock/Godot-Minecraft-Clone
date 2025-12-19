@@ -152,6 +152,69 @@ func initInventoryUtilities() -> void:
 	pass;
 
 
+#Returns the center location of a index in the backpack
+#in pixels as a Vector2 (x, z).
+#--------
+#ARGUMENTS:
+#index -> the index of the backpack in which we
+#will get the pixel location for.
+func getBackPackIndexPixelLocation() -> Vector2:
+	
+	var pixel_location : Vector2 = Vector2(0, 0);
+	
+	
+	
+	return pixel_location;
+
+
+#Takes an ammount "ammount" from an index
+#at "index". If the index is empty,
+#or it runs out, it will be set as null
+#and we will return.
+#---------
+#ARGUMENTS:
+#index -> index of "items[]" to remove stuff from
+#ammount -> the ammount to take from the stack at "index"
+func takeAmmount(index : int, ammount : int):
+	
+	#If its an illegal index, return nothing.
+	if (index > 31 || index < 0):
+		return;
+	
+	#Subtract the ammount from the stack_height
+	#of the items present at "index" of the "items[]"
+	#array.
+	items[index].stack_height = items[index].stack_height - ammount;
+	
+	#If the stack_height is less than or is
+	#0, we will make the item null, so nothing
+	#is in the index.
+	if (items[index].stack_height <= 0):
+		items[index] = null;
+		pass
+	
+	pass;
+
+
+
+#Returns the item from the backpack at the
+#provided index "index".
+#Will return false if the index is to large or small.
+#--------
+#ARGUMENTS:
+#index -> The index of the items[] array to return.
+func getItem(index : int):
+	
+	#If the index is larger than
+	#the "items[]" (backpack) array
+	#size, we will return false;
+	if (index > 31 || index < 0):
+		return false;
+	
+	#Return the value at the index of the
+	#backpack.
+	return items[index];
+
 #Inserts the object "BLOCK" into the inventory
 #at the index of "index" and inputs the given
 #amount "amount" into said index. Will destroy

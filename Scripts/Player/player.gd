@@ -58,11 +58,10 @@ func _process(delta):
 	interactionManager(); 
 	
 	#Allow the player to select which block they are holding
-	#This should be overriden with a inventory manager later on.
-	#Uses "inventoryUp" and "inventoryDown" inputs to select
-	#which block/object the player will place when they use
-	#"place" input.
-	objectSelection();
+	#Use the "tool_belt_up" or "tool_belt_down" to scroll
+	#indexes in the tool_belt to allow the player to
+	#select different items in said tool_belt.
+	tool_belt_controller();
 	
 	pass;
 
@@ -177,7 +176,7 @@ func interactionManager():
 #"inventoryDown" and "inventoryUp".
 #This block selector is momentary and will be relaced
 #with a inventory and item selection system later.
-func objectSelection() -> void:
+func tool_belt_controller() -> void:
 	
 	#Change the block we are holding using the "inventoryUp"
 	#and the "inventoryDown" inputs.
@@ -187,9 +186,9 @@ func objectSelection() -> void:
 	#drop (--) the ID of the block/object the player is holding.
 	#"playerObjectHeld_id" represents the block/object the
 	#player is holding.
-	if (Input.is_action_just_pressed("inventoryUp")):
+	if (Input.is_action_just_pressed("tool_belt_up")):
 		playerObjectHeld_id += 1;
-	elif (Input.is_action_just_pressed("inventoryDown")):
+	elif (Input.is_action_just_pressed("tool_belt_down")):
 		playerObjectHeld_id -= 1;
 	
 	#Right now, the game assumes a player is always holding
