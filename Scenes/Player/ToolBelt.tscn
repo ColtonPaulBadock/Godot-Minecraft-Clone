@@ -44,6 +44,13 @@ visible = false
 
 [node name="0" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/0"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="1" type="Sprite2D" parent="Indexes"]
 
 [node name="2" type="Sprite2D" parent="Indexes"]

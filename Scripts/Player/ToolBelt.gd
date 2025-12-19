@@ -93,6 +93,9 @@ func openBackPack() -> void:
 	#Apply the grayed out background/effect
 	#for the backpack window
 	$BackPackWindow.visible = true;
+	#Also make the Indexes of the backpack
+	#all fully visible
+	$Indexes.visible = true;
 	
 	#Disable all inputs while we are in the backpack.
 	#Make the mouse visible for inventory management
@@ -116,6 +119,9 @@ func closeBackPack() -> void:
 	#so that its not visible while we are
 	#outside the backpack
 	$BackPackWindow.visible = false;
+	#Also make the Indexes of the backpack
+	#all invisible
+	$Indexes.visible = false;
 	
 	#Allow inputs again once we close the backpack.
 	#Also hide the mouse so we can play the game again.
@@ -135,10 +141,23 @@ func runInventory() -> void:
 	#actively selected.
 	toolBeltSelectedSlotController();
 	
-	updateBackPack();
+	#updateBackPack();
+	$Indexes/"1".position = getBackPackIndexPixelLocation(0);
+	$Indexes/"1".texture = global_variables.block_table_icon[2];
 	
 	pass;
 
+
+#Data arrays holding the last icon/stack_height
+#for the index. We compare these to whats
+#current in "updateBackPack()", if theres a difference
+#then we will change the icon/stack_height displayed.
+#This saves a lot of processing power from changing
+#text and .png's
+#(indexes in these arrays directly corolate to the
+#indexes of "items[]" array)
+var last_id = []; #The last block_id of the index
+var last_stack_height = []; #The last stack_height of the index
 
 #Updates all indexes of the backpack.
 #Will check to see whats in each index of
@@ -147,17 +166,43 @@ func runInventory() -> void:
 #other stats of the backpack if needed.
 func updateBackPack() -> void:
 	
-	#NOTE: DEBUG
-	for num in 31:
-		
-		$Indexes.get_node(str(num)).texture = global_variables.block_table_icon[2];
-		$Indexes.get_node(str(num)).position = getBackPackIndexPixelLocation(num);
-		
-		pass;
-	$Indexes.get_node(str(8)).texture = global_variables.block_table_icon[4];
-	$Indexes.get_node(str(9)).texture = global_variables.block_table_icon[4];
-	$Indexes.visible = true;
+	#The index of "items[]" while looping
+	#through all items at ID: 79837
+	var index : int = 0;
 	
+	#ID: 79837
+	#Loop through all indexs of the "items[]"
+	#array, we will then make sure we have every
+	#corolating index of the backpack displaying
+	#the correct items.
+	for item in items:
+		
+		#If both the icon (block_id) and the stack height are up to
+		#date, we will not need to change anything and can skip this instance
+		if (last_id[index] == item.block_id && last_stack_height[index] == item.stack_height):
+			continue
+		
+		#If we didn't continue through the loop,
+		#at this point something changed. Check what
+		#changed!
+		#-----------
+		#Check to make sure the icon (block_id) is the same
+		#as last time. If its different, we will update the
+		#icon
+		if (last_id[index] != item.block_id):
+			#Set the icon of the item at "index" of "items[]" with the
+			#correct icon for "block_id" of "item" from the
+			#global_variables.block_table_icon (array with index-to-index
+			#relation to block_table (we are effectively setting the icon
+			#related to the item from block_table to said item))
+			$Indexes.get_node(str(index)).texture = global_variables.block_table_icon[item.block_id];
+			pass;
+		
+		if (last_stack_height[index] != item.stack_hight):
+			pass;
+		
+		index = index + 1;
+		pass;
 	
 	pass;
 
@@ -223,6 +268,15 @@ func initInventoryUtilities() -> void:
 	#(32 total indexs 0-31). This is the max
 	#inventory size.
 	items.resize(31);
+	last_id.resize(31);
+	last_stack_height.resize(31);
+	
+	#Set the position for all inventory/backpack
+	#indexes, so each index appears in the
+	#correct slot
+	for num in 32:
+		$Indexes.get_node(str(num)).position = getBackPackIndexPixelLocation(num);
+		pass;
 	
 	pass;
 
@@ -243,7 +297,7 @@ func getBackPackIndexPixelLocation(index : int) -> Vector2:
 	#Take the backpack grid (inventory grid), we are basically
 	#finding the corrinates of the index related to the
 	#grid and the apply our math to find the pixel location.
-	var index_x : int = ((index % 8) * 81) - 33;#38; #INTIAL: 5 + (43 + ((index % 8) * 87));
+	var index_x : int = ((index % 8) * 81) + 49;#38; #INTIAL: 5 + (43 + ((index % 8) * 87));
 	var index_y : int = 746 + (43 + ((floor(index / 8)) * 81)); #INTIAL: 746 + (43 + ((floor(index / 8)) * 87));
 	
 	#Apply the pixel locations we found,
