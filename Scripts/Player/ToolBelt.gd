@@ -130,10 +130,36 @@ func closeBackPack() -> void:
 #moving, slecting items, etc.
 func runInventory() -> void:
 	
+	#Updates the ToolBelt to show the player
+	#which index of the ToolBelt they have
+	#actively selected.
 	toolBeltSelectedSlotController();
+	
+	updateBackPack();
 	
 	pass;
 
+
+#Updates all indexes of the backpack.
+#Will check to see whats in each index of
+#the backpack/toolbelt in "items[]" array,
+#and will update the icon, ammount and
+#other stats of the backpack if needed.
+func updateBackPack() -> void:
+	
+	#NOTE: DEBUG
+	for num in 31:
+		
+		$Indexes.get_node(str(num)).texture = global_variables.block_table_icon[2];
+		$Indexes.get_node(str(num)).position = getBackPackIndexPixelLocation(num);
+		
+		pass;
+	$Indexes.get_node(str(8)).texture = global_variables.block_table_icon[4];
+	$Indexes.get_node(str(9)).texture = global_variables.block_table_icon[4];
+	$Indexes.visible = true;
+	
+	
+	pass;
 
 
 #The controller system to set the "ToolBeltSelectedSlot"

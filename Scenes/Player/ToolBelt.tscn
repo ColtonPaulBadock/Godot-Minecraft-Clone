@@ -38,3 +38,70 @@ offset_top = -58.288
 offset_right = 2781.0
 offset_bottom = 1128.712
 color = Color(0.1786, 0.19, 0.18734, 0.74902)
+
+[node name="Indexes" type="Node2D" parent="."]
+visible = false
+
+[node name="0" type="Sprite2D" parent="Indexes"]
+
+[node name="1" type="Sprite2D" parent="Indexes"]
+
+[node name="2" type="Sprite2D" parent="Indexes"]
+
+[node name="3" type="Sprite2D" parent="Indexes"]
+
+[node name="4" type="Sprite2D" parent="Indexes"]
+
+[node name="5" type="Sprite2D" parent="Indexes"]
+
+[node name="6" type="Sprite2D" parent="Indexes"]
+
+[node name="7" type="Sprite2D" parent="Indexes"]
+
+[node name="8" type="Sprite2D" parent="Indexes"]
+
+[node name="9" type="Sprite2D" parent="Indexes"]
+
+[node name="10" type="Sprite2D" parent="Indexes"]
+
+[node name="11" type="Sprite2D" parent="Indexes"]
+
+[node name="12" type="Sprite2D" parent="Indexes"]
+
+[node name="13" type="Sprite2D" parent="Indexes"]
+
+[node name="14" type="Sprite2D" parent="Indexes"]
+
+[node name="15" type="Sprite2D" parent="Indexes"]
+
+[node name="16" type="Sprite2D" parent="Indexes"]
+
+[node name="17" type="Sprite2D" parent="Indexes"]
+
+[node name="18" type="Sprite2D" parent="Indexes"]
+
+[node name="19" type="Sprite2D" parent="Indexes"]
+
+[node name="20" type="Sprite2D" parent="Indexes"]
+
+[node name="21" type="Sprite2D" parent="Indexes"]
+
+[node name="22" type="Sprite2D" parent="Indexes"]
+
+[node name="23" type="Sprite2D" parent="Indexes"]
+
+[node name="24" type="Sprite2D" parent="Indexes"]
+
+[node name="25" type="Sprite2D" parent="Indexes"]
+
+[node name="26" type="Sprite2D" parent="Indexes"]
+
+[node name="27" type="Sprite2D" parent="Indexes"]
+
+[node name="28" type="Sprite2D" parent="Indexes"]
+
+[node name="29" type="Sprite2D" parent="Indexes"]
+
+[node name="30" type="Sprite2D" parent="Indexes"]
+
+[node name="31" type="Sprite2D" parent="Indexes"]
