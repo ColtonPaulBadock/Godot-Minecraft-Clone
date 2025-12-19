@@ -31,6 +31,9 @@ var items = [];
 #Indexes related to "items[]" which are in
 #the toolbelt.
 var toolbelt_indexes = [1, 9, 17, 25, 26, 27, 28];
+#The current index of the players tool_belt.
+#from 0-toolbelt_indexes.size;
+var tool_belt_index = 0;
 
 #Called when scene enters the tree,
 #here we can intialize important aspects
@@ -137,6 +140,38 @@ func closeBackPack() -> void:
 #player when the menu is open. Allows for
 #moving, slecting items, etc.
 func runInventory() -> void:
+	
+	pass;
+
+
+
+#Scrolls the players tool_belt index up by one,
+#so we can scroll toward the next index.
+func tool_belt_up() -> void:
+	
+	#Scroll one down the tool belt.
+	tool_belt_index = tool_belt_index + 1;
+	
+	#If we are beyond the length of the tool
+	#belts size, we will reset back to index number
+	#zero.
+	if (tool_belt_index >= toolbelt_indexes.size()):
+		tool_belt_index = 0;
+	
+	pass;
+
+#Scrolls the players tool_belt index dwon by one,
+#so we can scroll toward the next index.
+func tool_belt_down() -> void:
+	
+	#Scroll one down the tool belt.
+	tool_belt_index = tool_belt_index - 1;
+	
+	#If we are below the length of the tool
+	#belts size, we will reset back to the max
+	#index "toolbelt_indexes.size()"
+	if (tool_belt_index < 0):
+		tool_belt_index = toolbelt_indexes.size() - 1;
 	
 	pass;
 

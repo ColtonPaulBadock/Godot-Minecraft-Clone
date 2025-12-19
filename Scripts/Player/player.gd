@@ -186,10 +186,14 @@ func tool_belt_controller() -> void:
 	#drop (--) the ID of the block/object the player is holding.
 	#"playerObjectHeld_id" represents the block/object the
 	#player is holding.
-	if (Input.is_action_just_pressed("tool_belt_up")):
-		playerObjectHeld_id += 1;
-	elif (Input.is_action_just_pressed("tool_belt_down")):
-		playerObjectHeld_id -= 1;
+	if (Input.is_action_just_pressed("tool_belt_up") && global_variables.inputAllowed):
+		#Scroll the tool belt in "ToolBelt.gd" using the "ToolBelt" node
+		#of the player.
+		$CameraPivot/Camera3D/ToolBeltCanvasLayer/ToolBelt.tool_belt_up();
+	elif (Input.is_action_just_pressed("tool_belt_down") && global_variables.inputAllowed):
+		#Scroll the tool belt in "ToolBelt.gd" using the "ToolBelt" node
+		#of the player.
+		$CameraPivot/Camera3D/ToolBeltCanvasLayer/ToolBelt.tool_belt_down();
 	
 	#Right now, the game assumes a player is always holding
 	#a object to place, later this will be changed.
