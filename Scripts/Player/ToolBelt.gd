@@ -28,6 +28,9 @@ var isInBackpack : bool = false;
 #Each index represents 1 slot of the backpack.
 #refer to "backpack_reference.png" in "\Assets\ingameUI\toolbelt"
 var items = [];
+#Indexes related to "items[]" which are in
+#the toolbelt.
+var toolbelt_indexes = [1, 9, 17, 25, 26, 27, 28];
 
 #Called when scene enters the tree,
 #here we can intialize important aspects
@@ -158,11 +161,25 @@ func initInventoryUtilities() -> void:
 #ARGUMENTS:
 #index -> the index of the backpack in which we
 #will get the pixel location for.
-func getBackPackIndexPixelLocation() -> Vector2:
+func getBackPackIndexPixelLocation(index : int) -> Vector2:
 	
+	#The location we will return as Vector2, containing
+	#the screen corrdinates in pixels, for the center
+	#of "index".
 	var pixel_location : Vector2 = Vector2(0, 0);
 	
+	#Take the backpack grid (inventory grid), we are basically
+	#finding the corrinates of the index related to the
+	#grid and the apply our math to find the pixel location.
+	var index_x : int = 5 + (43 + ((index % 8) * 87));
+	var index_y : int = 746 + (43 + ((floor(index / 8)) * 87));
 	
+	#Apply the pixel locations we found,
+	#so we can return the corrdinates of the
+	#indexs pixel location (for inventory icon UI, for
+	#setting the ToolBeltSelectedSlot, etc)
+	pixel_location.x = index_x;
+	pixel_location.y = index_y;
 	
 	return pixel_location;
 
