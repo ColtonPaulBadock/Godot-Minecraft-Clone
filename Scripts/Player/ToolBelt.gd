@@ -153,9 +153,16 @@ func runInventory() -> void:
 	#of the index, how many in the stack, etc.
 	updateBackPack();
 	
+	#Removes all items where stack_height is 0 or less,
+	#since these stacks are empty, nothing can be there.
+	#We remove icon, stack_height label and set the index
+	#of "items[]" to be null.
 	removeEmptyItems();
 	
 	pass;
+
+
+
 
 
 #If we have any item with a stack_height of 0,
