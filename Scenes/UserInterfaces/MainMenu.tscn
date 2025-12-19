@@ -34,10 +34,10 @@ script = ExtResource("1_vuhwo")
 
 [node name="CopyrightNotice" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_left = 1680.0
-offset_top = 1018.0
-offset_right = 2044.0
-offset_bottom = 1137.0
+offset_left = 1646.0
+offset_top = 1027.0
+offset_right = 2010.0
+offset_bottom = 1146.0
 text = "Copyright © 2025 Colton Paul 
 Badock, Orion Tullis  (Exemptusoft)"
 
