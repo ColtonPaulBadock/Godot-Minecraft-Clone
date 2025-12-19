@@ -53,62 +53,279 @@ horizontal_alignment = 1
 
 [node name="1" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/1"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="2" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/2"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="3" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/3"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="4" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/4"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="5" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/5"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="6" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/6"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="7" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/7"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="8" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/8"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="9" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/9"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="10" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/10"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="11" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/11"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="12" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/12"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="13" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/13"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="14" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/14"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="15" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/15"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="16" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/16"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="17" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/17"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="18" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/18"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="19" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/19"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="20" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/20"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="21" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/21"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="22" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/22"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="23" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/23"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="24" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/24"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="25" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/25"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="26" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/26"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="27" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/27"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="28" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/28"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
 
 [node name="29" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/29"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="30" type="Sprite2D" parent="Indexes"]
 
+[node name="stack_height" type="RichTextLabel" parent="Indexes/30"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1
+
 [node name="31" type="Sprite2D" parent="Indexes"]
+
+[node name="stack_height" type="RichTextLabel" parent="Indexes/31"]
+z_index = 1
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 45.0
+horizontal_alignment = 1

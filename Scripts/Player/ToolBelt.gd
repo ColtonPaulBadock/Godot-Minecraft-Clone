@@ -45,6 +45,13 @@ func _ready() -> void:
 	#assets, functions, vars, etc.
 	initInventoryUtilities();
 	
+	#NOTE: DEBUG
+	insertAtIndex(global_variables.block_table[3].instantiate(), 3, 12);
+	insertAtIndex(global_variables.block_table[4].instantiate(), 12, 69);
+	insertAtIndex(global_variables.block_table[2].instantiate(), 5, 67);
+	insertAtIndex(global_variables.block_table[2].instantiate(), 31, 67);
+	insertAtIndex(global_variables.block_table[6].instantiate(), 19, 89);
+	
 	pass;
 
 
@@ -141,9 +148,11 @@ func runInventory() -> void:
 	#actively selected.
 	toolBeltSelectedSlotController();
 	
-	#updateBackPack();
-	$Indexes/"1".position = getBackPackIndexPixelLocation(0);
-	$Indexes/"1".texture = global_variables.block_table_icon[2];
+	#Updates everything that changed in the backpack
+	#from the previous frame to display what the actual
+	#backpack is (items, etc); This changes the icon
+	#of the index, how many in the stack, etc.
+	updateBackPack();
 	
 	pass;
 
@@ -177,10 +186,25 @@ func updateBackPack() -> void:
 	#the correct items.
 	for item in items:
 		
+		#If nothing is there (null), the index is empty
+		#and we will bypass this iteration and move to the
+		#next index. (Also setting the last variables as null
+		#reflecting this)
+		if (item == null):
+			last_id[index] = null;
+			last_stack_height[index] = null;
+			#Update the index we are currently
+			#iterating through
+			index = index + 1;
+			continue;
+		
 		#If both the icon (block_id) and the stack height are up to
 		#date, we will not need to change anything and can skip this instance
 		if (last_id[index] == item.block_id && last_stack_height[index] == item.stack_height):
-			continue
+			#Update the index we are currently
+			#iterating through
+			index = index + 1;
+			continue;
 		
 		#If we didn't continue through the loop,
 		#at this point something changed. Check what
@@ -196,11 +220,20 @@ func updateBackPack() -> void:
 			#relation to block_table (we are effectively setting the icon
 			#related to the item from block_table to said item))
 			$Indexes.get_node(str(index)).texture = global_variables.block_table_icon[item.block_id];
+			last_id[index] = item.block_id;
 			pass;
 		
-		if (last_stack_height[index] != item.stack_hight):
+		#If the last stack_height for this index if different than now,
+		#we will update it.
+		if (last_stack_height[index] != item.stack_height):
+			#Update the current stack_height displayed in the inventory
+			#if we detected its different from the previous frame.
+			$Indexes.get_node(str(index)).get_node("stack_height").text = str(item.stack_height);
+			last_stack_height[index] = item.stack_height;
 			pass;
 		
+		#Update the index we are currently
+		#iterating through
 		index = index + 1;
 		pass;
 	
@@ -267,9 +300,9 @@ func initInventoryUtilities() -> void:
 	#Sets the "items[]" array to a size of 31
 	#(32 total indexs 0-31). This is the max
 	#inventory size.
-	items.resize(31);
-	last_id.resize(31);
-	last_stack_height.resize(31);
+	items.resize(32);
+	last_id.resize(32);
+	last_stack_height.resize(32);
 	
 	#Set the position for all inventory/backpack
 	#indexes, so each index appears in the
@@ -392,7 +425,8 @@ func insertAtIndex(BLOCK, index, amount) -> void:
 	
 	#Insert the stack of the item in instance "BLOCK"
 	#into the backpack at the given index "index".
-	items.insert(index, BLOCK);
+	#items.insert(index, BLOCK);
+	items[index] = BLOCK;
 	
 	pass;
 
