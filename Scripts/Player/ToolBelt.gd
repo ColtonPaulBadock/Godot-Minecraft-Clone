@@ -45,17 +45,6 @@ func _ready() -> void:
 	#assets, functions, vars, etc.
 	initInventoryUtilities();
 	
-	#NOTE: DEBUG
-	#insertAtIndex(global_variables.block_table[2].instantiate(), 4, 24);
-	#insertAtIndex(global_variables.block_table[4].instantiate(), 8, 28);
-	#insertAtIndex(global_variables.block_table[3].instantiate(), 15, 57);
-	#insertIntoBackPack(global_variables.block_table[3].instantiate(), 10000);
-	
-	#NOTE: DEBUG
-	for item in items:
-		if (item != null):
-			print(item.block_id, " | ", item.stack_height);
-	
 	pass;
 
 
@@ -79,11 +68,11 @@ func _process(delta: float) -> void:
 			closeBackPack();
 	
 	
-	#If we are suppose to be inside the backpack,
-	#then allow the player to interact with it,
-	#move stuff, etc.
-	if (isInBackpack == true):
-		runInventory();
+	#Run the toolbelt/backpack (inventory)
+	#system each game frame. Here we update
+	#the inventory, change toolbelt visualy
+	#("ToolBeltSelectedSlot"), etc.
+	runInventory();
 	
 	
 	pass;
@@ -141,8 +130,30 @@ func closeBackPack() -> void:
 #moving, slecting items, etc.
 func runInventory() -> void:
 	
+	toolBeltSelectedSlotController();
+	
 	pass;
 
+
+
+#The controller system to set the "ToolBeltSelectedSlot"
+#on the tool belt so the player can visually see what
+#they are holding.
+func toolBeltSelectedSlotController() -> void:
+	
+	#Set the "ToolBeltSelectedSlot" on the players toolbelt
+	#so we can see what we are holding (tool_belt_index).
+	if (tool_belt_index != $ToolBeltSelectedSlot.highlighted_slot_index):
+		$ToolBeltSelectedSlot.position = getBackPackIndexPixelLocation(toolbelt_indexes[tool_belt_index]);
+		#Set the current slot (index) we are highlighting in the ToolBelt
+		#in the variable "highlighted_slot_index", so that we are not
+		#changing the position every frame since "toolBeltSelectedSlotController()"
+		#runs per each frame. We will only update possible according to the
+		#if statement this is under.
+		$ToolBeltSelectedSlot.highlighted_slot_index = tool_belt_index;
+		pass;
+	
+	pass;
 
 
 #Scrolls the players tool_belt index up by one,
@@ -206,8 +217,8 @@ func getBackPackIndexPixelLocation(index : int) -> Vector2:
 	#Take the backpack grid (inventory grid), we are basically
 	#finding the corrinates of the index related to the
 	#grid and the apply our math to find the pixel location.
-	var index_x : int = 5 + (43 + ((index % 8) * 87));
-	var index_y : int = 746 + (43 + ((floor(index / 8)) * 87));
+	var index_x : int = ((index % 8) * 81) - 33;#38; #INTIAL: 5 + (43 + ((index % 8) * 87));
+	var index_y : int = 746 + (43 + ((floor(index / 8)) * 81)); #INTIAL: 746 + (43 + ((floor(index / 8)) * 87));
 	
 	#Apply the pixel locations we found,
 	#so we can return the corrdinates of the

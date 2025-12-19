@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c2q0654k64srd"]
+[gd_scene load_steps=5 format=3 uid="uid://c2q0654k64srd"]
 
 [ext_resource type="Script" uid="uid://c6v1t10g4uv1u" path="res://Scripts/Player/ToolBelt.gd" id="1_wmkf3"]
 [ext_resource type="Texture2D" uid="uid://deab2f6bkmu1x" path="res://Assets/ingameUI/toolbelt/ToolBelt.png" id="2_ra2uy"]
 [ext_resource type="Texture2D" uid="uid://bc7thhf1m6am6" path="res://Assets/ingameUI/toolbelt/ToolBeltSelectedSlot.png" id="3_68mal"]
+[ext_resource type="Script" uid="uid://yyn4xufhnjk1" path="res://Scripts/Player/ToolBeltSelectedSlot.gd" id="4_wuo57"]
 
 [node name="ToolBelt" type="Control"]
 layout_mode = 3
@@ -24,6 +25,7 @@ editor_description = "The slot in the toolbar we currently selected"
 z_index = 2
 position = Vector2(49, 790)
 texture = ExtResource("3_68mal")
+script = ExtResource("4_wuo57")
 
 [node name="BackPackWindow" type="ColorRect" parent="."]
 visible = false
