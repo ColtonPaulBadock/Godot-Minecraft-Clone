@@ -16,7 +16,7 @@ var objectPlayerIsLookingAt; #The object the player is looking at within there r
 #Helps the player aim
 @onready var crosshair = $CameraPivot/Camera3D/Crosshair;
 
-#Istance to the players toolbelt/backpack (inventoru)
+#Istance to the players toolbelt/backpack (inventory)
 @onready var toolbelt = $CameraPivot/Camera3D/ToolBeltCanvasLayer/ToolBelt;
 
 #Instance of the players camera
@@ -100,27 +100,25 @@ func interactionManager():
 	#at there bounced raycast endpoint if no block is there
 	if (Input.is_action_just_pressed("place") && global_variables.inputAllowed == true):
 		
-		#If the object/block was successfully placed,
-		#this value will be set as true, we then use this
-		#value to play the block placing tone/sound.
-		var blockPlacedSuccessfully = false;
+		#Instance of the item activly in the players hand.
+		#This is what we will "place"
+		var itemInHand = toolbelt.getItem(toolbelt.tool_belt_index);
+		
+		#If the player had no item in there
+		#hand at the time of placing the item,
+		#then we will exit this function
+		if (itemInHand == null):
+			return;
+		
+		if (itemInHand.item_type == "BLOCK"):
+			world.addBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), itemInHand.block_id);
+			itemInHand.stack_height = itemInHand.stack_height - 1;
 		
 		#Add the block id of the 2nd argument to the world
 		#at the position of the raycast end point "PlayerReach"
 		#assuming no block is there, with the bounce RayCast
 		#behaviour applied from function applyRaycastBehaviour()
-		blockPlacedSuccessfully = world.addBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), playerObjectHeld_id);
-		
-		#If the block was successfully placed by the player,
-		#I.E. no obstruction, then play the block placing tone/sound,
-		if (blockPlacedSuccessfully == true):
-			
-			#Get the instance of the audio manager from global
-			#variables, the play the "placeObject" sound.
-			#We are assuming at this point that the block/object
-			#was successfully placed.
-			#global_variables.AudioManager.placeObject.play();
-			pass;
+		world.addBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), playerObjectHeld_id);
 		
 		pass;
 	

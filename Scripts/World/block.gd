@@ -24,3 +24,9 @@ var stack_height_limit : int = global_variables.stack_height_default_limit;
 #The current stack height if this block is in the players inventory
 #/backpack.
 var stack_height : int = 0;
+
+#The item type. All items/blocks
+#are "BLOCK" by default.
+#-----------
+#BLOCK -> 1*1*1 cube in the world, with several properties.
+var item_type = "BLOCK";

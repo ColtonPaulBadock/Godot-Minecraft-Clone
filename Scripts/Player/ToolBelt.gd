@@ -30,7 +30,7 @@ var isInBackpack : bool = false;
 var items = [];
 #Indexes related to "items[]" which are in
 #the toolbelt.
-var toolbelt_indexes = [1, 9, 17, 25, 26, 27, 28];
+var toolbelt_indexes = [0, 8, 16, 24, 25, 26, 27];
 #The current index of the players tool_belt.
 #from 0-toolbelt_indexes.size;
 var tool_belt_index = 0;
@@ -46,7 +46,7 @@ func _ready() -> void:
 	initInventoryUtilities();
 	
 	#NOTE: DEBUG
-	insertAtIndex(global_variables.block_table[4].instantiate(), 0, 50);
+	insertAtIndex(global_variables.block_table[4].instantiate(), 0, 10);
 	insertAtIndex(global_variables.block_table[6].instantiate(), 5, 45);
 	insertAtIndex(global_variables.block_table[2].instantiate(), 17, 4);
 	insertAtIndex(global_variables.block_table[5].instantiate(), 23, 69);
@@ -153,6 +153,40 @@ func runInventory() -> void:
 	#of the index, how many in the stack, etc.
 	updateBackPack();
 	
+	removeEmptyItems();
+	
+	pass;
+
+
+#If we have any item with a stack_height of 0,
+#we will remove it from the inventory and set
+#the index to null.
+#-------
+#Used in "runInventory()", to keep
+#the inventory clear of anything that
+#is fully used/does not exist.
+func removeEmptyItems() -> void:
+	
+	#The index of the for-loop at "ID: 329874"
+	#so we can loop through all the items and
+	#remove anything with a stack_height of 0
+	#or below
+	var index : int = 0;
+	
+	#"ID: 329874"
+	#Loop through all items,
+	#if the stack_height is 0 or less,
+	#remove it from the backpack.
+	for item in items:
+		#Skip null indexs (no items)
+		if (item == null):
+			index = index + 1;
+			continue;
+		if (item.stack_height <= 0):
+			items[index] = null;
+			pass;
+		index = index + 1;
+	
 	pass;
 
 
@@ -192,6 +226,10 @@ func updateBackPack() -> void:
 		if (item == null):
 			last_id[index] = null;
 			last_stack_height[index] = null;
+			#Remove the icon and text if the index is empty (null).
+			#There should be nothing there.
+			$Indexes.get_node(str(index)).texture = null;
+			$Indexes.get_node(str(index)).get_node("stack_height").text = "";
 			#Update the index we are currently
 			#iterating through
 			index = index + 1;
@@ -384,7 +422,7 @@ func getItem(index : int):
 	#the "items[]" (backpack) array
 	#size, we will return false;
 	if (index > 31 || index < 0):
-		return false;
+		return null;
 	
 	#Return the value at the index of the
 	#backpack.
