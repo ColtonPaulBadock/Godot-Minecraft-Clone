@@ -46,11 +46,11 @@ func _ready() -> void:
 	initInventoryUtilities();
 	
 	#NOTE: DEBUG
-	insertAtIndex(global_variables.block_table[3].instantiate(), 3, 12);
-	insertAtIndex(global_variables.block_table[4].instantiate(), 12, 69);
-	insertAtIndex(global_variables.block_table[2].instantiate(), 5, 67);
-	insertAtIndex(global_variables.block_table[2].instantiate(), 31, 67);
-	insertAtIndex(global_variables.block_table[6].instantiate(), 19, 89);
+	insertAtIndex(global_variables.block_table[4].instantiate(), 0, 50);
+	insertAtIndex(global_variables.block_table[6].instantiate(), 5, 45);
+	insertAtIndex(global_variables.block_table[2].instantiate(), 17, 4);
+	insertAtIndex(global_variables.block_table[5].instantiate(), 23, 69);
+	insertAtIndex(global_variables.block_table[1].instantiate(), 30, 67);
 	
 	pass;
 
@@ -80,7 +80,6 @@ func _process(delta: float) -> void:
 	#the inventory, change toolbelt visualy
 	#("ToolBeltSelectedSlot"), etc.
 	runInventory();
-	
 	
 	pass;
 
@@ -476,7 +475,7 @@ func insertIntoBackPack(BLOCK, ammount) -> bool:
 			#found of the same ID, and it sums to less
 			#than the objects stack_height_limit, simply add the ammount to the
 			#stack, and then we can return true for success.
-			if (item.stack_height + ammount < BLOCK.stack_height_limit):
+			if (item.stack_height + ammount <= BLOCK.stack_height_limit):
 				item.stack_height = item.stack_height + ammount;
 				stuffFullyInserted = true;
 				return stuffFullyInserted;
@@ -525,6 +524,7 @@ func insertIntoBackPack(BLOCK, ammount) -> bool:
 		#and we can't create a new stack, so we
 		#will skip to the next iteration
 		if (item != null):
+			index = index + 1;
 			continue;
 		
 		#If we find an empty index, we will fill
@@ -536,9 +536,10 @@ func insertIntoBackPack(BLOCK, ammount) -> bool:
 			#index of the backpack is less than the stack_height_limit
 			#of the item, then we can just insert it all and exit
 			#with success
-			if (ammount < BLOCK.stack_height_limit):
+			if (ammount <= BLOCK.stack_height_limit):
 				insertAtIndex(BLOCK, index, ammount);
 				stuffFullyInserted = true;
+				index = index + 1;
 				return stuffFullyInserted;
 				pass;
 			
