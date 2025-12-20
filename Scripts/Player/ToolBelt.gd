@@ -227,6 +227,7 @@ func dragDropController() -> void:
 					#position or a position within said index)
 					moving_index = getItem(i);
 					moving_index_items_index = i;
+					return;
 					pass;
 				pass;
 			
@@ -267,11 +268,15 @@ func dragDropController() -> void:
 				#The index of we clicked in the backpack (0-31)
 				var indexClicked = getIndexOfPosition(get_viewport().get_mouse_position());
 				
-				#if (indexClicked == moving_index_items_index):
-				#	insertAtIndex(moving_index, indexClicked, moving_index.stack_height);
-				#	moving_index = null;
-				#	moving_index_items_index = null;
-				#	return;
+				if (indexClicked == moving_index_items_index):
+					
+					#NOTE: DEBUG
+					print("Clicked self!");
+					
+					insertAtIndex(moving_index, indexClicked, moving_index.stack_height);
+					moving_index = null;
+					moving_index_items_index = null;
+					return;
 				
 				#If the index we clicked is empty "null",
 				#then we will transfer all the items to
@@ -668,6 +673,9 @@ func insertAtIndex(BLOCK, index, amount) -> void:
 	#in the stack to the stack of items
 	BLOCK.stack_height = amount;
 	
+	#Reset the indexs position in the backpack to
+	#its default position (to prevent visiual bugs)
+	$Indexes.get_node(str(index)).position = getBackPackIndexPixelLocation(index);
 	
 	#Insert the stack of the item in instance "BLOCK"
 	#into the backpack at the given index "index".
