@@ -113,15 +113,11 @@ func interactionManager():
 		if (itemInHand == null):
 			return;
 		
+		#If the type of item in the hand is of type "BLOCK",
+		#then we will place said block.
 		if (itemInHand.item_type == "BLOCK"):
 			world.addBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), itemInHand.block_id);
 			itemInHand.stack_height = itemInHand.stack_height - 1;
-		
-		#Add the block id of the 2nd argument to the world
-		#at the position of the raycast end point "PlayerReach"
-		#assuming no block is there, with the bounce RayCast
-		#behaviour applied from function applyRaycastBehaviour()
-		#world.addBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), playerObjectHeld_id);
 		
 		pass;
 	
@@ -134,13 +130,18 @@ func interactionManager():
 	#method) to carry out the action.
 	if (Input.is_action_just_pressed("strike") && global_variables.inputAllowed == true):
 		
-		#THis variable holds a value indicating
-		#if we successfully destroyed a block/object.
-		#If we did, its true, else its false.
-		#We use this to play the audio sound for breaking a block/object
-		#This variable is false by default, and is not true
-		#till we have removed the block/object successfully.
-		var blockSuccessfullyRemoved : bool = false;
+		#Get an instance of the block that we hit
+		#and store it in "block"; If we hit nothing
+		#this should be null.
+		var block = world.locateBlockAt(applyRaycastBehviour(playerReach.get_collision_point(), "penetrate"));
+		
+		#If the block exists and is type "BLOCK"
+		#give us the item associated with it.
+		if (block != null):
+			if (block.item_type == "BLOCK"):
+				toolbelt.insertIntoBackPack(block, 1);
+				pass;
+			pass;
 		
 		#Call the removeBlock() function from "world.gd" in the world
 		#scene. This will try to remove a block from the world.
@@ -149,21 +150,7 @@ func interactionManager():
 		#Sends the position within the block we want to remove.
 		#"blockSuccessfullyRemoved" will be true if a block/object is removed
 		#else, it will be false.
-		blockSuccessfullyRemoved = world.removeBlock(applyRaycastBehviour(playerReach.get_collision_point(), "penetrate"), "PLAYER");
-		
-		
-		
-		#Here we want to play the audio of a block/object breaking.
-		#If a object/block was successfully removed (blockSuccessfullyRemoved
-		#is true), then play the sound, else do not.
-		if (blockSuccessfullyRemoved == true):
-			
-			#Get the instance of the audio manager from global
-			#variables, the play the "breakObject" sound.
-			#We are assuming at this point that the block/object
-			#was successfully destroyed.
-			#global_variables.AudioManager.breakObject.play();
-			pass;
+		world.removeBlock(applyRaycastBehviour(playerReach.get_collision_point(), "penetrate"), "PLAYER");
 		
 		pass;
 	

@@ -35,15 +35,13 @@ var splashTexts = ["George still hasn't been found!",
 "Ride I-5!",
 "Mind... BLOWN!",
 "Bugs included, no charge!",
-"ColtonPaulBadock.com",
-"GratisExemptus.com",
 "Notch wasn't here...",
 "As seen on TV!",
 "Leave reviews on channel 19!",
-"smackthecreepr2@proton.me",
 "is a Pastafarianist",
 "Unix > Military",
-"Skills USA 2025 contender!"];
+"Skills USA 2025 contender!",
+"143"];
 
 
 
