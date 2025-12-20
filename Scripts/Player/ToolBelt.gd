@@ -243,6 +243,10 @@ func dragDropController() -> void:
 		#Move the current item we are dragging
 		#"moving_index" with the cursor.
 		$Indexes.get_node(str(moving_index_items_index)).position = get_viewport().get_mouse_position();
+		#Set the icon and the stack_height to the current object/item/block
+		#we are dragging "moving_index"
+		$Indexes.get_node(str(moving_index_items_index)).texture = global_variables.block_table_icon[moving_index.block_id];
+		$Indexes.get_node(str(moving_index_items_index)).get_node("stack_height").text = str(moving_index.stack_height);
 		
 		#If we close the backpack, make the item we were dragging
 		#return to its orginal index, and set the item we are
