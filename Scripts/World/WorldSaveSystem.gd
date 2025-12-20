@@ -4,6 +4,10 @@
 
 extends Node
 
+#Instance of the save file
+#for the players inventory.
+var inventory_save_file : FileAccess;
+
 #The save name (this will be the worlds name)
 #Default name is "DEBUG_WORLD". If a world by
 #this name is created, something went wrong??
@@ -999,6 +1003,7 @@ func createNewWorld(worldName : String, seed : int):
 	DirAccess.make_dir_absolute(default_world_save_path + "\\" + worldName);
 	DirAccess.make_dir_absolute(default_world_save_path + "\\" + worldName + "\\meta"); #Meta data directory
 	DirAccess.make_dir_absolute(default_world_save_path + "\\" + worldName + "\\terrain"); #Terrain data directory
+	DirAccess.make_dir_absolute(default_world_save_path + "\\" + worldName + "\\player") #Player data directory
 	
 	#Set the current world name so we can
 	#access it in different WorldSaveSystem utilities
@@ -1020,6 +1025,26 @@ func createNewWorld(worldName : String, seed : int):
 	#Everything is created, the world has been created as
 	#a save in "Saves" in ".gratisexemptus" folder
 	pass;
+
+
+#Creates an inventory save file
+#for the players backpack to be saved
+#to. (.gepd)
+func createInventorySaveFile() -> void:
+	
+	#Take the "inventory_save_file" located at
+	#"\\player\\backpack.gepd" and open/create
+	#it. We will then write the default
+	#save formatting in it next.
+	inventory_save_file = FileAccess.open(default_world_save_path + world_save_name + "\\player\\backpack.gepd", FileAccess.WRITE);
+	
+	#Write the default data string to store
+	#backpack indexs into
+	var data : String = "<backpack_indexes{}";
+	inventory_save_file.store_string(data);
+	
+	pass;
+
 
 
 #When called,
