@@ -102,7 +102,10 @@ func interactionManager():
 		
 		#Instance of the item activly in the players hand.
 		#This is what we will "place"
-		var itemInHand = toolbelt.getItem(toolbelt.tool_belt_index);
+		#We get the current index we are at in the toolbelt,
+		#then using the "toolbelt_indexes[]" array, we get the "items[]"
+		#array equivalent index of it so we can use it.
+		var itemInHand = toolbelt.getItem(toolbelt.toolbelt_indexes[toolbelt.tool_belt_index]);
 		
 		#If the player had no item in there
 		#hand at the time of placing the item,
@@ -118,7 +121,7 @@ func interactionManager():
 		#at the position of the raycast end point "PlayerReach"
 		#assuming no block is there, with the bounce RayCast
 		#behaviour applied from function applyRaycastBehaviour()
-		world.addBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), playerObjectHeld_id);
+		#world.addBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), playerObjectHeld_id);
 		
 		pass;
 	
