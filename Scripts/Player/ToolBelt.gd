@@ -159,10 +159,44 @@ func runInventory() -> void:
 	#of "items[]" to be null.
 	removeEmptyItems();
 	
+	#Allow for drag and drop backpack/inventory
+	#management if we are in the backpack.
+	dragDropController();
+	
 	pass;
 
 
 
+#Enables drag and drop inventory management
+func dragDropController() -> void:
+	
+	#The mouse position of where we
+	#clicked in the backpack;
+	#We will use this to determine if
+	#we selected an index or not.
+	var mouse_position = null;
+	
+	#If we are not currently in the backpack,
+	#we will disable the drag and drop manager
+	if (isInBackpack == false):
+		return;
+	
+	#If the player left-clicked, we will determine
+	#where it was they clicked, however, if they didn't
+	#"mouse_position" will remain as null and we will exit
+	#this function.
+	if (Input.is_action_just_pressed("strike")):
+		mouse_position = get_viewport().get_mouse_position();
+	
+	#Here is where we determine what it is we clicked,
+	#and how it should be handled (I.E. dragged by mouse,
+	#etc).
+	if (mouse_position != null):
+		
+		pass;
+	
+	
+	pass;
 
 
 #If we have any item with a stack_height of 0,
