@@ -109,7 +109,8 @@ func openBackPack() -> void:
 	$BackPackWindow.visible = true;
 	#Also make the Indexes of the backpack
 	#all fully visible
-	$Indexes.visible = true;
+	#$Indexes.visible = true;
+	toggleBackpackIndexVisibility(true);
 	
 	#Disable all inputs while we are in the backpack.
 	#Make the mouse visible for inventory management
@@ -135,12 +136,68 @@ func closeBackPack() -> void:
 	$BackPackWindow.visible = false;
 	#Also make the Indexes of the backpack
 	#all invisible
-	$Indexes.visible = false;
+	#$Indexes.visible = false;
+	toggleBackpackIndexVisibility(false);
 	
 	#Allow inputs again once we close the backpack.
 	#Also hide the mouse so we can play the game again.
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN);
 	global_variables.inputAllowed = true;
+	
+	pass;
+
+
+#Makes all indexes from the
+#backpack visible or not
+#depending on the first argument.
+#--------
+#ARGUMENTS:
+#visible -> If true, all are visible. If false, all are hidden
+func toggleBackpackIndexVisibility(visible : bool) -> void:
+	
+	#Bool as to wether the current index
+	#of the backpack is a tool-belt index.
+	#If we set this to true, it is while looping
+	#through all indexs at ID: 789174CC
+	var isToolBeltIndex = false;
+	
+	#ID: 789174CC
+	#Loop through all indexs of the backpack.
+	#If the index is not in the toolbelt,
+	#toggles its visibility based on "visible".
+	#If said index is in the toolbelt, it will
+	#always be visible.
+	for i in 31:
+		
+		#Reset the visibility
+		#for the toolbelt index.
+		#If we determine the index
+		#is in the toolbelt, this will
+		#be true and we will skip setting
+		#visibility, keeping the index
+		#fully visible.
+		isToolBeltIndex = false;
+		
+		#If any of the toolbelt indexes
+		#from "toolbelt_indexes[]" array match
+		#the current index we are setting
+		#visibility to "i" from "indexes[]" array,
+		#we determined its in the toolbelt and will keep
+		#it fully visible.
+		for a in toolbelt_indexes:
+			if (a == i):
+				isToolBeltIndex = true;
+				pass;
+			pass;
+		
+		#If the index of the backpack is not
+		#in the toolbelt, we will set its visibility
+		#with to the argument "visible",
+		#allowing for visibility toggle.
+		if (isToolBeltIndex != true):
+			$Indexes.get_node(str(i)).visible = visible;
+			pass;
+		pass;
 	
 	pass;
 
@@ -565,6 +622,11 @@ func initInventoryUtilities() -> void:
 	for num in 32:
 		$Indexes.get_node(str(num)).position = getBackPackIndexPixelLocation(num);
 		pass;
+	
+	#Make sure the backpack indexes except
+	#for the toolbelt are all hidden
+	#(Toolbelt indexes fully visible!)
+	toggleBackpackIndexVisibility(false);
 	
 	pass;
 
