@@ -22,6 +22,14 @@ var back_pack_texture_path : Resource = preload("res://Assets/ingameUI/toolbelt/
 #backpack/inventory, etc.
 var isInBackpack : bool = false;
 
+#This is the index I am actively moving if
+#I clicked an index with the mouse.
+#Points to an index in "items[]"
+var moving_index = null;
+#The index of the item "moving_index" in
+#"items[]" array
+var moving_index_items_index = null;
+
 #Instance of the items in the players
 #backpack/toolbelt.
 #----
@@ -176,27 +184,161 @@ func dragDropController() -> void:
 	#we selected an index or not.
 	var mouse_position = null;
 	
-	#If we are not currently in the backpack,
-	#we will disable the drag and drop manager
-	if (isInBackpack == false):
-		return;
-	
 	#If the player left-clicked, we will determine
 	#where it was they clicked, however, if they didn't
 	#"mouse_position" will remain as null and we will exit
 	#this function.
-	if (Input.is_action_just_pressed("strike")):
+	if (Input.is_action_just_pressed("strike") && isInBackpack == true):
 		mouse_position = get_viewport().get_mouse_position();
 	
 	#Here is where we determine what it is we clicked,
 	#and how it should be handled (I.E. dragged by mouse,
 	#etc).
-	if (mouse_position != null):
+	#------
+	#We will also make sure "moving_index" is null,
+	#if its not null, then we are actively moving stuff
+	#and will keep moving the stuff at ID: 99991793.
+	if (mouse_position != null && moving_index == null && isInBackpack == true):
+		
+		#Determine which index I clicked
+		for i in items.size():
+			
+			#Get the pixel location of the current index
+			#we are checking "i", so we can compare the mouse
+			#screen corrdinates "mouse_position" to the position
+			#of all indexes since we detected a "strike" from the
+			#input map.
+			var indexPosition : Vector2 = getBackPackIndexPixelLocation(i);
+			
+			#Check to see if the mouse corrdinates are within a 40 * 40
+			#area around the center of the index. We use "20" for each
+			#side, but this number could varry if we wanted it to.
+			#-------
+			#First check the x-axis
+			if (indexPosition.x - 20 < mouse_position.x && mouse_position.x < indexPosition.x + 20):
+				#We determined the x-axis lines up, now we will check the y-axis
+				#to see if it lines up
+				if (indexPosition.y - 20 < mouse_position.y && mouse_position.y < indexPosition.y + 20):
+					#We determined the index we clicked,
+					#now set "moving_index" to this, so that
+					#we can move the index around and hold
+					#it with the mouse (i is the current index
+					#and we are checking if we clicked said indexes
+					#position or a position within said index)
+					moving_index = getItem(i);
+					moving_index_items_index = i;
+					pass;
+				pass;
+			
+			pass;
 		
 		pass;
 	
+	#ID: 99991793
+	#If the "moving_index" is not null,
+	#we are actively moving an index and will control it here.
+	if (moving_index != null):
+		
+		#Move the current item we are dragging
+		#"moving_index" with the cursor.
+		$Indexes.get_node(str(moving_index_items_index)).position = get_viewport().get_mouse_position();
+		
+		#If we close the backpack, make the item we were dragging
+		#return to its orginal index, and set the item we are
+		#currently dragging to null
+		if (isInBackpack == false):
+			$Indexes.get_node(str(moving_index_items_index)).position = getBackPackIndexPixelLocation(moving_index_items_index);
+			moving_index = null;
+			moving_index_items_index = null;
+			pass;
+		
+		#If we clicked the "strike" action, determine what
+		#index we clicked. If we are not at any index, do nothing.
+		#If we click a index and nothings there, we will insert the
+		if (Input.is_action_just_pressed("strike")):
+			
+			#Determine if we actually clicked an index, if we did
+			#then we will need to store the index and perform a
+			#swap or insertion into the index depending on if
+			#its empty or has another stack in it
+			if (getIndexOfPosition(get_viewport().get_mouse_position()) != -1):
+				
+				#The index of we clicked in the backpack (0-31)
+				var indexClicked = getIndexOfPosition(get_viewport().get_mouse_position());
+				
+				#If the index we clicked is empty "null",
+				#then we will transfer all the items to
+				#it from the previous index "moving_index_items_index".
+				#We will then set the "moving_index" to null and its related values.
+				#Clear the previous index "moving_index".
+				if (getItem(indexClicked) == null):
+					insertAtIndex(moving_index, indexClicked, moving_index.stack_height);
+					items[moving_index_items_index] = null;
+					moving_index_items_index = null;
+					moving_index = null;
+				#If the index we clicked has something else in it, we will insert
+				#"moving_index" into the clicked index, and will make what was
+				#previously in "indexClicked" as the new "moving_index"
+				else:
+					pass;
+				
+				
+				pass;
+			pass;
+		
+		
+		pass;
 	
 	pass;
+
+
+#Takes "pos" a Vector2 as an argument and
+#will return the backpack index at the position.
+#Returns -1 if no index is found
+#------
+#ARGUMENTS:
+#pos -> A position in the backpack, the index of the "items{}" array related to this slot is returned if one matches the position
+func getIndexOfPosition(pos : Vector2) -> int:
+	
+	#The backpack index at the Vector2
+	#position provided "pos"
+	#-1 if we can't find an index at the
+	#position. This value will be returned by the function.
+	var index = -1;
+	
+	#Determine which index I clicked
+	for i in items.size():
+		
+		#Get the pixel location of the current index
+		#we are checking "i", so we can compare the mouse
+		#screen corrdinates "mouse_position" to the position
+		#of all indexes since we detected a "strike" from the
+		#input map.
+		var indexPosition : Vector2 = getBackPackIndexPixelLocation(i);
+		
+		#Check to see if the mouse corrdinates are within a 40 * 40
+		#area around the center of the index. We use "20" for each
+		#side, but this number could varry if we wanted it to.
+		#-------
+		#First check the x-axis
+		if (indexPosition.x - 20 < pos.x && pos.x < indexPosition.x + 20):
+			#We determined the x-axis lines up, now we will check the y-axis
+			#to see if it lines up
+			if (indexPosition.y - 20 < pos.y && pos.y < indexPosition.y + 20):
+				#We determined the index we clicked,
+				#now set "moving_index" to this, so that
+				#we can move the index around and hold
+				#it with the mouse (i is the current index
+				#and we are checking if we clicked said indexes
+				#position or a position within said index)
+				index = i;
+				pass;
+			pass;
+		pass;
+	
+	return index;
+
+
 
 
 #If we have any item with a stack_height of 0,
