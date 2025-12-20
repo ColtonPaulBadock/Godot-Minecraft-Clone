@@ -248,6 +248,7 @@ func dragDropController() -> void:
 		#currently dragging to null
 		if (isInBackpack == false):
 			$Indexes.get_node(str(moving_index_items_index)).position = getBackPackIndexPixelLocation(moving_index_items_index);
+			items[moving_index_items_index] = moving_index;
 			moving_index = null;
 			moving_index_items_index = null;
 			pass;
@@ -266,6 +267,12 @@ func dragDropController() -> void:
 				#The index of we clicked in the backpack (0-31)
 				var indexClicked = getIndexOfPosition(get_viewport().get_mouse_position());
 				
+				#if (indexClicked == moving_index_items_index):
+				#	insertAtIndex(moving_index, indexClicked, moving_index.stack_height);
+				#	moving_index = null;
+				#	moving_index_items_index = null;
+				#	return;
+				
 				#If the index we clicked is empty "null",
 				#then we will transfer all the items to
 				#it from the previous index "moving_index_items_index".
@@ -279,10 +286,24 @@ func dragDropController() -> void:
 				#If the index we clicked has something else in it, we will insert
 				#"moving_index" into the clicked index, and will make what was
 				#previously in "indexClicked" as the new "moving_index"
-				else:
+				elif (getItem(indexClicked) != null):
+					
+					#Temporary variable to store the index
+					#of the item we just clicked to pick up,
+					#so we can inset "moving_index" into the previous spot
+					var temp = getItem(indexClicked);
+					
+					#Insert the previous item into the index we
+					#just clicked "indexClicked" and take the item
+					#previously in said "indexClicked", which is
+					#temporary stored in "temp" and store it in
+					#"moving_index" so we can move it.
+					insertAtIndex(moving_index, indexClicked, moving_index.stack_height);
+					items[moving_index_items_index] = null;
+					#moving_index_items_index = null;
+					moving_index = temp;
+					
 					pass;
-				
-				
 				pass;
 			pass;
 		
@@ -451,6 +472,11 @@ func updateBackPack() -> void:
 			$Indexes.get_node(str(index)).get_node("stack_height").text = str(item.stack_height);
 			last_stack_height[index] = item.stack_height;
 			pass;
+		
+		#Reset all index Sprite2Ds to default position.
+		#This fixed a issue regaurding Sprite2D drifitng
+		#when moving items in the inventory.
+		$Indexes.get_node(str(index)).position = getBackPackIndexPixelLocation(index);
 		
 		#Update the index we are currently
 		#iterating through
