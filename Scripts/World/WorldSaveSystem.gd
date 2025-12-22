@@ -1045,9 +1045,6 @@ func createNewWorld(worldName : String, seed : int):
 	#a save in "Saves" in ".gratisexemptus" folder
 	pass;
 
-func resetInventoryFeed() -> void:
-	
-	pass;
 
 #Takes the "items[]" array from the player
 #as an argument and writes it to the
@@ -1062,7 +1059,7 @@ func saveInventory(backpack) -> void:
 	#Once we write this string, we will write it
 	#to "backpack.gepd" to save all data from
 	#the players backpack.
-	var save_data : String = "<backpack_indexes{";
+	var save_data : String = "";
 	
 	#The index we are looping through while writing
 	#save data to "backpack.gepd" for "<backpack_indexes".
@@ -1087,12 +1084,12 @@ func saveInventory(backpack) -> void:
 		#indexes space in the save, then continue
 		#to the next iteration of this loop
 		if (backpack[index] == null):
-			save_data = save_data + "(" + str(index) + ",null),";
+			save_data = save_data + "(INDEX:" + str(index) + ",null),";
 			index = index + 1;
 			continue;
 		
 		#Write
-		save_data = save_data + "(" + str(index) + "," + str(item.block_id) + "," + str(item.stack_height) + "),";
+		save_data = save_data + "(INDEX:" + str(index) + "," + str(item.block_id) + "," + str(item.stack_height) + "),";
 		
 		#Increment the index
 		#we are currently on for the
@@ -1102,11 +1099,6 @@ func saveInventory(backpack) -> void:
 		
 		pass;
 	
-	#Terminate the "backpack_indexes" data inside
-	#"save_data" with a }. Same data formatting
-	#as a frag-tag.
-	save_data = save_data + "}";
-	
 	#Write all data from "save_data"
 	#(all the save data from the players inventory)
 	#to the save data file "backpack.gepd"
@@ -1115,16 +1107,12 @@ func saveInventory(backpack) -> void:
 	pass;
 
 
-
-
-
-#Each time we call "feedInventory"
-#we will feed the next index of the backpack
-#back to the point at which this funcition
-#is called.
-#The intention is this function is called once on startup
-#thats it.
-func feedInventory():
+#Returns the last saved index of the inventory
+#at the index of "index" for the inventory.
+#----------
+#ARGUMENTS:
+#index -> the index to return for the inventory.
+func loadInventory(index : int):
 	
 	#The return status of this function.
 	#Each time we call "feedInventory"
@@ -1147,16 +1135,17 @@ func feedInventory():
 	#through the data.
 	save_data = inventory_save_file.get_as_text();
 	
-	#Determine the index where the "backpack_indexes" save data beings
-	#inside of "backpack.gepd" save file.
-	#We will begin feeding inventory indexes back to "ToolBelt.gd"
-	#from this index (for loading inventory save)
-	inventoryDataPosition = save_data.find("<backpack_indexes{");
-	inventoryDataPosition += inventoryDataPosition + "<backpack_indexes{".length();
-	
-	#NOTE: DEBUG
-	print(save_data.substr(inventoryDataPosition, 5));
-	
+	#Determine where the index is in the save file.
+	#We will create a string with the "INDEX:" tag
+	#and the index location and will search for the indexes
+	#location
+	var indexTag : String = "INDEX:" + str(index);
+	#Get the position for the "INDEX:", this will be
+	#the position of the indexes save.
+	#From this position we keep indexing and can get
+	#"block_id" (item, what it is) and the stack_height (how
+	#much of the item we had).
+	var save_data_position : int = save_data.find(indexTag) + indexTag.length();
 	
 	
 	return;
@@ -1172,11 +1161,6 @@ func createInventorySaveFile() -> void:
 	#it. We will then write the default
 	#save formatting in it next.
 	inventory_save_file = FileAccess.open(default_world_save_path + world_save_name + "\\player\\backpack.gepd", FileAccess.WRITE);
-	
-	#Write the default data string to store
-	#backpack indexs into
-	var data : String = "<backpack_indexes{}";
-	inventory_save_file.store_string(data);
 	
 	pass;
 
