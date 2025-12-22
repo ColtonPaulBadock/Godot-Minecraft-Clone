@@ -60,6 +60,9 @@ func _ready() -> void:
 	insertAtIndex(global_variables.block_table[5].instantiate(), 23, 69);
 	insertAtIndex(global_variables.block_table[1].instantiate(), 30, 67);
 	
+	#NOTE: DEBUG
+	WorldSaveSystem.feedInventory();
+	
 	pass;
 
 

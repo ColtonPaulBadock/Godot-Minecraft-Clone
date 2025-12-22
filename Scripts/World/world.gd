@@ -769,6 +769,10 @@ func exitAndSave():
 		WorldSaveSystem.saveFragment(fragment);
 		pass;
 	
+	#Save the players backpack (inventory)
+	#to the player save folder
+	WorldSaveSystem.saveInventory($Player/CameraPivot/Camera3D/ToolBeltCanvasLayer/ToolBelt.items);
+	
 	#Once everything in the world has been saved
 	#exit to the main menu.
 	get_tree().change_scene_to_file(global_variables.titleScreen);

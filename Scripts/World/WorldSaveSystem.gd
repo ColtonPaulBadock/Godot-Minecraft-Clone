@@ -45,6 +45,20 @@ var loadingFragment : FileAccess;
 var loadingFragment_data : String;
 var fragmentDataPosition : int;
 
+#Data for loading the player
+#inventory from the previous save
+#--------
+#"inventoryDataPosition" is the current position
+#(index of the save data) for the player inventory
+#we are at while loading items.
+var inventoryDataPosition : int;
+
+
+#Intializes stuff with the WorldSaveSystem.
+func _ready() -> void:
+	pass;
+
+
 #Laymans: Call this function to get a fragment
 #ready to be feed through by "feedFragment"
 #-----
@@ -1021,10 +1035,131 @@ func createNewWorld(worldName : String, seed : int):
 	var data : String = "(world_name{" + worldName + "})(seed{" + str(seed) + "})";
 	metaFile.store_string(data);
 	
+	#Create save files and utilities for
+	#saving the backpack (inventory)
+	#of the player.
+	createInventorySaveFile();
+	
 	
 	#Everything is created, the world has been created as
 	#a save in "Saves" in ".gratisexemptus" folder
 	pass;
+
+func resetInventoryFeed() -> void:
+	
+	pass;
+
+#Takes the "items[]" array from the player
+#as an argument and writes it to the
+#default player inventory save file
+#"backpack.gepd".
+#FORMAT:
+#    If Item:  index, block_id, stack_height
+#    If null: index, "null"
+func saveInventory(backpack) -> void:
+	
+	#The String we will write all save data to.
+	#Once we write this string, we will write it
+	#to "backpack.gepd" to save all data from
+	#the players backpack.
+	var save_data : String = "<backpack_indexes{";
+	
+	#The index we are looping through while writing
+	#save data to "backpack.gepd" for "<backpack_indexes".
+	#at ID: 32890482843023840.
+	var index : int = 0;
+	
+	#Open the inventory save file in write mode,
+	#so we can write the contents of "backpack" to it.
+	inventory_save_file = FileAccess.open(default_world_save_path + world_save_name + "\\player\\backpack.gepd", FileAccess.WRITE);
+	
+	#ID: 32890482843023840
+	#Loop through and write
+	#all player inventory items/data
+	#to "save_data" string, which is then
+	#going to be written to "backpack.gepd"
+	#which is the save data file for the
+	#players inventory.
+	for item in backpack:
+		
+		#If we are at a null index of the
+		#backpack, then write null to the
+		#indexes space in the save, then continue
+		#to the next iteration of this loop
+		if (backpack[index] == null):
+			save_data = save_data + "(" + str(index) + ",null),";
+			index = index + 1;
+			continue;
+		
+		#Write
+		save_data = save_data + "(" + str(index) + "," + str(item.block_id) + "," + str(item.stack_height) + "),";
+		
+		#Increment the index
+		#we are currently on for the
+		#"backpack[]" array of the player
+		#save data
+		index = index + 1;
+		
+		pass;
+	
+	#Terminate the "backpack_indexes" data inside
+	#"save_data" with a }. Same data formatting
+	#as a frag-tag.
+	save_data = save_data + "}";
+	
+	#Write all data from "save_data"
+	#(all the save data from the players inventory)
+	#to the save data file "backpack.gepd"
+	inventory_save_file.store_string(save_data);
+	
+	pass;
+
+
+
+
+
+#Each time we call "feedInventory"
+#we will feed the next index of the backpack
+#back to the point at which this funcition
+#is called.
+#The intention is this function is called once on startup
+#thats it.
+func feedInventory():
+	
+	#The return status of this function.
+	#Each time we call "feedInventory"
+	#we will feed the next index of the backpack
+	#back to the point at which this funcition
+	#is called.
+	var item = null;
+	
+	#The save data from "inventory_save_file"
+	#(the save data for the inventory)
+	var save_data : String;
+	
+	#Take the "inventory_save_file" located at
+	#"\\player\\backpack.gepd" and open it
+	inventory_save_file = FileAccess.open(default_world_save_path + world_save_name + "\\player\\backpack.gepd", FileAccess.READ);
+	
+	#Store the save data from the
+	#backpack save file to the "save_data"
+	#variable as a string so we can index
+	#through the data.
+	save_data = inventory_save_file.get_as_text();
+	
+	#Determine the index where the "backpack_indexes" save data beings
+	#inside of "backpack.gepd" save file.
+	#We will begin feeding inventory indexes back to "ToolBelt.gd"
+	#from this index (for loading inventory save)
+	inventoryDataPosition = save_data.find("<backpack_indexes{");
+	inventoryDataPosition += inventoryDataPosition + "<backpack_indexes{".length();
+	
+	#NOTE: DEBUG
+	print(save_data.substr(inventoryDataPosition, 5));
+	
+	
+	
+	return;
 
 
 #Creates an inventory save file
