@@ -111,6 +111,10 @@ func _ready() -> void:
 	#the output box if needed
 	debugWindow = $Player/CameraPivot/Camera3D/DebugWindow/DebugWindowPanel/OutputBoxPanel/OutputBox;
 	
+	#Unlock the players gravity,
+	#since the world has rendered in
+	$Player.axis_lock_linear_y = false;
+	
 	pass;
 
 
@@ -123,8 +127,19 @@ func spawnPlayer() -> void:
 	#If no save is detected "playerSpawnPos = null", we will use
 	#a default spawn for the player
 	var playerSpawnPos = WorldSaveSystem.loadSpawn();
+	
+	#If the player has no saved spawn position, spawn the player
+	#within a 100*100 radius of (0, 0).
 	if (playerSpawnPos == null):
-		player.position.y = 295;
+		#Generate a random (x, z) starting position
+		#between 100 * 100 of (0, 0)
+		player.position.x = randf_range(-100, 100);
+		player.position.z = randf_range(-100, 100);
+		
+		#Use the noise_manager to get the terrain height the
+		#player will spawn at, then add a 3.0 margin of error
+		#to it, ensuring the player spawns above the terrain.
+		player.position.y = noise_manager.getTerrainHeightNoise(Vector2(player.position.x, player.position.z)) + 3.0;
 	#If the player has save data, then we willl set
 	#the players position to the save data.
 	#We will also add an increse to Y corrdinate,
@@ -132,6 +147,9 @@ func spawnPlayer() -> void:
 	else:
 		$Player.position.x = playerSpawnPos.x;
 		$Player.position.y = playerSpawnPos.y + 0.1;
+		#Lock all linear Y movement, so the player cannot
+		#fall from gravity until everything loads in.
+		$Player.axis_lock_linear_y = true;
 		$Player.position.z = playerSpawnPos.z;
 		$Player.rotation.y = playerSpawnPos.w;
 	

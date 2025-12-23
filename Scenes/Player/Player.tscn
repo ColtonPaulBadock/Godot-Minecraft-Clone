@@ -12,6 +12,7 @@ size = Vector3(0.5, 2.5, 0.5)
 size = Vector3(1, 2.5, 1)
 
 [node name="Player" type="CharacterBody3D"]
+axis_lock_linear_y = true
 script = ExtResource("1_h54ih")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

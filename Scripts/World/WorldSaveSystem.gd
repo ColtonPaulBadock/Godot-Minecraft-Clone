@@ -1323,13 +1323,13 @@ func loadSpawn():
 	
 	var save_data_position : int = 0;
 	
-	while (data_point != 2):
+	while (data_point != 4):
 		#We will run from the coma's position
 		#until the next coma or ), which we will
 		#then pull the data from between these
 		#characters and depending on the index
 		#we are on, our data type will be saved.
-		while (save_data.substr(save_data_position, 1) != "," && save_data.substr(save_data_position, 1) != ")"):
+		while (save_data.substr(save_data_position, 1) != "," && save_data.substr(save_data_position, 1) != ")" && save_data.substr(save_data_position, 1) != "("):
 			save_data_position = save_data_position + 1;
 			pass;
 		
