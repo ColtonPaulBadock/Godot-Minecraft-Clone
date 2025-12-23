@@ -91,10 +91,12 @@ func _ready() -> void:
 	if (global_variables.in_main_menu == true):
 		startMainMenu();
 	
-	#Set the players spawn position for the Y corrdinate after the world has spawned in.
-	player.position.y = 295;
-	
 	add_child(player); #Add the player into the world
+	
+	#Sets the players spawn positon
+	#based on saves or RNG if its a new
+	#world.
+	spawnPlayer();
 	
 	#Render in the entire world by adding
 	#all fragments within render distance of the fragpoint
@@ -111,6 +113,33 @@ func _ready() -> void:
 	
 	pass;
 
+
+#Spawns the player into the world and determines
+#there starting position based on previous saves,
+#or RNG if starting a new world.
+func spawnPlayer() -> void:
+	
+	#Set the players spawn position for the Y corrdinate after the world has spawned in.
+	#If no save is detected "playerSpawnPos = null", we will use
+	#a default spawn for the player
+	var playerSpawnPos = WorldSaveSystem.loadSpawn();
+	if (playerSpawnPos == null):
+		player.position.y = 295;
+	#If the player has save data, then we willl set
+	#the players position to the save data.
+	#We will also add an increse to Y corrdinate,
+	#ensuring the player doesn't somehow fall out of the world.
+	else:
+		$Player.position.x = playerSpawnPos.x;
+		$Player.position.y = playerSpawnPos.y + 0.1;
+		$Player.position.z = playerSpawnPos.z;
+		$Player.rotation.y = playerSpawnPos.w;
+	
+	#Update the frag point since we
+	#changed the players position.
+	updateFragPoint();
+	
+	pass;
 
 #Sets the world and player parameters
 #from the world save file. (Example: biome/terrain
@@ -772,6 +801,10 @@ func exitAndSave():
 	#Save the players backpack (inventory)
 	#to the player save folder
 	WorldSaveSystem.saveInventory($Player/CameraPivot/Camera3D/ToolBeltCanvasLayer/ToolBelt.items);
+	
+	#Save the players spawn location
+	#to the player save folder
+	WorldSaveSystem.saveSpawn($Player.position, $Player.rotation.y);
 	
 	#Once everything in the world has been saved
 	#exit to the main menu.

@@ -1247,3 +1247,136 @@ func ensureDefaultSaveDirExists():
 		DirAccess.make_dir_recursive_absolute(default_world_save_path);
 	
 	pass;
+
+
+#Takes a position "pos" (Vector3) and a rotation (float) and saves
+#it to the "\player\spawn.gepd" file so we can
+#load the players previous position in from
+#where they saved.
+#-------------
+#ARGUMENTS:
+#pos -> The players position during save.
+#rot -> players rotation during save.
+func saveSpawn(pos : Vector3, rot : float) -> void:
+	
+	#Open the spawn save file in
+	#"spawn_save_file" so we can write
+	#the players last location to it while
+	#saving
+	var spawn_save_file = FileAccess.open(default_world_save_path + world_save_name + "\\player\\spawn.gepd", FileAccess.WRITE);
+	
+	#This will contain the save_data
+	#we are going to write to the spawn save file
+	#"spawn_save_file".
+	var save_data : String = "";
+	
+	#Create the spawn save data and write it to
+	#"save_data", so we can write the data
+	#of where the player last was to the
+	#spawn save file
+	save_data = "(" + str(pos.x) + "," + str(pos.y) + "," + str(pos.z) + "," + str(rot) + ")";
+	
+	#Write the spawn location to the spawn
+	#save file, we will then load this position
+	#later.
+	spawn_save_file.store_string(save_data);
+	
+	pass;
+
+
+#Retrieves the players spawn from the save file
+#"spawn.gepd". Returns a Vector4, which
+#is the players position plus rotation.
+func loadSpawn():
+	
+	#The players position loaded from save.
+	#This will be the (x, y, z) + w (rotation)
+	var position : Vector4 = Vector4(0, 0, 0, 0);
+	
+	#Open the spawn save file in
+	#"spawn_save_file" so we can read
+	#the players last location from saves
+	var spawn_save_file = FileAccess.open(default_world_save_path + world_save_name + "\\player\\spawn.gepd", FileAccess.READ);
+	
+	#If the file doesn't exist for the players spawn,
+	#then we will return null, since now spawn
+	#position was ever saved.
+	if (spawn_save_file == null):
+		return null;
+	
+	#This will contain the save_data
+	#from spawn save file
+	var save_data : String = spawn_save_file.get_as_text();
+	
+	#If the save_data doesn't exist for the
+	#players spawn point, then return null.
+	if (save_data == ""):
+		return null;
+	
+	#This point represents what piece of
+	#data we are actively pulling from
+	#the inventory save file format.
+	#0 = block_id
+	#1 = stack_height
+	#2 = exit loop
+	var data_point : int = 0;
+	
+	var save_data_position : int = 0;
+	
+	while (data_point != 2):
+		#We will run from the coma's position
+		#until the next coma or ), which we will
+		#then pull the data from between these
+		#characters and depending on the index
+		#we are on, our data type will be saved.
+		while (save_data.substr(save_data_position, 1) != "," && save_data.substr(save_data_position, 1) != ")"):
+			save_data_position = save_data_position + 1;
+			pass;
+		
+		#Here we have a variable storing the start position
+		#of the data type we are pullling for the "index" of the inventory.
+		#We will use this, in company with "save_data_position"
+		#later to find the block_id.
+		var data_index : int = save_data_position + 1;
+		save_data_position = save_data_position + 1;
+		
+		#We will increment "save_data_position"
+		#until we hit the next ",", and will then
+		#find the value between "save_data_position"
+		#and "data_index", and this will be our
+		#data type
+		while (save_data.substr(save_data_position, 1) != "," && save_data.substr(save_data_position, 1) != ")"):
+			save_data_position = save_data_position + 1;
+		
+		#If we are on data_point 0 get
+		#the x position.
+		if (data_point == 0):
+			position.x = int(save_data.substr(data_index, save_data_position - data_index));
+			pass;
+		
+		#If we are on data_point 1 get
+		#the y position.
+		if (data_point == 1):
+			position.y = int(save_data.substr(data_index, save_data_position - data_index));
+			pass;
+		
+		#If we are on data_point 2 get
+		#the z position.
+		if (data_point == 2):
+			position.z = int(save_data.substr(data_index, save_data_position - data_index));
+			pass;
+		
+		#If we are on data_point 3 get
+		#the w position.
+		if (data_point == 3):
+			position.w = int(save_data.substr(data_index, save_data_position - data_index));
+			pass;
+		
+		#Increment the data point we are on.
+		#This point represents what piece of
+		#data we are actively pulling from
+		#the inventory save file format.
+		data_point = data_point + 1;
+	
+	
+	return position;
