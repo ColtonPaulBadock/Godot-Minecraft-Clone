@@ -133,13 +133,16 @@ func spawnPlayer() -> void:
 	if (playerSpawnPos == null):
 		#Generate a random (x, z) starting position
 		#between 100 * 100 of (0, 0)
-		player.position.x = randf_range(-100, 100);
-		player.position.z = randf_range(-100, 100);
+		#Add ".5" to center the player with a block
+		#after we floor the values to be directly
+		#at the whole corrdinate (no floating points)
+		player.position.x = floor(randf_range(-100, 100)) + .5;
+		player.position.z = floor(randf_range(-100, 100)) + .5;
 		
 		#Use the noise_manager to get the terrain height the
-		#player will spawn at, then add a 3.0 margin of error
+		#player will spawn at, then add a 5.0 margin of error
 		#to it, ensuring the player spawns above the terrain.
-		player.position.y = noise_manager.getTerrainHeightNoise(Vector2(player.position.x, player.position.z)) + 3.0;
+		player.position.y = noise_manager.getTerrainHeightNoise(Vector2(player.position.x, player.position.z)) + 5.0;
 	#If the player has save data, then we willl set
 	#the players position to the save data.
 	#We will also add an increse to Y corrdinate,

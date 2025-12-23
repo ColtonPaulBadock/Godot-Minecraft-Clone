@@ -1,6 +1,5 @@
-[gd_scene load_steps=8 format=3 uid="uid://cw4p8ru6cvqlx"]
+[gd_scene load_steps=7 format=3 uid="uid://cw4p8ru6cvqlx"]
 
-[ext_resource type="PackedScene" uid="uid://c2i8jdqum6wje" path="res://Scenes/Structures/SpawnPlatform.tscn" id="1_5cjrv"]
 [ext_resource type="Script" uid="uid://blegp3qki4ecq" path="res://Scripts/World/world.gd" id="1_gjpho"]
 [ext_resource type="PackedScene" uid="uid://tj00oqrp1swv" path="res://Scenes/menu_and_keys.tscn" id="3_5nsto"]
 [ext_resource type="PackedScene" uid="uid://de3tf3ggb5132" path="res://Scenes/Audio/AudioManager.tscn" id="4_gjpho"]
@@ -23,9 +22,6 @@ script = ExtResource("1_gjpho")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_p70al")
-
-[node name="SpawnPlatform" parent="." instance=ExtResource("1_5cjrv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 290, 0)
 
 [node name="menu_and_keys" parent="." instance=ExtResource("3_5nsto")]
 
