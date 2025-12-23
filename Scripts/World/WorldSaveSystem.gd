@@ -1084,7 +1084,7 @@ func saveInventory(backpack) -> void:
 		#indexes space in the save, then continue
 		#to the next iteration of this loop
 		if (backpack[index] == null):
-			save_data = save_data + "(INDEX:" + str(index) + ",null),";
+			save_data = save_data + "(INDEX:" + str(index) + "),";
 			index = index + 1;
 			continue;
 		
@@ -1135,6 +1135,12 @@ func loadInventory(index : int):
 	#through the data.
 	save_data = inventory_save_file.get_as_text();
 	
+	#If the save_data is empty (no save data),
+	#we will just automatically return null,
+	#since the inventory is completely empty.
+	if (save_data == ""):
+		return null;
+	
 	#Determine where the index is in the save file.
 	#We will create a string with the "INDEX:" tag
 	#and the index location and will search for the indexes
@@ -1147,8 +1153,69 @@ func loadInventory(index : int):
 	#much of the item we had).
 	var save_data_position : int = save_data.find(indexTag) + indexTag.length();
 	
+	#This point represents what piece of
+	#data we are actively pulling from
+	#the inventory save file format.
+	#0 = block_id
+	#1 = stack_height
+	#2 = exit loop
+	var data_point : int = 0;
 	
-	return;
+	while (data_point != 2):
+		#We will run from the coma's position
+		#until the next coma or ), which we will
+		#then pull the data from between these
+		#characters and depending on the index
+		#we are on, our data type will be saved.
+		while (save_data.substr(save_data_position, 1) != "," && save_data.substr(save_data_position, 1) != ")"):
+			save_data_position = save_data_position + 1;
+			pass;
+		
+		#If we get ")", then there is not data for this
+		#index as this index had nothing in it in the backpack.
+		if (save_data.substr(save_data_position, 1) == ")" && data_point == 0):
+			item = null;
+			return item;
+		#Here we have a variable storing the start position
+		#of the data type we are pullling for the "index" of the inventory.
+		#We will use this, in company with "save_data_position"
+		#later to find the block_id.
+		var data_index : int = save_data_position + 1;
+		save_data_position = save_data_position + 1;
+		
+		#We will increment "save_data_position"
+		#until we hit the next ",", and will then
+		#find the value between "save_data_position"
+		#and "data_index", and this will be our
+		#data type
+		while (save_data.substr(save_data_position, 1) != "," && save_data.substr(save_data_position, 1) != ")"):
+			save_data_position = save_data_position + 1;
+		
+		#If we are on data_point 0 (block_id),
+		#We will instantitate the block
+		#type from the block table using the data from data_point 0.
+		if (data_point == 0):
+			item = global_variables.block_table[int(save_data.substr(data_index, save_data_position - data_index))].instantiate();
+			pass;
+		
+		#If we are on data_point 1 (stack_height),
+		#we will set the stack height as the data.
+		if (data_point == 1):
+			item.stack_height = int(save_data.substr(data_index, save_data_position - data_index));
+			pass;
+		
+		#Increment the data point we are on.
+		#This point represents what piece of
+		#data we are actively pulling from
+		#the inventory save file format.
+		data_point = data_point + 1;
+		
+	
+	
+	#Return the item we created from the
+	#"index" of the backpack from the "backpack.gepd"
+	#file.
+	return item;
 
 
 #Creates an inventory save file

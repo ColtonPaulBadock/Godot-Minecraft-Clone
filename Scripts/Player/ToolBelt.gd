@@ -53,16 +53,6 @@ func _ready() -> void:
 	#assets, functions, vars, etc.
 	initInventoryUtilities();
 	
-	#NOTE: DEBUG
-	insertAtIndex(global_variables.block_table[4].instantiate(), 0, 10);
-	insertAtIndex(global_variables.block_table[6].instantiate(), 5, 45);
-	insertAtIndex(global_variables.block_table[2].instantiate(), 17, 4);
-	insertAtIndex(global_variables.block_table[5].instantiate(), 23, 69);
-	insertAtIndex(global_variables.block_table[1].instantiate(), 30, 67);
-	
-	#NOTE: DEBUG
-	#WorldSaveSystem.loadInventory(0);
-	
 	pass;
 
 
@@ -630,6 +620,28 @@ func initInventoryUtilities() -> void:
 	#for the toolbelt are all hidden
 	#(Toolbelt indexes fully visible!)
 	toggleBackpackIndexVisibility(false);
+	
+	#Loads each index of the inventory in
+	#from a save file it exists.
+	loadInventoryFromSave();
+	
+	pass;
+
+
+#Loads each index of the inventory in
+#from a save file it exists.
+func loadInventoryFromSave() -> void:
+	
+	#The index of the inventory
+	#we are loading from save.
+	var index : int = 0;
+	
+	#Load each index of the inventory
+	#from save file "backpack.gepd"
+	#using the WorldSaveSystem.
+	for item in items:
+		items[index] = WorldSaveSystem.loadInventory(index);
+		index = index + 1;
 	
 	pass;
 
