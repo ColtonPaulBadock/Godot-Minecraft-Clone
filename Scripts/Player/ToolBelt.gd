@@ -160,7 +160,7 @@ func toggleBackpackIndexVisibility(visible : bool) -> void:
 	#toggles its visibility based on "visible".
 	#If said index is in the toolbelt, it will
 	#always be visible.
-	for i in 31:
+	for i in 32:
 		
 		#Reset the visibility
 		#for the toolbelt index.
