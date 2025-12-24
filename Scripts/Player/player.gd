@@ -98,7 +98,7 @@ func interactionManager():
 	#position the raycast3d hits, apply the raycast bounce behaviour
 	#take the ID of the block they want to place and place the block
 	#at there bounced raycast endpoint if no block is there
-	if (Input.is_action_just_pressed("place") && global_variables.inputAllowed == true):
+	if (Input.is_action_just_pressed("place") && global_variables.inputAllowed == true && playerReach.is_colliding()):
 		
 		#Instance of the item activly in the players hand.
 		#This is what we will "place"
@@ -138,7 +138,7 @@ func interactionManager():
 		#If the block exists and is type "BLOCK"
 		#give us the item associated with it.
 		if (block != null):
-			if (block.item_type == "BLOCK" && block.is_indestructible == false):
+			if (block.item_type == "BLOCK" && block.is_indestructible == false && block.block_id != 7 && block.block_id != 8):
 				toolbelt.insertIntoBackPack(block, 1);
 				pass;
 			pass;
