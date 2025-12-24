@@ -138,7 +138,7 @@ func interactionManager():
 		#If the block exists and is type "BLOCK"
 		#give us the item associated with it.
 		if (block != null):
-			if (block.item_type == "BLOCK"):
+			if (block.item_type == "BLOCK" && block.is_indestructible == false):
 				toolbelt.insertIntoBackPack(block, 1);
 				pass;
 			pass;
