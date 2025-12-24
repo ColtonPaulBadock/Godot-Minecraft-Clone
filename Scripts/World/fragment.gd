@@ -10,6 +10,11 @@ var blocks = [];
 #Random number generator for world generation
 var rng = RandomNumberGenerator.new(); #Generates random numbers
 
+#Instance of the world, we use this to check
+#the "entities[]" array or for anything else in the
+#world
+@onready var world = get_parent();
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
@@ -385,7 +390,9 @@ func addBlock(pos : Vector3, id) -> bool:
 			#block and we can safely override it.
 			if (isIllegalBlock(BLOCK) == false):
 				return false; #If a block already occupies the spot in the fragment, return false, placing no block
+			pass;
 		pass;
+	
 	#Create a temporary instance of the block "block", use
 	#global block table to select the right type of block
 	#passed on argument of this function "id"

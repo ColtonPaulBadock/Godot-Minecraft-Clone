@@ -46,6 +46,12 @@ func _ready() -> void:
 	#Intialize other properties here if needed
 	initCrossHair();
 	
+	#NOTE: DEBUG
+	for thing in get_children():
+		if thing is CollisionShape3D:
+			print("Found a collision shape!");
+	
+	
 	pass;
 
 
@@ -128,7 +134,7 @@ func interactionManager():
 	#(RayCast3D) to enter inside the object, to truely detect we hit
 	#it. Then we will use the appropriate method (removeBlockAt, or a attack
 	#method) to carry out the action.
-	if (Input.is_action_just_pressed("strike") && global_variables.inputAllowed == true):
+	if (Input.is_action_just_pressed("strike") && global_variables.inputAllowed == true && playerReach.is_colliding()):
 		
 		#Get an instance of the block that we hit
 		#and store it in "block"; If we hit nothing

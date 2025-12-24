@@ -23,7 +23,7 @@ var fragments = []; #Array contains all fragments currently loaded into the worl
 #Array contains instances of every entity currently spawned
 #in the world, which includes all monsters, creatures, players (online +
 #themselves)
-var entites = [];
+var entities = [];
 
 #fragments to render array.
 #Array holds corrdinates of every fragment that needs to be
@@ -97,8 +97,6 @@ func _ready() -> void:
 	if (global_variables.in_main_menu == true):
 		startMainMenu();
 	
-	add_child(player); #Add the player into the world
-	
 	#Sets the players spawn positon
 	#based on saves or RNG if its a new
 	#world.
@@ -128,6 +126,14 @@ func _ready() -> void:
 #there starting position based on previous saves,
 #or RNG if starting a new world.
 func spawnPlayer() -> void:
+	
+	add_child(player); #Add the player into the world
+	
+	#Add the player (the user) to the entities list,
+	#so we can enusre that we don't place blocks,
+	#or stuff on the player and use the players position
+	#to check other things.
+	entities.append(player);
 	
 	#Set the players spawn position for the Y corrdinate after the world has spawned in.
 	#If no save is detected "playerSpawnPos = null", we will use
