@@ -19,6 +19,12 @@ var player = playerScene.instantiate();
 #has been fully rendered in the world
 var fragments = []; #Array contains all fragments currently loaded into the world
 
+#Entities array.
+#Array contains instances of every entity currently spawned
+#in the world, which includes all monsters, creatures, players (online +
+#themselves)
+var entites = [];
+
 #fragments to render array.
 #Array holds corrdinates of every fragment that needs to be
 #rendered into the world.
