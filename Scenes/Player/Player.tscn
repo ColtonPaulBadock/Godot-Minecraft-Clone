@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8w6tgn67x8kc"]
+[gd_scene load_steps=8 format=3 uid="uid://c8w6tgn67x8kc"]
 
 [ext_resource type="Script" uid="uid://blgf0p6tujmdx" path="res://Scripts/Player/player.gd" id="1_h54ih"]
 [ext_resource type="PackedScene" uid="uid://b8gjp0uf8kg3h" path="res://Scenes/UserInterfaces/DebugWindow.tscn" id="2_ude3g"]
@@ -11,16 +11,14 @@ size = Vector3(0.5, 2.5, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_qbkls"]
 size = Vector3(1, 2.5, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ude3g"]
+
 [node name="Player" type="CharacterBody3D"]
 axis_lock_linear_y = true
 script = ExtResource("1_h54ih")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_qbkls")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0, 0)
-shape = SubResource("BoxShape3D_qbkls")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -50,3 +48,15 @@ collide_with_areas = true
 
 [node name="Feet" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.55, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_qbkls")
+
+[node name="Area3D" type="Area3D" parent="." groups=["Player"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.5, 0, 0, 0, 2.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_ude3g")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

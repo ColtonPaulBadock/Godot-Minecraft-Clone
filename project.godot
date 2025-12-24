@@ -34,6 +34,11 @@ project/assembly_name="3DTestSimple"
 
 import/blender/enabled=false
 
+[global_group]
+
+Player="The is the player (user)"
+Block="A placeable block"
+
 [input]
 
 jump={

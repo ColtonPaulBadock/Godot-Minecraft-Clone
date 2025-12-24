@@ -1,9 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://coo7nuv626nml"]
+[gd_scene load_steps=5 format=3 uid="uid://coo7nuv626nml"]
 
 [ext_resource type="Script" uid="uid://ivsoyqy7c280" path="res://Scripts/Objects/Blocks/TopSoilBlock.gd" id="1_6q76p"]
 [ext_resource type="PackedScene" uid="uid://bfydww4l8k0ru" path="res://Assets/Objects/Blocks/TopSoilBlock/TopSoilBlock.glb" id="1_mvrju"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6q76p"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uu35v"]
 
 [node name="TopSoilBlock" type="Node3D"]
 script = ExtResource("1_6q76p")
@@ -16,3 +18,9 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TopSoilBlock/StaticBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("BoxShape3D_6q76p")
+
+[node name="Area3D" type="Area3D" parent="." groups=["Block"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+shape = SubResource("BoxShape3D_uu35v")

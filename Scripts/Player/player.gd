@@ -46,11 +46,6 @@ func _ready() -> void:
 	#Intialize other properties here if needed
 	initCrossHair();
 	
-	#NOTE: DEBUG
-	for thing in get_children():
-		if thing is CollisionShape3D:
-			print("Found a collision shape!");
-	
 	
 	pass;
 
@@ -398,3 +393,15 @@ func preventIllegalCameraPosition() -> void:
 		pass;
 	
 	pass;
+
+
+func _on_area_3d_area_entered(area: Area3D) -> void:
+	
+	
+	
+	#NOTE: DEBUG
+	debugWindow.writeLog("Sup yo!");
+	if (area.name == "Block"):
+		print("Block in player!");
+	
+	pass # Replace with function body.

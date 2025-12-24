@@ -1,9 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://d077p75bv3p22"]
+[gd_scene load_steps=5 format=3 uid="uid://d077p75bv3p22"]
 
 [ext_resource type="Script" uid="uid://drwofatviry2v" path="res://Scripts/Objects/Blocks/SandBlock.gd" id="1_3vfbh"]
 [ext_resource type="PackedScene" uid="uid://cmj82oohprvsy" path="res://Assets/Objects/Blocks/SandBlock/SandBlock.glb" id="2_du6vw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5a6kt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3vfbh"]
 
 [node name="SandBlock" type="Node3D"]
 script = ExtResource("1_3vfbh")
@@ -16,3 +18,9 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SandBlock/StaticBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("BoxShape3D_5a6kt")
+
+[node name="Area3D" type="Area3D" parent="." groups=["Block"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+shape = SubResource("BoxShape3D_3vfbh")

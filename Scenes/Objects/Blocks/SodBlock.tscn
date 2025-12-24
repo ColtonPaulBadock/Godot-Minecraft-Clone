@@ -1,9 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://nshig1xu0r0w"]
+[gd_scene load_steps=5 format=3 uid="uid://nshig1xu0r0w"]
 
 [ext_resource type="Script" uid="uid://cxx4yevkd7b65" path="res://Scripts/Objects/Blocks/SodBlock.gd" id="1_724qv"]
 [ext_resource type="PackedScene" uid="uid://dokw08l71gdyx" path="res://Assets/Objects/Blocks/SodBlock/SodTextureNew.glb" id="2_724qv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q65fl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_724qv"]
 
 [node name="SodBlock" type="Node3D"]
 script = ExtResource("1_724qv")
@@ -16,3 +18,9 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0.5, 0.5)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SodTextureNew/StaticBody3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("BoxShape3D_q65fl")
+
+[node name="Area3D" type="Area3D" parent="." groups=["Block"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+shape = SubResource("BoxShape3D_724qv")
