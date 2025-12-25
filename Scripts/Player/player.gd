@@ -119,6 +119,8 @@ func interactionManager():
 		if (itemInHand.item_type == "BLOCK"):
 			world.addBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), itemInHand.block_id);
 			itemInHand.stack_height = itemInHand.stack_height - 1;
+			pass;
+		
 		
 		pass;
 	
@@ -393,13 +395,3 @@ func preventIllegalCameraPosition() -> void:
 		pass;
 	
 	pass;
-
-
-func _on_area_3d_area_entered(area: Area3D) -> void:
-	
-	#NOTE: DEBUG
-	debugWindow.writeLog("Sup yo!");
-	if (area.name == "Block"):
-		print("Block in player!");
-	
-	pass # Replace with function body.
