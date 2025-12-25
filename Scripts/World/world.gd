@@ -30,6 +30,10 @@ var entities = [];
 #rendered into the world.
 #Acts as a queue of fragments to render
 var fragmentsRenderQueue = [];
+#The fragment derender queue is the same as
+#"fragmentsRenderQueue[]", but for derendering
+#fragments.
+var fragmentsDerenderQueue = [];
 
 #Frag point
 var fragPoint : Vector3 = Vector3(0.0, 0.0, 0.0);
@@ -293,15 +297,17 @@ func renderWorld() -> void:
 	if (global_variables.application_cycles % 5 == 0):
 		renderWorldFromQueue();
 	
-	#Derender and remove old fragments
-	#that are no longer within render distance
-	#of the fragpoint. These fragments
-	#are removed from the scene and cleared
-	#from RAM.
-	#NOTE: Runs every 100 frames
-	#if (global_variables.application_cycles % 100 == 0):
+	#Check all fragments,
+	#if any are outside render distance,
+	#they will be added to "fragmentDerenderQueue[]"
+	#to be removed in a queue to save cpu
+	#power by not derender all the old ones at once.
 	derenderOldFragments();
 	
+	#Every ammount of frames, check the derender
+	#queue and remove the old fragment from the top
+	if (global_variables.application_cycles % 10 == 0):
+		derenderWorldFromQueue();
 	
 	pass;
 
@@ -455,17 +461,50 @@ func derenderOldFragments() -> void:
 			#of them to a save file, so we don't lose progress
 			#or regenerate fragments
 			WorldSaveSystem.saveFragment(FRAGMENT);
+			#WorkerThreadPool.add_task(func(): 
+			#	WorldSaveSystem.saveFragment(FRAGMENT)
+			#	);
 			
 			#Remove the fragment from the scene and take it out of the fragments array (array of loaded/rendered fragments)
-			remove_child(FRAGMENT);
-			fragments.erase(FRAGMENT);
-			FRAGMENT.queue_free();
+			if (fragmentsDerenderQueue.has(FRAGMENT) == false):
+				fragmentsDerenderQueue.append(FRAGMENT);
 			
 			pass;
 		pass;
 	pass;
 
 
+
+#Derenders the fragment at the top
+#of the derender queue "fragmentsDerenderQueue".
+func derenderWorldFromQueue() -> void:
+	
+	#If the render queue is completely empty,
+	#then exit this function, there is nothing else to
+	#render! Once it has an index in it again, we can
+	#keep rendering.
+	if (fragmentsDerenderQueue.is_empty()):
+		return;
+	
+	#Now that we know the derender queue "fragmentsDerenderQueue[]"
+	#is not empty, we will store the top fragment from the
+	#array in "FRAGMENT" to reference it in this function
+	var FRAGMENT = fragmentsDerenderQueue[0];
+	
+	#Save the fragment to save files so it can
+	#be loaded at a later date
+	WorldSaveSystem.saveFragment(FRAGMENT);
+	
+	remove_child(FRAGMENT);
+	fragments.erase(FRAGMENT);
+	FRAGMENT.queue_free();
+	
+	#Remove the fragment from the derender queue
+	#array, so we can move to the next one.
+	if (fragmentsDerenderQueue.is_empty() == false):
+		fragmentsRenderQueue.remove_at(0); #Remove the top of the arrayaa
+	
+	pass;
 
 
 
