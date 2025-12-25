@@ -493,7 +493,7 @@ func derenderWorldFromQueue() -> void:
 	
 	#Save the fragment to save files so it can
 	#be loaded at a later date
-	WorldSaveSystem.saveFragment(FRAGMENT);
+	#WorldSaveSystem.saveFragment(FRAGMENT);
 	
 	remove_child(FRAGMENT);
 	fragments.erase(FRAGMENT);
