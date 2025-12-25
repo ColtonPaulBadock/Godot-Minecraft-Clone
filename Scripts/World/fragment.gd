@@ -371,7 +371,7 @@ func generateBiome(BLOCK, BLOCK_X, BLOCK_Z):
 #ARGUMENTS:
 #pos = Position/Corrdinates to add the block
 #id = id of the object/block (its type).
-func addBlock(pos : Vector3, id) -> bool:
+func addBlock(pos : Vector3, id):
 	
 	#Remove the decimal on the block to adds position, so that it is
 	#aligned with the grid space.
@@ -389,7 +389,7 @@ func addBlock(pos : Vector3, id) -> bool:
 			#there is nothing here but a terrain generation
 			#block and we can safely override it.
 			if (isIllegalBlock(BLOCK) == false):
-				return false; #If a block already occupies the spot in the fragment, return false, placing no block
+				return; #If a block already occupies the spot in the fragment, return false, placing no block
 			pass;
 		pass;
 	
@@ -408,7 +408,7 @@ func addBlock(pos : Vector3, id) -> bool:
 	
 	#Assuming at this point that no block was in the way, no obstructions
 	#occured and that the block was placed, return true.
-	return true;
+	return block;
 
 
 

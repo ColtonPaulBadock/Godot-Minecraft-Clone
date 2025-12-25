@@ -6,7 +6,6 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_f04bt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_52o0r"]
-size = Vector3(0.9, 0.9, 0.9)
 
 [node name="LimestoneBlock" type="Node3D"]
 script = ExtResource("1_52o0r")

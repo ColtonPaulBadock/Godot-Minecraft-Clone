@@ -101,6 +101,12 @@ func interactionManager():
 	#at there bounced raycast endpoint if no block is there
 	if (Input.is_action_just_pressed("place") && global_variables.inputAllowed == true && playerReach.is_colliding()):
 		
+		#The block we are placing
+		#this will be used to check collision
+		#and possible contact issues after
+		#we place the block.
+		var block;
+		
 		#Instance of the item activly in the players hand.
 		#This is what we will "place"
 		#We get the current index we are at in the toolbelt,
@@ -117,10 +123,21 @@ func interactionManager():
 		#If the type of item in the hand is of type "BLOCK",
 		#then we will place said block.
 		if (itemInHand.item_type == "BLOCK"):
-			world.addBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), itemInHand.block_id);
+			block = world.addBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), itemInHand.block_id);
 			itemInHand.stack_height = itemInHand.stack_height - 1;
 			pass;
 		
+		#call_deferred("check_overlap");
+		
+		#If we detect that the player was in the area of where the
+		#block was placed, we will remove the block,
+		#and then add it back to the players stack,
+		#since the block was at an invalid place to place it.
+		#(In the players hitbox)
+		if (areas_overlap_now(block.get_node("Area3D"), $Area3D)):
+			world.removeBlock(applyRaycastBehviour(playerReach.get_collision_point(), "bounce"), "MACHINE");
+			itemInHand.stack_height = itemInHand.stack_height + 1;
+			pass;
 		
 		pass;
 	
@@ -160,6 +177,35 @@ func interactionManager():
 	
 	
 	pass;
+
+
+#Takes to "Area3D" nodes and determines
+#if they overllap.
+#-------
+#Returns:
+#true -> The Area3D's do overlap.
+#false -> The Area3D's don't overlap.
+func areas_overlap_now(area_a: Area3D, area_b: Area3D) -> bool:
+	var space_state = area_a.get_world_3d().direct_space_state
+	
+	# assumes one CollisionShape3D child each
+	var shape_node: CollisionShape3D = area_b.get_node("CollisionShape3D")
+	var shape: Shape3D = shape_node.shape
+	
+	var params := PhysicsShapeQueryParameters3D.new()
+	params.shape = shape
+	params.transform = area_b.global_transform
+	params.collide_with_areas = true
+	params.collide_with_bodies = false
+	
+	var results = space_state.intersect_shape(params, 16)
+	
+	for r in results:
+		if r.collider == area_a:
+			return true
+	
+	return false
+
 
 
 
@@ -395,3 +441,7 @@ func preventIllegalCameraPosition() -> void:
 		pass;
 	
 	pass;
+
+
+func _on_area_3d_area_entered(area: Area3D) -> void:
+	pass # Replace with function body.

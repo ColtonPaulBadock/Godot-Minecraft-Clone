@@ -6,7 +6,6 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_q65fl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_724qv"]
-size = Vector3(0.99, 0.99, 0.99)
 
 [node name="SodBlock" type="Node3D"]
 script = ExtResource("1_724qv")

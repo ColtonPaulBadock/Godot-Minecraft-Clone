@@ -605,14 +605,7 @@ func locateFragmanetAt(pos : Vector3):
 #nearest grid space)
 #
 #id = ID of the block to place.
-func addBlock(pos : Vector3, id) -> bool:
-	
-	#If this value is true, the block was successfully placed
-	#If its false, the block was not placed
-	#This value is set using "addBlock()" from fragment.gd
-	#This variable is false by default until the block is
-	#placed.
-	var blockPlaced = false;
+func addBlock(pos : Vector3, id):
 	
 	#This variable will hold the fragment we need
 	#to place the block in.
@@ -627,7 +620,7 @@ func addBlock(pos : Vector3, id) -> bool:
 	#If the fragment was not located, exit this function
 	#We have no fragment to place the block in!
 	if (fragment == null):
-		return false;
+		return;
 	
 	#Convert the corrdinates from the world
 	#position to the locale corrdinates of
@@ -638,11 +631,9 @@ func addBlock(pos : Vector3, id) -> bool:
 	#If the block was successfully placed, this function "addBlock()"
 	#in fragment.gd will return false. We will then return this value
 	#upon exiting the current function "addBlock()" in "world.gd".
-	blockPlaced = fragment.addBlock(pos, id);
+	var block = fragment.addBlock(pos, id);
 	
-	return blockPlaced;
-
-
+	return block;
 
 
 
