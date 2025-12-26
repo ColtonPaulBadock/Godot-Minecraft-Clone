@@ -457,9 +457,15 @@ func derenderOldFragments() -> void:
 			#or regenerate fragments
 			WorldSaveSystem.saveFragment(FRAGMENT);
 			
+			#Remove the fragment from the fragments
+			#array and memory
 			remove_child(FRAGMENT);
 			fragments.erase(FRAGMENT);
 			FRAGMENT.queue_free();
+			
+			#Only remove 1 fragment at a time,
+			#so the game isn't so slow
+			return;
 			
 			pass;
 		pass;
