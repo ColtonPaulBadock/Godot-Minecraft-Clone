@@ -34,6 +34,13 @@ var playerObjectHeld_id = 0;
 #If this variable is true, this will take effect.
 var debug_remove_mouse_locked_in_window : bool = false;
 
+#The players current health.
+#100 by default
+var health : int = 100;
+
+#The players default hunger.
+#100 by default
+var hunger : int = 100;
 
 func _ready() -> void:
 	
