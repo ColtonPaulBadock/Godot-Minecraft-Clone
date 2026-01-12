@@ -21,8 +21,17 @@ var rng = RandomNumberGenerator.new();
 
 func _ready() -> void:
 	
+	#Setup buttons for exit/save or exit
+	$DebugWindowPanel/ExitAndSaveButton.pressed.connect(world.exitAndSave);
+	$DebugWindowPanel/ExitWithoutSaveButton.pressed.connect(toTitle);
+	
 	pass;
 
+func toTitle():
+	
+	get_tree().change_scene_to_file(global_variables.titleScreen)
+	
+	pass;
 
 func _process(delta):
 	
