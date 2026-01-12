@@ -116,12 +116,6 @@ script = ExtResource("6_nmjrk")
 editor_description = "Scroll box, holds all the worlds and the create world button"
 layout_mode = 2
 
-[node name="CreateWorldButton" type="Button" parent="WorldSelectionMenu/WorldList/WorldListContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.4291777, 0.7664002, 0.22226924, 1)
-theme_override_font_sizes/font_size = 70
-text = "-Create New World-"
-
 [node name="WorldOptions" type="Control" parent="WorldSelectionMenu"]
 editor_description = "World options for \"CreateWorldButton\" to show the world options for starting a new world or to show the world options for worlds that already exist and can be opened as save files from the \"WorldList\""
 anchors_preset = 0
@@ -164,6 +158,7 @@ offset_top = 95.0
 offset_right = 1100.0
 offset_bottom = 150.0
 theme_override_font_sizes/font_size = 32
+text = "WorldOne"
 placeholder_text = "World 1..."
 
 [node name="SeedTextBox" type="TextEdit" parent="WorldSelectionMenu/WorldOptions"]
@@ -173,6 +168,7 @@ offset_top = 205.0
 offset_right = 1100.0
 offset_bottom = 260.0
 theme_override_font_sizes/font_size = 32
+text = "123456"
 placeholder_text = "31459..."
 
 [node name="WorldImage" type="TextureRect" parent="WorldSelectionMenu/WorldOptions"]
